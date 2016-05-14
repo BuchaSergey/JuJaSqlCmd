@@ -8,6 +8,7 @@ import ua.com.juja.sqlcmd.view.View;
  * Created by Серый on 13.05.2016.
  */
 public class MainController {
+
     private View view;
     private DatabaseManager manager;
 
@@ -19,6 +20,7 @@ public class MainController {
     public void run () {
         connectToDb();
     }
+
     private  void connectToDb() {
 
 
