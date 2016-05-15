@@ -21,7 +21,8 @@ public class MainController {
                 new Exit(view),
                 new Help(view),
                 new List(view, manager),
-                new Find(view, manager)
+                new Find(view, manager),
+                new Unsupported (view)
         };
     }
 
@@ -31,26 +32,20 @@ public class MainController {
 
         while (true) {
             view.write("Введи команду или help для помощи:");
-            String command = view.read();
-            if (commands[2].canProcess(command)) {
-                commands[2].process(command);
-            } else if (commands[1].canProcess(command)) {
-                commands[1].process(command);
-            } else if (commands[0].canProcess(command)) {
-                commands[0].process(command);
-            } else if (commands[3].canProcess(command)) {
-                commands[3].process(command);
-            } else {
+            String input = view.read();
 
-                view.write("Несуществующая команда: " + command);
+            for (Command command : commands) {
+                if (command.canProcess(input)) {
+                    command.process(input);
+                    break;
+                }
             }
         }
-    }
 
 
 
 
-
+}
 
 
     private void connectToDb() {
