@@ -3,11 +3,11 @@ package ua.com.juja.sqlcmd.controller;
 
 import ua.com.juja.sqlcmd.controller.command.Command;
 import ua.com.juja.sqlcmd.controller.command.Exit;
+import ua.com.juja.sqlcmd.controller.command.Help;
+import ua.com.juja.sqlcmd.controller.command.List;
 import ua.com.juja.sqlcmd.model.DataSet;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
-
-import java.util.Arrays;
 
 /**
  * Created by Серый on 13.05.2016.
@@ -21,7 +21,11 @@ public class MainController {
     public MainController(View view, DatabaseManager manager) {
         this.view = view;
         this.manager = manager;
-        this.commands = new Command[]{new Exit((view))};
+        this.commands = new Command[]{
+                new Exit(view),
+                new Help(view),
+                new List(view, manager)
+        };
     }
 
     public void run() {
@@ -31,15 +35,16 @@ public class MainController {
         while (true) {
             view.write("Введи команду или help для помощи:");
             String command = view.read();
-            if (command.equals("list")) {
-                doList();
-            } else if (command.equals("help")) {
-                doHelp();
-            } else if (command.startsWith("find")) {
-                doFind(command);
+            if (commands[2].canProcess(command)) {
+                commands[2].process(command);
+            } else if (commands[1].canProcess(command)) {
+                commands[1].process(command);
             } else if (commands[0].canProcess(command)) {
-            commands[0].process(command);
+                commands[0].process(command);
+            } else if (command.equals("find|")) {
+
             } else {
+                doFind(command);
                 view.write("Несуществующая команда: " + command);
             }
         }
@@ -88,27 +93,7 @@ public class MainController {
     }
 
 
-    private void doHelp() {
-        view.write("Существующие команды: ");
 
-        view.write("\tlist");
-        view.write("\t\tдля получения списка всех таблиц базы, к которой подключились");
-
-        view.write("\thelp");
-        view.write("\t\tдля выводы этого списка на экран");
-
-        view.write("\tfind|tableName");
-        view.write("\t\tдля получения содержимого таблицы 'tableName'");
-
-        view.write("\texit");
-        view.write("\t\tдля выхода из программы");
-    }
-
-    private void doList() {
-        String[] tableNames = manager.getTableNames();
-        String message = Arrays.toString((tableNames));
-        view.write(message);
-    }
 
     private void connectToDb() {
 
