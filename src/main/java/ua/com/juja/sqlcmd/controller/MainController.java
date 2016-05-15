@@ -1,6 +1,8 @@
 package ua.com.juja.sqlcmd.controller;
 
 
+import ua.com.juja.sqlcmd.controller.command.Command;
+import ua.com.juja.sqlcmd.controller.command.Exit;
 import ua.com.juja.sqlcmd.model.DataSet;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
@@ -12,12 +14,14 @@ import java.util.Arrays;
  */
 public class MainController {
 
+    private Command[] commands;
     private View view;
     private DatabaseManager manager;
 
     public MainController(View view, DatabaseManager manager) {
         this.view = view;
         this.manager = manager;
+        this.commands = new Command[]{new Exit((view))};
     }
 
     public void run() {
@@ -33,9 +37,8 @@ public class MainController {
                 doHelp();
             } else if (command.startsWith("find")) {
                 doFind(command);
-            } else if (command.equals("exit")) {
-                view.write("До скорой встречи!");
-                System.exit(0);
+            } else if (commands[0].canProcess(command)) {
+            commands[0].process(command);
             } else {
                 view.write("Несуществующая команда: " + command);
             }
@@ -43,9 +46,8 @@ public class MainController {
     }
 
     private void doFind(String command) {
-        String [] data = command.split("[|]");
+        String[] data = command.split("[|]");
         String tableName = data[1];
-
 
 
         String[] tableColums = manager.getTableColumns(tableName);
@@ -54,7 +56,6 @@ public class MainController {
         DataSet[] tableData = manager.getTableData(tableName);
         printTable(tableData);
 
-  
 
     }
 
@@ -79,7 +80,7 @@ public class MainController {
 
         String header = "";
         for (String name : tableColums) {
-          header += name + "|";
+            header += name + "|";
         }
         view.write("------------");
         view.write(header);
