@@ -18,8 +18,10 @@ public class MainController {
         this.view = view;
         this.manager = manager;
         this.commands = new Command[]{
-                new Exit(view),
+                new Connect (view, manager),
                 new Help(view),
+                new Exit(view),
+                new IsConnected (view, manager),
                 new List(view, manager),
                 new Find(view, manager),
                 new Unsupported (view)
@@ -28,10 +30,12 @@ public class MainController {
 
     public void run() {
 
-        connectToDb();
+        view.write("Привет юзер");
+        view.write("Введи пожалуйста имя базы данных, имя пользователя и пароль в формате: connect|database|userName|password");
+
 
         while (true) {
-            view.write("Введи команду или help для помощи:");
+
             String input = view.read();
 
             for (Command command : commands) {
@@ -40,6 +44,7 @@ public class MainController {
                     break;
                 }
             }
+            view.write("Введи команду или help для помощи:");
         }
 
 
@@ -48,42 +53,5 @@ public class MainController {
 }
 
 
-    private void connectToDb() {
 
-
-        view.write("Привет юзер");
-        view.write("Введи пожалуйста имя базы данных, имя пользователя и пароль в формате: database|userName|password");
-
-        while (true) {
-            try {
-                String string = view.read();
-                String[] data = string.split("[|]");
-                if (data.length != 3) {
-                    throw new IllegalArgumentException("Неверно количество параметров разделенных знаков '|', ожидается 3, но есть " + data.length);
-                }
-                String databaseName = data[0];
-                String userName = data[1];
-                String password = data[2];
-
-                manager.connect(databaseName, userName, password);
-                break;
-            } catch (Exception e) {
-
-                printError(e);
-            }
-
-
-        }
-        view.write("Успех!");
-    }
-
-    private void printError(Exception e) {
-        String message = /*e.getClass().getSimpleName() + ": " + */ e.getMessage();
-        Throwable cause = e.getCause();
-        if (cause != null) {
-            message += " " + /*cause.getClass().getSimpleName() + ": " + */ cause.getMessage();
-        }
-        view.write("Неудача! по причине: " + message);
-        view.write("Повтори попытку.");
-    }
 }
