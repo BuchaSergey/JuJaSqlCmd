@@ -8,6 +8,8 @@ import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.*;
 
 /**
@@ -58,5 +60,62 @@ public class FindTest {
                 "--------------------]", captor.getAllValues().toString());
     }
 
+    @Test
+    public void testCanProcessFindWithParametersString() {
+        // given
+        Command command =  new Find(manager, view);
 
+        // when
+        boolean canProcess = command.canProcess("find|user");
+
+        // then
+        assertTrue(canProcess);
+    }
+
+    @Test
+    public void testCantProcessFindWithOutParametersString() {
+        // given
+        Command command =  new Find(manager, view);
+
+        // when
+        boolean canProcess = command.canProcess("find");
+
+        // then
+        assertFalse(canProcess);
+    }
+
+    @Test
+    public void testCantProcessFindQweString() {
+        // given
+        Command command =  new Find(manager, view);
+
+        // when
+        boolean canProcess = command.canProcess("qwe");
+
+        // then
+        assertFalse(canProcess);
+    }
+    @Test
+    public  void  testPrintEmptyTableData() {
+        //given
+        Command command = new Find(manager, view);
+        when(manager.getTableColumns("user"))
+                .thenReturn(new String[] {"id","name","password"});
+
+
+
+        DataSet[] data = new DataSet[0];
+        when(manager.getTableData("user"))
+                .thenReturn(data);
+        //when
+        command.process("find|user");
+
+        //then
+        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+        verify(view, atLeastOnce()).write(captor.capture());
+        assertEquals("[--------------------, " +
+                "|id|name|password|, " +
+                "--------------------, " +
+                "--------------------]", captor.getAllValues().toString());
+    }
 }
