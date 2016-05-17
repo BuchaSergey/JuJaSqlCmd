@@ -26,7 +26,7 @@ public class FindTest {
         manager = mock(DatabaseManager.class);
         view = mock(View.class);
         command = new Find(manager, view);
-        command = new Find(manager, view);
+
     }
 
     @Test
