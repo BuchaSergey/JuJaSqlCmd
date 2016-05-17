@@ -6,23 +6,23 @@ import ua.com.juja.sqlcmd.view.View;
 /**
  * Created by Серый on 15.05.2016.
  */
-public class Exit implements Command{
+public class Exit implements Command {
 
     private View view;
 
-   public  Exit(View view) {
-       this.view = view;
-   }
+    public Exit(View view) {
+        this.view = view;
+    }
 
     @Override
     public boolean canProcess(String command) {
-        return "exit".equals(command);
+        return command.equals("exit");
     }
 
     @Override
     public void process(String command) {
         view.write("До скорой встречи!");
         throw new ExitException();
-
     }
 }
+

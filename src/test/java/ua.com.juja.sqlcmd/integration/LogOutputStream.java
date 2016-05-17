@@ -8,8 +8,6 @@ import java.io.OutputStream;
  */
 public class LogOutputStream extends OutputStream {
 
-
-
     private String log;
 
     @Override

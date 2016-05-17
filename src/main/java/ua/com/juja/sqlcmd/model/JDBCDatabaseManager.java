@@ -6,10 +6,9 @@ import java.util.Arrays;
 /**
  * Created by indigo on 21.08.2015.
  */
-public class JDBCDatabaseManager implements  DatabaseManager {
+public class JDBCDatabaseManager implements DatabaseManager {
 
     private Connection connection;
-
 
     @Override
     public DataSet[] getTableData(String tableName) {
@@ -79,10 +78,12 @@ public class JDBCDatabaseManager implements  DatabaseManager {
                     password);
         } catch (SQLException e) {
             connection = null;
-            throw new RuntimeException(String.format("Cant get connection for model:%s user:%s", database, userName), e);
+            throw new RuntimeException(
+                    String.format("Cant get connection for model:%s user:%s",
+                            database, userName),
+                    e);
         }
     }
-
 
     @Override
     public void clear(String tableName) {
@@ -103,7 +104,7 @@ public class JDBCDatabaseManager implements  DatabaseManager {
             String tableNames = getNameFormated(input, "%s,");
             String values = getValuesFormated(input, "'%s',");
 
-            stmt.executeUpdate("INSERT INTO public." + tableName + " (" + tableNames + ") " +
+            stmt.executeUpdate("INSERT INTO public." + tableName + " (" + tableNames + ")" +
                     "VALUES (" + values + ")");
             stmt.close();
         } catch (SQLException e) {
@@ -120,14 +121,12 @@ public class JDBCDatabaseManager implements  DatabaseManager {
         return values;
     }
 
-
     @Override
     public void update(String tableName, int id, DataSet newValue) {
         try {
             String tableNames = getNameFormated(newValue, "%s = ?,");
 
             String sql = "UPDATE public." + tableName + " SET " + tableNames + " WHERE id = ?";
-            System.out.println(sql);
             PreparedStatement ps = connection.prepareStatement(sql);
 
             int index = 1;
@@ -135,7 +134,7 @@ public class JDBCDatabaseManager implements  DatabaseManager {
                 ps.setObject(index, value);
                 index++;
             }
-            ps.setObject(index, id);
+            ps.setInt(index, id);
 
             ps.executeUpdate();
             ps.close();
@@ -148,11 +147,11 @@ public class JDBCDatabaseManager implements  DatabaseManager {
     public String[] getTableColumns(String tableName) {
         try {
             Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE'");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM information_schema.columns WHERE table_schema = 'public' AND table_name = '" + tableName + "'");
             String[] tables = new String[100];
             int index = 0;
             while (rs.next()) {
-                tables[index++] = rs.getString("table_name");
+                tables[index++] = rs.getString("column_name");
             }
             tables = Arrays.copyOf(tables, index, String[].class);
             rs.close();

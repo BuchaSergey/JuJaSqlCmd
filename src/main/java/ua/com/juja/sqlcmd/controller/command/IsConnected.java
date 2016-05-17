@@ -7,12 +7,13 @@ import ua.com.juja.sqlcmd.view.View;
  * Created by Серый on 15.05.2016.
  */
 public class IsConnected implements Command {
-    private View view;
-    private DatabaseManager manager;
 
-    public IsConnected(View view, DatabaseManager manager) {
-        this.view = view;
+    private DatabaseManager manager;
+    private View view;
+
+    public IsConnected(DatabaseManager manager, View view) {
         this.manager = manager;
+        this.view = view;
     }
 
     @Override
@@ -22,8 +23,8 @@ public class IsConnected implements Command {
 
     @Override
     public void process(String command) {
-        view.write(String.format("Вы не можете пользоваться командой '%s' " +
-                "пока не подключитесь с помощью команды " +
-                "connect|database|userName|password",command));
+        view.write(String.format("Вы не можете пользоваться командой '%s' пока " +
+                "не подключитесь с помощью комманды " +
+                "connect|databaseName|userName|password", command));
     }
 }

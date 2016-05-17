@@ -6,6 +6,7 @@ import ua.com.juja.sqlcmd.view.View;
  * Created by Серый on 15.05.2016.
  */
 public class Unsupported implements Command {
+
     private View view;
 
     public Unsupported(View view) {

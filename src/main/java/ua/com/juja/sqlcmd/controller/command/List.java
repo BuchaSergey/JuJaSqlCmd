@@ -9,15 +9,13 @@ import java.util.Arrays;
  * Created by Серый on 15.05.2016.
  */
 public class List implements Command {
-    private View view;
+
     private DatabaseManager manager;
+    private View view;
 
-
-
-    public List(View view, DatabaseManager manager) {
-
-        this.view = view;
+    public List(DatabaseManager manager, View view) {
         this.manager = manager;
+        this.view = view;
     }
 
     @Override
@@ -28,7 +26,10 @@ public class List implements Command {
     @Override
     public void process(String command) {
         String[] tableNames = manager.getTableNames();
-        String message = Arrays.toString((tableNames));
+
+        String message = Arrays.toString(tableNames);
+
         view.write(message);
     }
 }
+

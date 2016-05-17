@@ -8,13 +8,14 @@ import ua.com.juja.sqlcmd.view.View;
  */
 public class Connect implements Command {
 
-    private  static  String COMMAND_SAMPLE = "connect|sqlcmd|postgres|postgres";
-    private View view;
-    private DatabaseManager manager;
+    private static String COMMAND_SAMPLE = "connect|sqlcmd|postgres|postgres";
 
-    public Connect(View view, DatabaseManager manager) {
-        this.view = view;
+    private DatabaseManager manager;
+    private View view;
+
+    public Connect(DatabaseManager manager, View view) {
         this.manager = manager;
+        this.view = view;
     }
 
     @Override
@@ -25,44 +26,25 @@ public class Connect implements Command {
     @Override
     public void process(String command) {
 
+        String[] data = command.split("\\|");
+        if (data.length != count()) {
+            throw new IllegalArgumentException(
+                    String.format("Неверно количество параметров разделенных " +
+                                    "знаком '|', ожидается %s, но есть: %s",
+                            count(), data.length));
+        }
+        String databaseName = data[1];
+        String userName = data[2];
+        String password = data[3];
 
+        manager.connect(databaseName, userName, password);
 
-            try {
-                String[] data = command.split("[|]");
-
-                if (data.length != count()) {
-                    throw new IllegalArgumentException(String.format("Неверно количество параметров разделенных знаков '|', ожидается %s, но есть %s", count(), data.length ) );
-                }
-                String databaseName = data[1];
-                String userName = data[2];
-                String password = data[3];
-
-                manager.connect(databaseName, userName, password);
-                view.write("Успех!");
-
-            } catch (Exception e) {
-
-                printError(e);
-            }
-
-
-
-
-
+        view.write("Успех!");
     }
 
     private int count() {
-        return COMMAND_SAMPLE.split("[|]").length;
+        return COMMAND_SAMPLE.split("\\|").length;
     }
 
 
-    private void printError(Exception e) {
-        String message =  e.getMessage();
-        Throwable cause = e.getCause();
-        if (cause != null) {
-            message += " " +  cause.getMessage();
-        }
-        view.write("Неудача! по причине: " + message);
-        view.write("Повтори попытку.");
-    }
 }

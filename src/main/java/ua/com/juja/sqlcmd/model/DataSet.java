@@ -7,7 +7,6 @@ import java.util.Arrays;
  */
 public class DataSet {
 
-
     static class Data {
         private String name;
         private Object value;
@@ -30,16 +29,15 @@ public class DataSet {
     public int freeIndex = 0;
 
     public void put(String name, Object value) {
-
         for (int index = 0; index < freeIndex; index++) {
             if (data[index].getName().equals(name)) {
                 data[index].value = value;
                 return;
             }
         }
-            data[freeIndex++] = new Data(name, value);
-    }
 
+        data[freeIndex++] = new Data(name, value);
+    }
 
     public Object[] getValues() {
         Object[] result = new Object[freeIndex];
@@ -57,14 +55,6 @@ public class DataSet {
         return result;
     }
 
-    @Override
-    public String toString() {
-        return "DataSet{\n" +
-                "names:" + Arrays.toString(getNames()) + "\n" +
-                "values:" + Arrays.toString(getValues()) + "\n" +
-                "}";
-    }
-
     public Object get(String name) {
         for (int i = 0; i < freeIndex; i++) {
             if (data[i].getName().equals(name)) {
@@ -74,11 +64,18 @@ public class DataSet {
         return null;
     }
 
-
     public void updateFrom(DataSet newValue) {
         for (int index = 0; index < newValue.freeIndex; index++) {
             Data data = newValue.data[index];
             this.put(data.name, data.value);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "names:" + Arrays.toString(getNames()) + ", " +
+                "values:" + Arrays.toString(getValues()) +
+                "}";
     }
 }
