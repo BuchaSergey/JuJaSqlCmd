@@ -18,9 +18,7 @@ public class Find implements Command {
     }
 
     @Override
-    public boolean canProcess(String command) {
-        return command.startsWith("find|");
-    }
+    public boolean canProcess(String command) { return command.startsWith("find|"); }
 
     @Override
     public void process(String command) {

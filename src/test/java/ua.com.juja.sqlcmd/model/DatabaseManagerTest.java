@@ -5,6 +5,7 @@ package ua.com.juja.sqlcmd.model;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.sql.SQLException;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
@@ -24,7 +25,11 @@ public abstract class DatabaseManagerTest {
     @Before
     public  void setup() {
         manager = getDatabaseManager();
-        manager.connect("sqlcmd", "postgres", "postgres");
+        try {
+            manager.connect("sqlcmd", "postgres", "postgres");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
 
     }
@@ -43,7 +48,11 @@ public abstract class DatabaseManagerTest {
     @Test
     public void testGetTableData() {
         //given
-        manager.clear("user");
+        try {
+            manager.clear("user");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         //when
         DataSet input = new DataSet();
@@ -65,7 +74,11 @@ public abstract class DatabaseManagerTest {
     @Test
     public void testUpdateTableData() {
         //given
-        manager.clear("user");
+        try {
+            manager.clear("user");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
 
         DataSet input = new DataSet();
@@ -93,7 +106,11 @@ public abstract class DatabaseManagerTest {
     @Test
     public void testGetColumnNames() {
         //given
-        manager.clear("user");
+        try {
+            manager.clear("user");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         //when
         String[] columns = manager.getTableColumns("user");
 

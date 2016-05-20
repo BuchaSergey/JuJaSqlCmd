@@ -160,7 +160,7 @@ public class IntegrationTest {
         assertEquals("Привет юзер!\r\n" +
                 "Введи, пожалуйста имя базы данных, имя пользователя и пароль в формате: connect|database|userName|password\r\n" +
                 // connect
-                "Успех!\r\n" +
+                "Подключение к базе 'sqlcmd' прошло успешно!\r\n" +
                 "Введи команду (или help для помощи):\r\n" +
                 // unsupported
                 "Несуществующая команда: unsupported\r\n" +
@@ -183,7 +183,7 @@ public class IntegrationTest {
         assertEquals("Привет юзер!\r\n" +
                 "Введи, пожалуйста имя базы данных, имя пользователя и пароль в формате: connect|database|userName|password\r\n" +
                 // connect
-                "Успех!\r\n" +
+                "Подключение к базе 'sqlcmd' прошло успешно!\r\n" +
                 "Введи команду (или help для помощи):\r\n" +
                 // list
                 "[user, test]\r\n" +
@@ -206,7 +206,7 @@ public class IntegrationTest {
         assertEquals("Привет юзер!\r\n" +
                 "Введи, пожалуйста имя базы данных, имя пользователя и пароль в формате: connect|database|userName|password\r\n" +
                 // connect
-                "Успех!\r\n" +
+                "Подключение к базе 'sqlcmd' прошло успешно!\r\n" +
                 "Введи команду (или help для помощи):\r\n" +
                 // find|user
                 "--------------------\r\n" +
@@ -237,13 +237,13 @@ public class IntegrationTest {
         assertEquals("Привет юзер!\r\n" +
                 "Введи, пожалуйста имя базы данных, имя пользователя и пароль в формате: connect|database|userName|password\r\n" +
                 // connect sqlcmd
-                "Успех!\r\n" +
+                "Подключение к базе 'sqlcmd' прошло успешно!\r\n" +
                 "Введи команду (или help для помощи):\r\n" +
                 // list
                 "[user, test]\r\n" +
                 "Введи команду (или help для помощи):\r\n" +
                 // connect test
-                "Успех!\r\n" +
+                "Подключение к базе 'test' прошло успешно!\r\n" +
                 "Введи команду (или help для помощи):\r\n" +
                 // list
                 "[qwe]\r\n" +
@@ -305,7 +305,7 @@ public class IntegrationTest {
         assertEquals("Привет юзер!\r\n" +
                 "Введи, пожалуйста имя базы данных, имя пользователя и пароль в формате: connect|database|userName|password\r\n" +
                 // connect
-                "Успех!\r\n" +
+                "Подключение к базе 'sqlcmd' прошло успешно!\r\n" +
                 "Введи команду (или help для помощи):\r\n" +
                 // clear|user
                 "Таблица user была успешно очищена.\r\n" +
@@ -342,7 +342,7 @@ public class IntegrationTest {
         assertEquals("Привет юзер!\r\n" +
                 "Введи, пожалуйста имя базы данных, имя пользователя и пароль в формате: connect|database|userName|password\r\n" +
                 // connect
-                "Успех!\r\n" +
+                "Подключение к базе 'sqlcmd' прошло успешно!\r\n" +
                 "Введи команду (или help для помощи):\r\n" +
                 // clear|sadfasd|fsf|fdsf
                 "Неудача! по причине: Формат команды 'clear|tableName', а ты ввел: clear|sadfasd|fsf|fdsf\r\n" +
@@ -366,7 +366,7 @@ public class IntegrationTest {
         assertEquals("Привет юзер!\r\n" +
                 "Введи, пожалуйста имя базы данных, имя пользователя и пароль в формате: connect|database|userName|password\r\n" +
                 // connect
-                "Успех!\r\n" +
+                "Подключение к базе 'sqlcmd' прошло успешно!\r\n" +
                 "Введи команду (или help для помощи):\r\n" +
                 // create|user|error
                 "Неудача! по причине: Должно быть четное количество параметров в формате 'create|tableName|column1|value1|column2|value2|...|columnN|valueN', а ты прислал: 'create|user|error'\r\n" +

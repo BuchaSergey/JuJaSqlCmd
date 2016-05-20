@@ -15,6 +15,5 @@ public class Main {
 
         MainController controller = new MainController(view, manager);
         controller.run();
-
     }
 }
