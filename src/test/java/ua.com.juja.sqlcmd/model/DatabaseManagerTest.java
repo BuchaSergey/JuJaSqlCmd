@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 
@@ -38,9 +39,9 @@ public abstract class DatabaseManagerTest {
 
     @Test
     public void testGetAllTableNames() {
-        String[] tablesNames = manager.getTableNames();
+       Set<String>  tablesNames = manager.getTableNames();
 
-        assertEquals("[user, test]", Arrays.toString(tablesNames));
+        assertEquals("[user, test]", tablesNames.toString());
 
     }
 

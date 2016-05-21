@@ -1,6 +1,7 @@
 package ua.com.juja.sqlcmd.model;
 
 import java.sql.SQLException;
+import java.util.Set;
 
 /**
  * Created by Серый on 13.05.2016.
@@ -9,7 +10,7 @@ public interface DatabaseManager {
 
     DataSet[] getTableData(String tableName) ;
 
-    String[] getTableNames() ;
+    Set<String> getTableNames() ;
 
     void connect(String database, String userName, String password) throws SQLException;
 
