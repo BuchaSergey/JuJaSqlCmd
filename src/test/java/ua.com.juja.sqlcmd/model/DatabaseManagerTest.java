@@ -113,10 +113,10 @@ public abstract class DatabaseManagerTest {
             e.printStackTrace();
         }
         //when
-        String[] columns = manager.getTableColumns("user");
+        Set<String> columns = manager.getTableColumns("user");
 
         //then
-        assertEquals("[name, password, id]",Arrays.toString(columns));
+        assertEquals("[name, password, id]",columns.toString());
 
     }
 }
