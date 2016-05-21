@@ -7,6 +7,7 @@ import ua.com.juja.sqlcmd.model.DataSet;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 
@@ -47,8 +48,7 @@ public class FindTest {
         user2.put("name", "Eva");
         user2.put("password", "+++++");
 
-        DataSet[] data = new DataSet[]{user1, user2};
-        when(manager.getTableData("user")).thenReturn(data);
+        when(manager.getTableData("user")).thenReturn(Arrays.asList(user1, user2));
 
         //when
         command.process("find|user");
@@ -113,7 +113,8 @@ public class FindTest {
     public void testPrintEmptyTableData() {
         //given
         setupTableColumns("user","id", "name", "password");
-        when(manager.getTableData("user")).thenReturn(new DataSet[0]);
+        when(manager.getTableData("user"))
+                .thenReturn(new ArrayList<DataSet>());
 
         //when
         command.process("find|user");
@@ -137,8 +138,8 @@ public class FindTest {
         DataSet user2 = new DataSet();
         user2.put("id", 13);
 
-        DataSet[] data = new DataSet[]{user1, user2};
-        when(manager.getTableData("test")).thenReturn(data);
+        when(manager.getTableData("test"))
+                .thenReturn(Arrays.asList(user1, user2));
 
         //when
         command.process("find|test");

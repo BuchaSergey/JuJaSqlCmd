@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
@@ -15,13 +16,8 @@ import static org.junit.Assert.assertEquals;
  * Created by Серый on 05.05.2016.
  */
 public abstract class DatabaseManagerTest {
-
-
     protected DatabaseManager manager;
-
-
     public abstract DatabaseManager getDatabaseManager();
-
 
     @Before
     public  void setup() {
@@ -31,8 +27,6 @@ public abstract class DatabaseManagerTest {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-
     }
 
 
@@ -63,13 +57,12 @@ public abstract class DatabaseManagerTest {
         manager.create("user", input);
 
         //then
-        DataSet[] users = manager.getTableData("user");
-        assertEquals(1, users.length);
+        List<DataSet> users = manager.getTableData("user");
+        assertEquals(1, users.size());
 
-        DataSet user = users[0];
+        DataSet user = users.get(0);
         assertEquals("[name, password, id]", Arrays.toString(user.getNames()));
         assertEquals("[Stiven, pass, 13]", Arrays.toString(user.getValues()));
-
     }
 
     @Test
@@ -80,8 +73,6 @@ public abstract class DatabaseManagerTest {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-
         DataSet input = new DataSet();
         input.put("name", "Stiven");
         input.put("password", "pass");
@@ -95,13 +86,12 @@ public abstract class DatabaseManagerTest {
         manager.update("user", 13, newValue);
 
         //then
-        DataSet[] users = manager.getTableData("user");
-        assertEquals(1, users.length);
+        List<DataSet> users = manager.getTableData("user");
+        assertEquals(1, users.size());
 
-        DataSet user = users[0];
+        DataSet user = users.get(0);
         assertEquals("[name, password, id]", Arrays.toString(user.getNames()));
         assertEquals("[Pup, pass2, 13]", Arrays.toString(user.getValues()));
-
     }
 
     @Test
@@ -117,6 +107,5 @@ public abstract class DatabaseManagerTest {
 
         //then
         assertEquals("[name, password, id]",columns.toString());
-
     }
 }
