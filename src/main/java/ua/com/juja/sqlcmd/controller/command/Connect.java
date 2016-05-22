@@ -3,8 +3,6 @@ package ua.com.juja.sqlcmd.controller.command;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
-import java.sql.SQLException;
-
 /**
  * Created by Серый on 15.05.2016.
  */
@@ -41,8 +39,7 @@ public class Connect implements Command {
         try {
             manager.connect(database, userName, password);
             view.write(String.format("Подключение к базе '%s' прошло успешно!", database));
-        } catch (SQLException e) {
-
+        } catch (Exception e) {
             throw new RuntimeException(
                     String.format("Подключение к базе '%s' user:'%s' не удалось по причине",
                             database, userName),

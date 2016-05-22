@@ -5,12 +5,8 @@ import org.junit.Test;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
-import java.sql.SQLException;
-
 import static junit.framework.TestCase.assertTrue;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -39,11 +35,8 @@ public class ClearTest {
         command.process("clear|user");
 
         // then
-        try {
-            verify(manager).clear("user");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        verify(manager).clear("user");
+
         verify(view).write("Таблица user была успешно очищена.");
     }
 

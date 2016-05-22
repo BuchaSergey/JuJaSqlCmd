@@ -18,11 +18,11 @@ public class JDBCDatabaseManager implements DatabaseManager {
     public List<DataSet> getTableData(String tableName) {
         List<DataSet> result = new LinkedList();
         try (Statement stmt = connection.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT * FROM public." + tableName)) {
+             ResultSet rs = stmt.executeQuery("SELECT * FROM public." + tableName))
+        {
             ResultSetMetaData rsmd = rs.getMetaData();
-
             while (rs.next()) {
-                DataSet dataSet = new DataSet();
+                DataSet dataSet = new DataSetImpl();
                 result.add(dataSet);
                 for (int i = 0; i < rsmd.getColumnCount(); i++) {
                     dataSet.put(rsmd.getColumnName(i + 1), rs.getObject(i + 1));
@@ -35,13 +35,18 @@ public class JDBCDatabaseManager implements DatabaseManager {
         }
     }
 
-    private int getSize(String tableName) throws SQLException {
-        Statement stmt = connection.createStatement();
-        ResultSet rsCount = stmt.executeQuery("SELECT COUNT(*) FROM public." + tableName);
-        rsCount.next();
-        int size = rsCount.getInt(1);
-        rsCount.close();
-        return size;
+    @Override
+    public int getSize(String tableName) {
+        try (Statement stmt = connection.createStatement();
+             ResultSet rsCount = stmt.executeQuery("SELECT COUNT(*) FROM public." + tableName))
+        {
+            rsCount.next();
+            int size = rsCount.getInt(1);
+            return size;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
 
     @Override
@@ -61,16 +66,20 @@ public class JDBCDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public void connect(String database, String userName, String password) throws SQLException {
+    public void connect(String database, String userName, String password)  {
         try {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
             throw new RuntimeException("Добавь к проекту jdbc.jar ", e);
         }
 
-        connection = DriverManager.getConnection(
-                DATABASE_URL + database, userName,
-                password);
+        try {
+            connection = DriverManager.getConnection(
+                    DATABASE_URL + database, userName,
+                    password);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 

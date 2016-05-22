@@ -47,7 +47,7 @@ public class IntegrationTest {
                 "Существующие команды:\r\n" +
                 "\tconnect|databaseName|userName|password\r\n" +
                 "\t\tдля подключения к базе данных, с которой будем работать\r\n" +
-                "\tlist\r\n" +
+                "\ttables\r\n" +
                 "\t\tдля получения списка всех таблиц базы, к которой подключились\r\n" +
                 "\tclear|tableName\r\n" +
                 "\t\tдля очистки всей таблицы\r\n" +
@@ -92,7 +92,7 @@ public class IntegrationTest {
     @Test
     public void testListWithoutConnect() {
         // given
-        in.add("list");
+        in.add("tables");
         in.add("exit");
 
         // when
@@ -101,8 +101,8 @@ public class IntegrationTest {
         // then
         assertEquals("Привет юзер!\r\n" +
                 "Введи, пожалуйста имя базы данных, имя пользователя и пароль в формате: connect|database|userName|password\r\n" +
-                // list
-                "Вы не можете пользоваться командой 'list' пока не подключитесь с помощью комманды connect|databaseName|userName|password\r\n" +
+                // tables
+                "Вы не можете пользоваться командой 'tables' пока не подключитесь с помощью комманды connect|databaseName|userName|password\r\n" +
                 "Введи команду (или help для помощи):\r\n" +
                 // exit
                 "До скорой встречи!\r\n", getData());
@@ -173,7 +173,7 @@ public class IntegrationTest {
     public void testListAfterConnect() {
         // given
         in.add("connect|sqlcmd|postgres|postgres");
-        in.add("list");
+        in.add("tables");
         in.add("exit");
 
         // when
@@ -185,7 +185,7 @@ public class IntegrationTest {
                 // connect
                 "Подключение к базе 'sqlcmd' прошло успешно!\r\n" +
                 "Введи команду (или help для помощи):\r\n" +
-                // list
+                //tables
                 "[user, test]\r\n" +
                 "Введи команду (или help для помощи):\r\n" +
                 // exit
@@ -196,6 +196,7 @@ public class IntegrationTest {
     public void testFindAfterConnect() {
         // given
         in.add("connect|sqlcmd|postgres|postgres");
+        in.add("clear|user");
         in.add("find|user");
         in.add("exit");
 
@@ -208,13 +209,13 @@ public class IntegrationTest {
                 // connect
                 "Подключение к базе 'sqlcmd' прошло успешно!\r\n" +
                 "Введи команду (или help для помощи):\r\n" +
+                // clear
+                "Таблица user была успешно очищена.\r\n" +
+                "Введи команду (или help для помощи):\r\n" +
                 // find|user
                 "--------------------\r\n" +
                 "|name|password|id|\r\n" +
                 "--------------------\r\n" +
-                "|Stiven|*****|13|\r\n" +
-                "|Eva|+++++|14|\r\n" +
-
                 "--------------------\r\n" +
                 "Введи команду (или help для помощи):\r\n" +
                 // exit
@@ -225,9 +226,9 @@ public class IntegrationTest {
     public void testConnectAfterConnect() {
         // given
         in.add("connect|sqlcmd|postgres|postgres");
-        in.add("list");
+        in.add("tables");
         in.add("connect|test|postgres|postgres");
-        in.add("list");
+        in.add("tables");
         in.add("exit");
 
         // when
@@ -239,13 +240,13 @@ public class IntegrationTest {
                 // connect sqlcmd
                 "Подключение к базе 'sqlcmd' прошло успешно!\r\n" +
                 "Введи команду (или help для помощи):\r\n" +
-                // list
+                //tables
                 "[user, test]\r\n" +
                 "Введи команду (или help для помощи):\r\n" +
                 // connect test
                 "Подключение к базе 'test' прошло успешно!\r\n" +
                 "Введи команду (или help для помощи):\r\n" +
-                // list
+                //tables
                 "[qwe]\r\n" +
                 "Введи команду (или help для помощи):\r\n" +
                 // exit

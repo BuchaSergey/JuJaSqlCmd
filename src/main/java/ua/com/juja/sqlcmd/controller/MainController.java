@@ -1,7 +1,6 @@
 package ua.com.juja.sqlcmd.controller;
 
 
-
 import ua.com.juja.sqlcmd.controller.command.*;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
@@ -16,7 +15,7 @@ public class MainController {
 
     public MainController(View view, DatabaseManager manager) {
         this.view = view;
-        this.commands = new Command[] {
+        this.commands = new Command[]{
                 new Connect(manager, view),
                 new Help(view),
                 new Exit(view),
@@ -71,5 +70,4 @@ public class MainController {
         view.write("Неудача! по причине: " + message);
         view.write("Повтори попытку.");
     }
-
 }

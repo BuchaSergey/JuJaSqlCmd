@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import ua.com.juja.sqlcmd.model.DataSet;
+import ua.com.juja.sqlcmd.model.DataSetImpl;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
@@ -14,6 +15,7 @@ import java.util.LinkedHashSet;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 /**
@@ -38,12 +40,12 @@ public class FindTest {
         //given
         setupTableColumns("user","id", "name", "password");
 
-        DataSet user1 = new DataSet();
+        DataSet user1 = new DataSetImpl();
         user1.put("id", 12);
         user1.put("name", "Stiven");
         user1.put("password", "*****");
 
-        DataSet user2 = new DataSet();
+        DataSet user2 = new DataSetImpl();
         user2.put("id", 13);
         user2.put("name", "Eva");
         user2.put("password", "+++++");
@@ -132,10 +134,10 @@ public class FindTest {
         //given
         setupTableColumns("test","id");
 
-        DataSet user1 = new DataSet();
+        DataSet user1 = new DataSetImpl();
         user1.put("id", 12);
 
-        DataSet user2 = new DataSet();
+        DataSet user2 = new DataSetImpl();
         user2.put("id", 13);
 
         when(manager.getTableData("test"))
@@ -152,4 +154,20 @@ public class FindTest {
                 "|13|, " +
                 "--------------------]");
     }
+
+    @Test
+    public void testErrorWhenBadCommandFormat() {
+        //when
+        try {
+            command.process("find|user|zaza");
+            fail("Expected Exp");
+        } catch (IllegalArgumentException e) {
+            //then
+            assertEquals("Формат команды 'find|tableName', а ты ввел: find|user|zaza",e.getMessage());
+        }
+        //then
+
+
+    }
+
 }

@@ -5,8 +5,6 @@ package ua.com.juja.sqlcmd.model;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -17,40 +15,32 @@ import static org.junit.Assert.assertEquals;
  */
 public abstract class DatabaseManagerTest {
     protected DatabaseManager manager;
+
     public abstract DatabaseManager getDatabaseManager();
 
     @Before
-    public  void setup() {
+    public void setup() {
         manager = getDatabaseManager();
-        try {
-            manager.connect("sqlcmd", "postgres", "postgres");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        manager.connect("sqlcmd", "postgres", "postgres");
+        manager.getTableData("user");
+        manager.getTableData("test");
+
     }
-
-
 
     @Test
     public void testGetAllTableNames() {
-       Set<String>  tablesNames = manager.getTableNames();
+        Set<String> tablesNames = manager.getTableNames();
 
         assertEquals("[user, test]", tablesNames.toString());
-
     }
-
 
     @Test
     public void testGetTableData() {
         //given
-        try {
-            manager.clear("user");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        manager.clear("user");
 
         //when
-        DataSet input = new DataSet();
+        DataSet input = new DataSetImpl();
         input.put("name", "Stiven");
         input.put("password", "pass");
         input.put("id", 13);
@@ -61,26 +51,23 @@ public abstract class DatabaseManagerTest {
         assertEquals(1, users.size());
 
         DataSet user = users.get(0);
-        assertEquals("[name, password, id]", Arrays.toString(user.getNames()));
-        assertEquals("[Stiven, pass, 13]", Arrays.toString(user.getValues()));
+        assertEquals("[name, password, id]", user.getNames().toString());
+        assertEquals("[Stiven, pass, 13]", user.getValues().toString());
     }
 
     @Test
     public void testUpdateTableData() {
         //given
-        try {
-            manager.clear("user");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        DataSet input = new DataSet();
+        manager.clear("user");
+
+        DataSet input = new DataSetImpl();
         input.put("name", "Stiven");
         input.put("password", "pass");
         input.put("id", 13);
         manager.create("user", input);
 
         //when
-        DataSet newValue = new DataSet();
+        DataSet newValue = new DataSetImpl();
         newValue.put("password", "pass2");
         newValue.put("name", "Pup");
         manager.update("user", 13, newValue);
@@ -90,22 +77,19 @@ public abstract class DatabaseManagerTest {
         assertEquals(1, users.size());
 
         DataSet user = users.get(0);
-        assertEquals("[name, password, id]", Arrays.toString(user.getNames()));
-        assertEquals("[Pup, pass2, 13]", Arrays.toString(user.getValues()));
+        assertEquals("[name, password, id]", user.getNames().toString());
+        assertEquals("[Pup, pass2, 13]", user.getValues().toString());
     }
 
     @Test
     public void testGetColumnNames() {
         //given
-        try {
-            manager.clear("user");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        manager.clear("user");
+
         //when
         Set<String> columns = manager.getTableColumns("user");
 
         //then
-        assertEquals("[name, password, id]",columns.toString());
+        assertEquals("[name, password, id]", columns.toString());
     }
 }
