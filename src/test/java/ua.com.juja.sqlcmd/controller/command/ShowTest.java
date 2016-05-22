@@ -21,7 +21,7 @@ import static org.mockito.Mockito.*;
 /**
  * Created by Серый on 17.05.2016.
  */
-public class FindTest {
+public class ShowTest {
 
     private DatabaseManager manager;
     private View view;
@@ -31,7 +31,7 @@ public class FindTest {
     public void setup() {
         manager = mock(DatabaseManager.class);
         view = mock(View.class);
-        command = new Find(manager, view);
+        command = new Show(manager, view);
 
     }
 
@@ -79,10 +79,10 @@ public class FindTest {
     @Test
     public void testCanProcessFindWithParametersString() {
         // given
-        Command command = new Find(manager, view);
+        Command command = new Show(manager, view);
 
         // when
-        boolean canProcess = command.canProcess("find|user");
+        boolean canProcess = command.canProcess("show|user");
 
         // then
         assertTrue(canProcess);
@@ -91,10 +91,10 @@ public class FindTest {
     @Test
     public void testCantProcessFindWithOutParametersString() {
         // given
-        Command command = new Find(manager, view);
+        Command command = new Show(manager, view);
 
         // when
-        boolean canProcess = command.canProcess("find");
+        boolean canProcess = command.canProcess("show");
 
         // then
         assertFalse(canProcess);
@@ -119,7 +119,7 @@ public class FindTest {
                 .thenReturn(new ArrayList<DataSet>());
 
         //when
-        command.process("find|user");
+        command.process("show|user");
 
         //then
         shouldPrint("[--------------------, " +
@@ -144,7 +144,7 @@ public class FindTest {
                 .thenReturn(Arrays.asList(user1, user2));
 
         //when
-        command.process("find|test");
+        command.process("show|test");
 
         //then
         shouldPrint("[--------------------, " +
@@ -159,11 +159,11 @@ public class FindTest {
     public void testErrorWhenBadCommandFormat() {
         //when
         try {
-            command.process("find|user|zaza");
+            command.process("show|user|zaza");
             fail("Expected Exp");
         } catch (IllegalArgumentException e) {
             //then
-            assertEquals("Формат команды 'find|tableName', а ты ввел: find|user|zaza",e.getMessage());
+            assertEquals("Формат команды 'show|tableName', а ты ввел: show|user|zaza",e.getMessage());
         }
         //then
 

@@ -23,7 +23,7 @@ public class MainController {
                 new Tables(manager, view),
                 new Clear(manager, view),
                 new Create(manager, view),
-                new Find(manager, view),
+                new Show(manager, view),
                 new Unsupported(view)
         };
     }

@@ -10,25 +10,25 @@ import java.util.Set;
 /**
  * Created by Серый on 15.05.2016.
  */
-public class Find implements Command {
+public class Show implements Command {
 
     private DatabaseManager manager;
     private View view;
 
-    public Find(DatabaseManager manager, View view) {
+    public Show(DatabaseManager manager, View view) {
         this.manager = manager;
         this.view = view;
     }
 
     @Override
-    public boolean canProcess(String command) { return command.startsWith("find|"); }
+    public boolean canProcess(String command) { return command.startsWith("show|"); }
 
     @Override
     public void process(String command) {
         String[] data = command.split("\\|");
 
         if (data.length != 2) {
-            throw new IllegalArgumentException("Формат команды 'find|tableName', а ты ввел: " + command);
+            throw new IllegalArgumentException("Формат команды 'show|tableName', а ты ввел: " + command);
         }
         String tableName = data[1];
 
