@@ -10,6 +10,8 @@ public class Clear implements Command {
 
     private DatabaseManager manager;
     private View view;
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_RESET = "\u001B[0m";
 
     public Clear(DatabaseManager manager, View view) {
         this.manager = manager;
@@ -27,8 +29,16 @@ public class Clear implements Command {
         if (data.length != 2) {
             throw new IllegalArgumentException("Формат команды 'clear|tableName', а ты ввел: " + command);
         }
+        String tableName = data[1];
         try {
-            manager.clear(data[1]);
+            manager.clear(tableName);
+
+            view.write(String.format(ANSI_RED  + "ВНИМАНИЕ!" + ANSI_RESET +" Вы собираетесь удалить все данные " +
+                    "с таблицы '%s'. 'y' для подтверждения, 'n' для отмены", tableName));
+            String check = view.read();
+            if (check.equals("n")) {
+                return;
+            }
 
         } catch (Exception e) {
             view.write(String.format("Ошибка удаления таблицы '%s', по причине:", data[1], e.getMessage()));

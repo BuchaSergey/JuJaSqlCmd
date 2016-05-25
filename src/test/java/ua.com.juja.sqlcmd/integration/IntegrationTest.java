@@ -41,27 +41,34 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Привет юзер!\r\n" +
-                "Введи, пожалуйста имя базы данных, имя пользователя и пароль в формате: connect|database|userName|password\r\n" +
-                // help
-                "Существующие команды:\r\n" +
-                "\tconnect|databaseName|userName|password\r\n" +
-                "\t\tдля подключения к базе данных, с которой будем работать\r\n" +
-                "\ttables\r\n" +
-                "\t\tдля получения списка всех таблиц базы, к которой подключились\r\n" +
-                "\tclear|tableName\r\n" +
-                "\t\tдля очистки всей таблицы\r\n" +
-                "\tcreate|tableName|column1|value1|column2|value2|...|columnN|valueN\r\n" +
-                "\t\tдля создания записи в таблице\r\n" +
-                "\tfind|tableName\r\n" +
-                "\t\tдля получения содержимого таблицы 'tableName'\r\n" +
-                "\thelp\r\n" +
-                "\t\tдля вывода этого списка на экран\r\n" +
-                "\texit\r\n" +
-                "\t\tдля выхода из программы\r\n" +
-                "Введи команду (или help для помощи):\r\n" +
-                // exit
-                "До скорой встречи!\r\n", getData());
+        assertEquals(
+                "Привет юзер!\r\n" +
+                        "Введи, пожалуйста имя базы данных, имя пользователя и пароль в формате: connect|database|userName|password\r\n" +
+
+                        "======== SQLCmd  Help ======== \r\n" +
+                        "\r\n" +
+                        "Существующие команды:\r\n" +
+                        "\r\n" +
+                        "==============================\r\n" +
+                        "\u001B[34m\tconnect|databaseName|userName|password\r\n" +
+                        "\u001B[0m\t\tдля подключения к базе данных, с которой будем работать\r\n" +
+                        "\u001B[34m\ttables\r\n" +
+                        "\u001B[0m\t\tдля получения списка всех таблиц базы, к которой подключились\r\n" +
+                        "\u001B[34m\tclear|tableName\r\n" +
+                        "\u001B[0m\t\tдля очистки всей таблицы\r\n" +
+                        "\u001B[34m\tcreate|tableName|column1|value1|column2|value2|...|columnN|valueN\r\n" +
+                        "\u001B[0m\t\tдля создания записи в таблице\r\n" +
+                        "\u001B[34m\tshow|tableName\r\n" +
+                        "\u001B[0m\t\tдля получения содержимого таблицы 'tableName'\r\n" +
+                        "\u001B[34m\thelp\r\n" +
+                        "\u001B[0m\t\tдля вывода этого списка на экран\r\n" +
+                        "\u001B[34m\texit\r\n" +
+                        "\u001B[0m\t\tдля выхода из программы\r\n" +
+                        "==============================\r\n" +
+                        "Введи команду (или help для помощи):\r\n" +
+                        "До скорой встречи!\r\n"
+
+                , getData());
     }
 
     public String getData() {
@@ -109,9 +116,9 @@ public class IntegrationTest {
     }
 
     @Test
-    public void testFindWithoutConnect() {
+    public void testShowTableWithoutConnect() {
         // given
-        in.add("find|user");
+        in.add("show|user");
         in.add("exit");
 
         // when
@@ -120,8 +127,8 @@ public class IntegrationTest {
         // then
         assertEquals("Привет юзер!\r\n" +
                 "Введи, пожалуйста имя базы данных, имя пользователя и пароль в формате: connect|database|userName|password\r\n" +
-                // find|user
-                "Вы не можете пользоваться командой 'find|user' пока не подключитесь с помощью комманды connect|databaseName|userName|password\r\n" +
+                // show|user
+                "Вы не можете пользоваться командой 'show|user' пока не подключитесь с помощью комманды connect|databaseName|userName|password\r\n" +
                 "Введи команду (или help для помощи):\r\n" +
                 // exit
                 "До скорой встречи!\r\n", getData());
@@ -193,11 +200,12 @@ public class IntegrationTest {
     }
 
     @Test
-    public void testFindAfterConnect() {
+    public void testShowTableAfterConnect() {
         // given
         in.add("connect|sqlcmd|postgres|postgres");
         in.add("clear|user");
-        in.add("find|user");
+        in.add("y");
+        in.add("show|user");
         in.add("exit");
 
         // when
@@ -210,9 +218,10 @@ public class IntegrationTest {
                 "Подключение к базе 'sqlcmd' прошло успешно!\r\n" +
                 "Введи команду (или help для помощи):\r\n" +
                 // clear
+                "\u001B[31mВНИМАНИЕ!\u001B[0m Вы собираетесь удалить все данные с таблицы 'user'. 'y' для подтверждения, 'n' для отмены\r\n" +
                 "Таблица user была успешно очищена.\r\n" +
                 "Введи команду (или help для помощи):\r\n" +
-                // find|user
+                // show|user
                 "--------------------\r\n" +
                 "|name|password|id|\r\n" +
                 "--------------------\r\n" +
@@ -274,29 +283,14 @@ public class IntegrationTest {
     }
 
     @Test
-    public void testFindAfterConnect_withData() {
+    public void testShowTableAfterConnect_withData() {
         // given
-//        databaseManager.connect("sqlcmd", "postgres", "postgres");
-//
-//        databaseManager.clear("user");
-//
-//        DataSet user1 = new DataSet();
-//        user1.put("id", 13);
-//        user1.put("name", "Stiven");
-//        user1.put("password", "*****");
-//        databaseManager.create("user", user1);
-//
-//        DataSet user2 = new DataSet();
-//        user2.put("id", 14);
-//        user2.put("name", "Eva");
-//        user2.put("password", "+++++");
-//        databaseManager.create("user", user2);
-
         in.add("connect|sqlcmd|postgres|postgres");
         in.add("clear|user");
+        in.add("y");
         in.add("create|user|id|13|name|Stiven|password|*****");
         in.add("create|user|id|14|name|Eva|password|+++++");
-        in.add("find|user");
+        in.add("show|user");
         in.add("exit");
 
         // when
@@ -309,6 +303,7 @@ public class IntegrationTest {
                 "Подключение к базе 'sqlcmd' прошло успешно!\r\n" +
                 "Введи команду (или help для помощи):\r\n" +
                 // clear|user
+                "\u001B[31mВНИМАНИЕ!\u001B[0m Вы собираетесь удалить все данные с таблицы 'user'. 'y' для подтверждения, 'n' для отмены\r\n"+
                 "Таблица user была успешно очищена.\r\n" +
                 "Введи команду (или help для помощи):\r\n" +
                 // create|user|id|13|name|Stiven|password|*****
@@ -317,7 +312,7 @@ public class IntegrationTest {
                 // create|user|id|14|name|Eva|password|+++++
                 "Запись {names:[id, name, password], values:[14, Eva, +++++]} была успешно создана в таблице 'user'.\r\n" +
                 "Введи команду (или help для помощи):\r\n" +
-                // find|user
+                // show|user
                 "--------------------\r\n" +
                 "|name|password|id|\r\n" +
                 "--------------------\r\n" +
