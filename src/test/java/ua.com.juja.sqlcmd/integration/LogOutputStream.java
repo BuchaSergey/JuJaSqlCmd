@@ -12,7 +12,7 @@ public class LogOutputStream extends OutputStream {
 
     @Override
     public void write(int b) throws IOException {
-        byte[] bytes = new byte[] { (byte)(b & 0xFF00 >> 8), (byte)(b & 0x00FF) };
+        byte[] bytes = new byte[]{(byte) (b & 0xFF00 >> 8), (byte) (b & 0x00FF)};
         log += new String(bytes, "UTF-8");
     }
 

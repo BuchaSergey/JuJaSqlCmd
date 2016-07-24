@@ -1,5 +1,3 @@
-
-
 package ua.com.juja.sqlcmd.model;
 
 import org.junit.Before;

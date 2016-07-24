@@ -29,7 +29,7 @@ public class ConfigurableInputStream extends InputStream {
             endLine = true;
         }
 
-        return (int)ch;
+        return (int) ch;
     }
 
     public void add(String line) {

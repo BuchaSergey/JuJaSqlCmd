@@ -38,7 +38,7 @@ public class ShowTest {
     @Test
     public void testPrintTableData() {
         //given
-        setupTableColumns("user","id", "name", "password");
+        setupTableColumns("user", "id", "name", "password");
 
         DataSet user1 = new DataSetImpl();
         user1.put("id", 12);
@@ -57,14 +57,14 @@ public class ShowTest {
 
         //then
         shouldPrint("[--------------------, " +
-                    "|id|name|password|, " +
-                    "--------------------, " +
-                    "|12|Stiven|*****|, " +
-                    "|13|Eva|+++++|, " +
-                    "--------------------]");
+                "|id|name|password|, " +
+                "--------------------, " +
+                "|12|Stiven|*****|, " +
+                "|13|Eva|+++++|, " +
+                "--------------------]");
     }
 
-    private void setupTableColumns(String tableName, String ... columns) {
+    private void setupTableColumns(String tableName, String... columns) {
         when(manager.getTableColumns(tableName))
                 .thenReturn(new LinkedHashSet<String>(Arrays.asList(columns)));
 
@@ -114,7 +114,7 @@ public class ShowTest {
     @Test
     public void testPrintEmptyTableData() {
         //given
-        setupTableColumns("user","id", "name", "password");
+        setupTableColumns("user", "id", "name", "password");
         when(manager.getTableData("user"))
                 .thenReturn(new ArrayList<DataSet>());
 
@@ -123,16 +123,16 @@ public class ShowTest {
 
         //then
         shouldPrint("[--------------------, " +
-                    "|id|name|password|, " +
-                    "--------------------, " +
-                    "--------------------]");
+                "|id|name|password|, " +
+                "--------------------, " +
+                "--------------------]");
     }
 
 
     @Test
     public void testPrintTableDataWithOneColumn() {
         //given
-        setupTableColumns("test","id");
+        setupTableColumns("test", "id");
 
         DataSet user1 = new DataSetImpl();
         user1.put("id", 12);
@@ -163,7 +163,7 @@ public class ShowTest {
             fail("Expected Exp");
         } catch (IllegalArgumentException e) {
             //then
-            assertEquals("Формат команды 'show|tableName', а ты ввел: show|user|zaza",e.getMessage());
+            assertEquals("Формат команды 'show|tableName', а ты ввел: show|user|zaza", e.getMessage());
         }
         //then
 
