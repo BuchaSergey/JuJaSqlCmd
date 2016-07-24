@@ -10,7 +10,9 @@ public class InMemoryDatabaseManager implements DatabaseManager {
     private Map<String, List<DataSet>> tables = new LinkedHashMap();
 
     @Override
-    public List<DataSet> getTableData(String tableName) {    return get(tableName);   }
+    public List<DataSet> getTableData(String tableName) {
+        return get(tableName);
+    }
 
     @Override
     public int getSize(String tableName) {
@@ -28,7 +30,9 @@ public class InMemoryDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public void clear(String tableName) {        get(tableName).clear();    }
+    public void clear(String tableName) {
+        get(tableName).clear();
+    }
 
     private List<DataSet> get(String tableName) {
         if (!tables.containsKey(tableName)) {

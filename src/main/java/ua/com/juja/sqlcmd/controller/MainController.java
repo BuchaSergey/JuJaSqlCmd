@@ -9,7 +9,7 @@ import ua.com.juja.sqlcmd.view.View;
  * Created by Серый on 13.05.2016.
  */
 public class MainController {
-
+    static Configuration config = new Configuration();
     private Command[] commands;
     private View view;
 

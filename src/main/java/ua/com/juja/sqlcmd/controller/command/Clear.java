@@ -33,7 +33,7 @@ public class Clear implements Command {
         try {
             manager.clear(tableName);
 
-            view.write(String.format(ANSI_RED  + "ВНИМАНИЕ!" + ANSI_RESET +" Вы собираетесь удалить все данные " +
+            view.write(String.format(ANSI_RED + "ВНИМАНИЕ!" + ANSI_RESET + " Вы собираетесь удалить все данные " +
                     "с таблицы '%s'. 'y' для подтверждения, 'n' для отмены", tableName));
             String check = view.read();
             if (check.equals("n")) {

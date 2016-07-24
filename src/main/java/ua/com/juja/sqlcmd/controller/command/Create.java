@@ -37,8 +37,8 @@ public class Create implements Command {
 
         DataSet dataSet = new DataSetImpl();
         for (int index = 1; index < (data.length / 2); index++) {
-            String columnName = data[index*2];
-            String value = data[index*2 + 1];
+            String columnName = data[index * 2];
+            String value = data[index * 2 + 1];
 
             dataSet.put(columnName, value);
         }

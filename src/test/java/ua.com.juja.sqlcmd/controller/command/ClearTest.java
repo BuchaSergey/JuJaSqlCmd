@@ -7,8 +7,8 @@ import ua.com.juja.sqlcmd.view.View;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
+
 
 /**
  * Created by Серый on 17.05.2016.

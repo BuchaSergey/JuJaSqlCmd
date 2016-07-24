@@ -18,8 +18,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
     public List<DataSet> getTableData(String tableName) {
         List<DataSet> result = new LinkedList();
         try (Statement stmt = connection.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT * FROM public." + tableName))
-        {
+             ResultSet rs = stmt.executeQuery("SELECT * FROM public." + tableName)) {
             ResultSetMetaData rsmd = rs.getMetaData();
             while (rs.next()) {
                 DataSet dataSet = new DataSetImpl();
@@ -38,8 +37,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
     @Override
     public int getSize(String tableName) {
         try (Statement stmt = connection.createStatement();
-             ResultSet rsCount = stmt.executeQuery("SELECT COUNT(*) FROM public." + tableName))
-        {
+             ResultSet rsCount = stmt.executeQuery("SELECT COUNT(*) FROM public." + tableName)) {
             rsCount.next();
             int size = rsCount.getInt(1);
             return size;
@@ -66,7 +64,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public void connect(String database, String userName, String password)  {
+    public void connect(String database, String userName, String password) {
         try {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
