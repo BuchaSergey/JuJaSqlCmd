@@ -21,7 +21,9 @@ public class Show implements Command {
     }
 
     @Override
-    public boolean canProcess(String command) { return command.startsWith("show|"); }
+    public boolean canProcess(String command) {
+        return command.startsWith("show|");
+    }
 
     @Override
     public void process(String command) {
@@ -35,11 +37,11 @@ public class Show implements Command {
         Set<String> tableColumns = manager.getTableColumns(tableName);
         printHeader(tableColumns);
 
-       List<DataSet> tableData = manager.getTableData(tableName);
+        List<DataSet> tableData = manager.getTableData(tableName);
         printTable(tableData);
     }
 
-    private void printTable(List<DataSet>  tableData) {
+    private void printTable(List<DataSet> tableData) {
         for (DataSet row : tableData) {
             printRow(row);
         }
