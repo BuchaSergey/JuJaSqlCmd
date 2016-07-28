@@ -32,18 +32,21 @@ public class Clear implements Command {
         String tableName = data[1];
         try {
             manager.clear(tableName);
+            //TODO: esli takou tabli netu, to vivesti owibku
 
             view.write(String.format(ANSI_RED + "ВНИМАНИЕ!" + ANSI_RESET + " Вы собираетесь удалить все данные " +
                     "с таблицы '%s'. 'y' для подтверждения, 'n' для отмены", tableName));
             String check = view.read();
-            if (check.equals("n")) {
-                return;
+            if (check.equalsIgnoreCase("Y")) {
+                manager.clear(tableName);
+                view.write(String.format("Таблица %s была успешно очищена.", data[1]));
             }
 
         } catch (Exception e) {
             view.write(String.format("Ошибка удаления таблицы '%s', по причине:", data[1], e.getMessage()));
         }
 
-        view.write(String.format("Таблица %s была успешно очищена.", data[1]));
+
     }
+
 }

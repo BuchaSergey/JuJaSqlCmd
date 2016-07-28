@@ -3,6 +3,7 @@ package ua.com.juja.sqlcmd.model;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Set;
 
@@ -17,7 +18,7 @@ public abstract class DatabaseManagerTest {
     public abstract DatabaseManager getDatabaseManager();
 
     @Before
-    public void setup() {
+    public void setup() throws SQLException {
         manager = getDatabaseManager();
         manager.connect("sqlcmd", "postgres", "postgres");
         manager.getTableData("user");

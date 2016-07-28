@@ -18,6 +18,10 @@ public class Connect implements Command {
         this.view = view;
     }
 
+    private int count() {
+        return COMMAND_SAMPLE.split("\\|").length;
+    }
+
     @Override
     public boolean canProcess(String command) {
         return command.startsWith("connect|");
@@ -33,23 +37,23 @@ public class Connect implements Command {
                                     "знаком '|', ожидается %s, но есть: %s",
                             count(), data.length));
         }
+
         String database = data[1];
         String userName = data[2];
         String password = data[3];
         try {
             manager.connect(database, userName, password);
             view.write(String.format("Подключение к базе '%s' прошло успешно!", database));
+
         } catch (Exception e) {
-            throw new RuntimeException(
-                    String.format("Подключение к базе '%s' user:'%s' не удалось по причине",
-                            database, userName),
-                    e);
+                    view.write(String.format("Подключение к базе '%s' для user '%s' не удалось по причине: %s. ",
+                    database, userName, e.getMessage()))  ;
         }
     }
 
-    private int count() {
-        return COMMAND_SAMPLE.split("\\|").length;
-    }
+
 
 
 }
+
+//        connect|sqlcmd|postgres|postgres
