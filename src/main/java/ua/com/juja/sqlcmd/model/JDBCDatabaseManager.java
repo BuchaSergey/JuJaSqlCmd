@@ -84,9 +84,9 @@ public class JDBCDatabaseManager implements DatabaseManager {
     @Override
     public void clear(String tableName) {
         try (Statement stmt = connection.createStatement();) {
-            stmt.executeUpdate("DELETE FROM public." + tableName);
+            stmt.executeUpdate("DELETE FROM " + tableName);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Неправильное имя таблицы. ");
         }
     }
 
