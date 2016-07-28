@@ -42,7 +42,12 @@ public class Create implements Command {
 
             dataSet.put(columnName, value);
         }
-        manager.create(tableName, dataSet);
+
+        try {
+            manager.create(tableName, dataSet);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
 
         view.write(String.format("Запись %s была успешно создана в таблице '%s'.", dataSet, tableName));
     }

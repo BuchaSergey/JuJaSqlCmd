@@ -9,7 +9,7 @@ import java.util.Set;
 /**
  * Created by indigo on 21.08.2015.
  */
-public class JDBCDatabaseManager implements DatabaseManager {
+public class PostgreSQLManager implements DatabaseManager {
 
     public static final String DATABASE_URL = "jdbc:postgresql://localhost:5432/";
     private Connection connection;
@@ -76,7 +76,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
                     DATABASE_URL + database, userName,
                     password);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Проверьте правильность введенных данных, " + e.getMessage());
         }
 
     }
@@ -98,8 +98,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
             stmt.executeUpdate("INSERT INTO public." + tableName + " (" + tableNames + ")" +
                     "VALUES (" + values + ")");
         } catch (SQLException e) {
-            e.printStackTrace();
-        }
+            throw new RuntimeException("Проверьте правильность введенных данных, " + e.getMessage());        }
     }
 
     private String getValuesFormated(DataSet input, String format) {

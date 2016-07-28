@@ -4,7 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import ua.com.juja.sqlcmd.controller.Main;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
-import ua.com.juja.sqlcmd.model.JDBCDatabaseManager;
+import ua.com.juja.sqlcmd.model.PostgreSQLManager;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -23,7 +23,7 @@ public class IntegrationTest {
 
     @Before
     public void setup() {
-        databaseManager = new JDBCDatabaseManager();
+        databaseManager = new PostgreSQLManager();
         out = new ByteArrayOutputStream();
         in = new ConfigurableInputStream();
 
