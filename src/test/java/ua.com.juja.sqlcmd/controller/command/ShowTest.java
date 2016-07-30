@@ -8,9 +8,7 @@ import ua.com.juja.sqlcmd.model.DataSetImpl;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashSet;
+import java.util.*;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.TestCase.assertTrue;
@@ -56,12 +54,13 @@ public class ShowTest {
         command.process("find|user");
 
         //then
-        shouldPrint("[--------------------, " +
-                "|id|name|password|, " +
-                "--------------------, " +
-                "|12|Stiven|*****|, " +
-                "|13|Eva|+++++|, " +
-                "--------------------]");
+        shouldPrint("[+--+------+--------+\n" +
+                    "|id|name  |password|\n" +
+                    "+--+------+--------+\n" +
+                    "|12|Stiven|*****   |\n" +
+                    "+--+------+--------+\n" +
+                    "|13|Eva   |+++++   |\n" +
+                    "+--+------+--------+]");
     }
 
     private void setupTableColumns(String tableName, String... columns) {
@@ -113,22 +112,26 @@ public class ShowTest {
 
     @Test
     public void testPrintEmptyTableData() {
-        //given
-        setupTableColumns("user", "id", "name", "password");
-        when(manager.getTableData("user"))
-                .thenReturn(new ArrayList<DataSet>());
+//given
+        String tableName = "test";
+        Set<String> columns = new LinkedHashSet<>(Arrays.asList("id", "name"));
+
+        List<DataSet> records = new LinkedList<>();
+
+        when(manager.getTableColumns(tableName)).thenReturn(columns);
+        when(manager.getTableData(tableName)).thenReturn(records);
 
         //when
-        command.process("show|user");
+        command.process(String.format("find|%s", tableName));
 
         //then
-        shouldPrint("[--------------------, " +
-                "|id|name|password|, " +
-                "--------------------, " +
-                "--------------------]");
+        shouldPrint(
+                "[" +
+                        "+--+----+\n" +
+                        "|id|name|\n" +
+                        "+--+----+]"
+        );
     }
-
-
     @Test
     public void testPrintTableDataWithOneColumn() {
         //given
@@ -147,12 +150,13 @@ public class ShowTest {
         command.process("show|test");
 
         //then
-        shouldPrint("[--------------------, " +
-                "|id|, " +
-                "--------------------, " +
-                "|12|, " +
-                "|13|, " +
-                "--------------------]");
+        shouldPrint("[+--+\n" +
+                    "|id|\n" +
+                    "+--+\n" +
+                    "|12|\n" +
+                    "+--+\n" +
+                    "|13|\n" +
+                    "+--+]");
     }
 
     @Test

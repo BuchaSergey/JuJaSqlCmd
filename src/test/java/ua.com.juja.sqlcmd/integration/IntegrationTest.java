@@ -5,12 +5,14 @@ import org.junit.Test;
 import ua.com.juja.sqlcmd.controller.Main;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.model.PostgreSQLManager;
+import ua.com.juja.sqlcmd.view.View;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.verify;
 
 /**
  * Created by Серый on 15.05.2016.
@@ -20,6 +22,7 @@ public class IntegrationTest {
     private ConfigurableInputStream in;
     private ByteArrayOutputStream out;
     private DatabaseManager databaseManager;
+    private View view;
 
     @Before
     public void setup() {
@@ -204,7 +207,6 @@ public class IntegrationTest {
         // given
         in.add("connect|sqlcmd|postgres|postgres");
         in.add("clear|user");
-        in.add("y");
         in.add("show|user");
         in.add("exit");
 
@@ -283,11 +285,16 @@ public class IntegrationTest {
     }
 
     @Test
-    public void testShowTableAfterConnect_withData() {
+    public void testShowTableAfterClear_withData() {
         // given
+
+
         in.add("connect|sqlcmd|postgres|postgres");
         in.add("clear|user");
-        in.add("y");
+
+        verify(databaseManager).clear("user");
+        verify(view).read();
+
         in.add("create|user|id|13|name|Stiven|password|*****");
         in.add("create|user|id|14|name|Eva|password|+++++");
         in.add("show|user");
@@ -313,12 +320,13 @@ public class IntegrationTest {
                 "Запись {names:[id, name, password], values:[14, Eva, +++++]} была успешно создана в таблице 'user'.\r\n" +
                 "Введи команду (или help для помощи):\r\n" +
                 // show|user
-                "--------------------\r\n" +
-                "|name|password|id|\r\n" +
-                "--------------------\r\n" +
-                "|Stiven|*****|13|\r\n" +
-                "|Eva|+++++|14|\r\n" +
-                "--------------------\r\n" +
+                "-+------+--------+--+\n" +
+                "|name  |password|id|\n" +
+                "+------+--------+--+\n" +
+                "|Stiven|*****   |13|\n" +
+                "+------+--------+--+\n" +
+                "|Eva   |+++++   |14|\n" +
+                "+------+--------+--+\n" +
                 "Введи команду (или help для помощи):\r\n" +
                 // exit
                 "До скорой встречи!\r\n", getData());
