@@ -2,6 +2,7 @@ package ua.com.juja.sqlcmd.controller.command;
 
 import ua.com.juja.sqlcmd.model.DataSet;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
+import ua.com.juja.sqlcmd.model.TableConstructor;
 import ua.com.juja.sqlcmd.view.View;
 
 import java.util.List;
@@ -35,35 +36,11 @@ public class Show implements Command {
         String tableName = data[1];
 
         Set<String> tableColumns = manager.getTableColumns(tableName);
-        printHeader(tableColumns);
+        List<DataSet> tableData2 = manager.getTableData(tableName);
 
-        List<DataSet> tableData = manager.getTableData(tableName);
-        printTable(tableData);
-    }
 
-    private void printTable(List<DataSet> tableData) {
-        for (DataSet row : tableData) {
-            printRow(row);
-        }
-        view.write("--------------------");
-    }
-
-    private void printRow(DataSet row) {
-        List<Object> values = row.getValues();
-        String result = "|";
-        for (Object value : values) {
-            result += value + "|";
-        }
-        view.write(result);
-    }
-
-    private void printHeader(Set<String> tableColumns) {
-        String result = "|";
-        for (String name : tableColumns) {
-            result += name + "|";
-        }
-        view.write("--------------------");
-        view.write(result);
-        view.write("--------------------");
+        TableConstructor constructor = new TableConstructor(
+                tableColumns, tableData2);
+        view.write(constructor.getTableString());
     }
 }

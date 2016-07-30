@@ -12,11 +12,20 @@
     <version>0.0.1</version>
 
     <dependencies>
+        <!-- Database -->
         <dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<version>9.4-1202-jdbc4</version>
 		</dependency>
+
+        <!-- Table format -->
+        <dependency>
+            <groupId>org.ow2.sirocco</groupId>
+            <artifactId>sirocco-text-table-formatter</artifactId>
+            <version>1.0</version>
+        </dependency>
+        
         <!-- TESTING -->
 		<dependency>
             <groupId>junit</groupId>
