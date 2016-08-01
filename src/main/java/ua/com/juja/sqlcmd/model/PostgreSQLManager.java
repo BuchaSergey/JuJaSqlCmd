@@ -11,6 +11,22 @@ public class PostgreSQLManager implements DatabaseManager {
     public static final String DATABASE_URL = "jdbc:postgresql://localhost:5432/";
     private Connection connection;
 
+    static {
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            try {
+                DriverManager.registerDriver(new org.postgresql.Driver());
+            } catch (SQLException e1) {
+                try {
+                    throw new SQLException("Couldn't register driver in case -", e1);
+                } catch (SQLException e2) {
+                    e2.printStackTrace();
+                }
+            }
+        }
+    }
+
     @Override
     public List<DataSet> getTableData(String tableName) {
         List<DataSet> result = new LinkedList();
@@ -62,11 +78,6 @@ public class PostgreSQLManager implements DatabaseManager {
 
     @Override
     public void connect(String database, String userName, String password) {
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException("Добавь к проекту jdbc.jar ", e);
-        }
 
         try {
             connection = DriverManager.getConnection(
