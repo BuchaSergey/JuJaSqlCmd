@@ -5,15 +5,13 @@ import ua.com.juja.sqlcmd.view.View;
 
 import java.util.Set;
 
-/**
- * Created by Серый on 15.05.2016.
- */
-public class Tables implements Command {
+
+public class GetTablesNames implements Command {
 
     private DatabaseManager manager;
     private View view;
 
-    public Tables(DatabaseManager manager, View view) {
+    public GetTablesNames(DatabaseManager manager, View view) {
         this.manager = manager;
         this.view = view;
     }

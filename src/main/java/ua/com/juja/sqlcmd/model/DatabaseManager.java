@@ -8,21 +8,14 @@ import java.util.Set;
  */
 public interface DatabaseManager {
 
-    List<DataSet> getTableData(String tableName);
-
-    int getSize(String tableName);
-
-    Set<String> getTableNames();
-
     void connect(String database, String userName, String password);
+    boolean isConnected();
 
-    void clear(String tableName);
-
-    void create(String tableName, DataSet input);
-
-    void update(String tableName, int id, DataSet newValue);
-
+    List<DataSet> getTableData(String tableName);
+    Set<String> getTableNames();
     Set<String> getTableColumns(String tableName);
 
-    boolean isConnected();
+    void clear(String tableName);
+    void create(String tableName, DataSet input);
+    void update(String tableName, int id, DataSet newValue);
 }

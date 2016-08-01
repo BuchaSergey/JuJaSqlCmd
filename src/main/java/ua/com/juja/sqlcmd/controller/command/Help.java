@@ -2,14 +2,12 @@ package ua.com.juja.sqlcmd.controller.command;
 
 import ua.com.juja.sqlcmd.view.View;
 
-/**
- * Created by Серый on 15.05.2016.
- */
+
 public class Help implements Command {
 
     private View view;
-    public static final String ANSI_BLUE = "\u001B[34m";
-    public static final String ANSI_RESET = "\u001B[0m";
+    private static final String ANSI_BLUE = "\u001B[34m";
+    private static final String ANSI_RESET = "\u001B[0m";
 
 
     public Help(View view) {

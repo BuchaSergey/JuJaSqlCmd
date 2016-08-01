@@ -3,9 +3,7 @@ package ua.com.juja.sqlcmd.model;
 import java.sql.*;
 import java.util.*;
 
-/**
- * Created by indigo on 21.08.2015.
- */
+
 public class PostgreSQLManager implements DatabaseManager {
 
     public static final String DATABASE_URL = "jdbc:postgresql://localhost:5432/";
@@ -43,22 +41,12 @@ public class PostgreSQLManager implements DatabaseManager {
             return result;
         } catch (SQLException e) {
             e.printStackTrace();
+            result.clear();
             return result;
         }
     }
 
-    @Override
-    public int getSize(String tableName) {
-        try (Statement stmt = connection.createStatement();
-             ResultSet rsCount = stmt.executeQuery("SELECT COUNT(*) FROM public." + tableName)) {
-            rsCount.next();
-            int size = rsCount.getInt(1);
-            return size;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return 0;
-        }
-    }
+
 
     @Override
     public Set<String> getTableNames() {

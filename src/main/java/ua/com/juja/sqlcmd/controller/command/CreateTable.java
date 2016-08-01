@@ -5,15 +5,13 @@ import ua.com.juja.sqlcmd.model.DataSetImpl;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
-/**
- * Created by Серый on 17.05.2016.
- */
-public class Create implements Command {
+
+public class CreateTable implements Command {
 
     private final DatabaseManager manager;
     private final View view;
 
-    public Create(DatabaseManager manager, View view) {
+    public CreateTable(DatabaseManager manager, View view) {
         this.manager = manager;
         this.view = view;
     }

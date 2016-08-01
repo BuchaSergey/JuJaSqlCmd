@@ -1,5 +1,6 @@
 package ua.com.juja.sqlcmd.integration;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import ua.com.juja.sqlcmd.controller.Main;
@@ -34,6 +35,8 @@ public class IntegrationTest {
         System.setIn(in);
         System.setOut(new PrintStream(out));
     }
+
+    @After
 
     @Test
     public void testHelp() {

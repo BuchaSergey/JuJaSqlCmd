@@ -18,10 +18,8 @@ public class Main {
         BasicConfigurator.configure();
         Logger.getRootLogger().setLevel(Level.OFF);
 
-
         View view = new Console();
         DatabaseManager manager = new PostgreSQLManager();
-
         MainController controller = new MainController(view, manager);
         controller.run();
     }

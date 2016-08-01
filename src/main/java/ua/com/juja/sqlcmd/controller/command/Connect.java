@@ -3,11 +3,6 @@ package ua.com.juja.sqlcmd.controller.command;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
-/**
- * Created by Серый on 15.05.2016.
- *
- *        create|test|name|anna|fam|ill|
- */
 public class Connect implements Command {
 
     private static String COMMAND_SAMPLE = "connect|sqlcmd|postgres|postgres";
@@ -58,4 +53,4 @@ public class Connect implements Command {
 
 }
 
-//        connect|sqlcmd|postgres|postgres
+

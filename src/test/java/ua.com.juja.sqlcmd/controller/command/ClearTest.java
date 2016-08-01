@@ -26,7 +26,7 @@ public class ClearTest {
     public void setup() {
         manager = mock(DatabaseManager.class);
         view = mock(View.class);
-        command = new Clear(manager, view);
+        command = new ClearTable(manager, view);
     }
 
     @Test

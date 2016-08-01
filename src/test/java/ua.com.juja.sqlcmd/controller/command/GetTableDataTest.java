@@ -19,7 +19,7 @@ import static org.mockito.Mockito.*;
 /**
  * Created by Серый on 17.05.2016.
  */
-public class ShowTest {
+public class GetTableDataTest {
 
     private DatabaseManager manager;
     private View view;
@@ -29,7 +29,7 @@ public class ShowTest {
     public void setup() {
         manager = mock(DatabaseManager.class);
         view = mock(View.class);
-        command = new Show(manager, view);
+        command = new GetTableData(manager, view);
 
     }
 
@@ -78,7 +78,7 @@ public class ShowTest {
     @Test
     public void testCanProcessFindWithParametersString() {
         // given
-        Command command = new Show(manager, view);
+        Command command = new GetTableData(manager, view);
 
         // when
         boolean canProcess = command.canProcess("show|user");
@@ -90,7 +90,7 @@ public class ShowTest {
     @Test
     public void testCantProcessFindWithOutParametersString() {
         // given
-        Command command = new Show(manager, view);
+        Command command = new GetTableData(manager, view);
 
         // when
         boolean canProcess = command.canProcess("show");

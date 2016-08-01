@@ -5,9 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-/**
- * Created by Seriy on 21.07.2016.
- */
+
 public class Configuration {
     private Properties properties;
     public static final String CONFIG_SQLCMD_PROPERTIES = "config/sqlcmd.properties";

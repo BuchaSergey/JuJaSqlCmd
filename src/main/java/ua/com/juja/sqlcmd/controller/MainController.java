@@ -5,9 +5,7 @@ import ua.com.juja.sqlcmd.controller.command.*;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
-/**
- * Created by Серый on 13.05.2016.
- */
+
 public class MainController {
     static Configuration config = new Configuration();
     private Command[] commands;
@@ -20,10 +18,10 @@ public class MainController {
                 new Help(view),
                 new Exit(view),
                 new IsConnected(manager, view),
-                new Tables(manager, view),
-                new Clear(manager, view),
-                new Create(manager, view),
-                new Show(manager, view),
+                new GetTablesNames(manager, view),
+                new ClearTable(manager, view),
+                new CreateTable(manager, view),
+                new GetTableData(manager, view),
                 new Unsupported(view)
         };
     }
@@ -53,7 +51,13 @@ public class MainController {
                     if (e instanceof ExitException) {
                         throw e;
                     }
-                    printError(e);
+                    String message = e.getMessage();
+                    Throwable cause = e.getCause();
+                    if (cause != null) {
+                        message += " " + cause.getMessage();
+                    }
+                    view.write("Неудача! по причине: " + message);
+                    view.write("Повтори попытку.");
                     break;
                 }
             }
@@ -61,13 +65,4 @@ public class MainController {
         }
     }
 
-    private void printError(Exception e) {
-        String message = e.getMessage();
-        Throwable cause = e.getCause();
-        if (cause != null) {
-            message += " " + cause.getMessage();
-        }
-        view.write("Неудача! по причине: " + message);
-        view.write("Повтори попытку.");
-    }
 }

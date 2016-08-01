@@ -14,10 +14,7 @@ public class InMemoryDatabaseManager implements DatabaseManager {
         return get(tableName);
     }
 
-    @Override
-    public int getSize(String tableName) {
-        return get(tableName).size();
-    }
+
 
     @Override
     public Set<String> getTableNames() {

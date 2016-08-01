@@ -8,15 +8,13 @@ import ua.com.juja.sqlcmd.view.View;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Created by Серый on 15.05.2016.
- */
-public class Show implements Command {
+
+public class GetTableData implements Command {
 
     private DatabaseManager manager;
     private View view;
 
-    public Show(DatabaseManager manager, View view) {
+    public GetTableData(DatabaseManager manager, View view) {
         this.manager = manager;
         this.view = view;
     }
