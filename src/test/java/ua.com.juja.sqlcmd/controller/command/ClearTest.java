@@ -9,6 +9,7 @@ import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 
 /**
@@ -31,16 +32,15 @@ public class ClearTest {
     @Test
     public void testClearTable() {
         // given
-
+        when(view.read()).thenReturn("y");
         // when
         command.process("clear|user");
 
         // then
-        verify(manager).clear("user");
-
         verify(view).write("[31mВНИМАНИЕ![0m Вы собираетесь удалить все данные с таблицы 'user'. " +
                 "'y' для подтверждения, 'n' для отмены");
-
+        verify(view).read();
+        verify(view).write("Таблица user была успешно очищена.");
     }
 
 

@@ -5,6 +5,7 @@ import org.junit.Test;
 import ua.com.juja.sqlcmd.controller.Main;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.model.PostgreSQLManager;
+import ua.com.juja.sqlcmd.view.Console;
 import ua.com.juja.sqlcmd.view.View;
 
 import java.io.ByteArrayOutputStream;
@@ -12,7 +13,6 @@ import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.verify;
 
 /**
  * Created by Серый on 15.05.2016.
@@ -23,6 +23,7 @@ public class IntegrationTest {
     private ByteArrayOutputStream out;
     private DatabaseManager databaseManager;
     private View view;
+    private Console console;
 
     @Before
     public void setup() {
@@ -196,18 +197,23 @@ public class IntegrationTest {
                 "Подключение к базе 'sqlcmd' прошло успешно!\r\n" +
                 "Введи команду (или help для помощи):\r\n" +
                 //tables
-                "[user, test]\r\n" +
+                "[test, user]\r\n" +
                 "Введи команду (или help для помощи):\r\n" +
                 // exit
                 "До скорой встречи!\r\n", getData());
     }
 
     @Test
-    public void testShowTableAfterConnect() {
+    public void testShowTableAfterClear() {
+
+
         // given
         in.add("connect|sqlcmd|postgres|postgres");
-        in.add("clear|user");
-        in.add("show|user");
+        in.add("create|test|name|serge|fam|otec|id|1111");
+        in.add("show|test");
+        in.add("clear|test");
+        in.add("y");
+        in.add("show|test");
         in.add("exit");
 
         // when
@@ -216,20 +222,23 @@ public class IntegrationTest {
         // then
         assertEquals("Привет юзер!\r\n" +
                 "Введи, пожалуйста имя базы данных, имя пользователя и пароль в формате: connect|database|userName|password\r\n" +
-                // connect
                 "Подключение к базе 'sqlcmd' прошло успешно!\r\n" +
                 "Введи команду (или help для помощи):\r\n" +
-                // clear
-                "\u001B[31mВНИМАНИЕ!\u001B[0m Вы собираетесь удалить все данные с таблицы 'user'. 'y' для подтверждения, 'n' для отмены\r\n" +
-                "Таблица user была успешно очищена.\r\n" +
+                "Запись {names:[name, fam, id], values:[serge, otec, 1111]} была успешно создана в таблице 'test'.\r\n" +
                 "Введи команду (или help для помощи):\r\n" +
-                // show|user
-                "--------------------\r\n" +
-                "|name|password|id|\r\n" +
-                "--------------------\r\n" +
-                "--------------------\r\n" +
+                "+-----+----+----+\r\n" +
+                "|name |fam |id  |\r\n" +
+                "+-----+----+----+\r\n" +
+                "|serge|otec|1111|\r\n" +
+                "+-----+----+----+\r\n" +
                 "Введи команду (или help для помощи):\r\n" +
-                // exit
+                "\u001B[31mВНИМАНИЕ!\u001B[0m Вы собираетесь удалить все данные с таблицы 'test'. 'y' для подтверждения, 'n' для отмены\r\n" +
+                "Таблица test была успешно очищена.\r\n" +
+                "Введи команду (или help для помощи):\r\n" +
+                "+----+---+--+\r\n" +
+                "|name|fam|id|\r\n" +
+                "+----+---+--+\r\n" +
+                "Введи команду (или help для помощи):\r\n" +
                 "До скорой встречи!\r\n", getData());
     }
 
@@ -252,7 +261,7 @@ public class IntegrationTest {
                 "Подключение к базе 'sqlcmd' прошло успешно!\r\n" +
                 "Введи команду (или help для помощи):\r\n" +
                 //tables
-                "[user, test]\r\n" +
+                "[test, user]\r\n" +
                 "Введи команду (или help для помощи):\r\n" +
                 // connect test
                 "Подключение к базе 'test' прошло успешно!\r\n" +
@@ -285,15 +294,13 @@ public class IntegrationTest {
     }
 
     @Test
-    public void testShowTableAfterClear_withData() {
+    public void testCreateRowInTable() {
         // given
 
 
         in.add("connect|sqlcmd|postgres|postgres");
-        in.add("clear|user");
-
-        verify(databaseManager).clear("user");
-        verify(view).read();
+        in.add("clear|public.user");
+        in.add("y");
 
         in.add("create|user|id|13|name|Stiven|password|*****");
         in.add("create|user|id|14|name|Eva|password|+++++");
@@ -310,8 +317,8 @@ public class IntegrationTest {
                 "Подключение к базе 'sqlcmd' прошло успешно!\r\n" +
                 "Введи команду (или help для помощи):\r\n" +
                 // clear|user
-                "\u001B[31mВНИМАНИЕ!\u001B[0m Вы собираетесь удалить все данные с таблицы 'user'. 'y' для подтверждения, 'n' для отмены\r\n" +
-                "Таблица user была успешно очищена.\r\n" +
+                "\u001B[31mВНИМАНИЕ!\u001B[0m Вы собираетесь удалить все данные с таблицы 'public.user'. 'y' для подтверждения, 'n' для отмены\r\n" +
+                "Таблица public.user была успешно очищена.\r\n" +
                 "Введи команду (или help для помощи):\r\n" +
                 // create|user|id|13|name|Stiven|password|*****
                 "Запись {names:[id, name, password], values:[13, Stiven, *****]} была успешно создана в таблице 'user'.\r\n" +
@@ -320,7 +327,7 @@ public class IntegrationTest {
                 "Запись {names:[id, name, password], values:[14, Eva, +++++]} была успешно создана в таблице 'user'.\r\n" +
                 "Введи команду (или help для помощи):\r\n" +
                 // show|user
-                "-+------+--------+--+\n" +
+                "+------+--------+--+\n" +
                 "|name  |password|id|\n" +
                 "+------+--------+--+\n" +
                 "|Stiven|*****   |13|\n" +
