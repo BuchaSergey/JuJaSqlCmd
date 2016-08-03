@@ -47,10 +47,6 @@ public class Connect implements Command {
                     database, userName, e.getMessage()))  ;
         }
     }
-
-
-
-
 }
 
 

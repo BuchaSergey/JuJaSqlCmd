@@ -16,9 +16,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
-/**
- * Created by Серый on 17.05.2016.
- */
+
 public class GetTableDataTest {
 
     private DatabaseManager manager;
@@ -69,7 +67,7 @@ public class GetTableDataTest {
 
     }
 
-    private void shouldPrint(String expected) {
+    public void shouldPrint(String expected) {
         ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
         verify(view, atLeastOnce()).write(captor.capture());
         assertEquals(expected, captor.getAllValues().toString());

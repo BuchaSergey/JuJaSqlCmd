@@ -8,10 +8,7 @@ import ua.com.juja.sqlcmd.model.PostgreSQLManager;
 import ua.com.juja.sqlcmd.view.Console;
 import ua.com.juja.sqlcmd.view.View;
 
-/**
- * Created by Серый on 13.05.2016.
- * connect|sqlcmd|postgres|postgres
- */
+
 public class Main {
     public static void main(String[] args) {
         //Disable log4j

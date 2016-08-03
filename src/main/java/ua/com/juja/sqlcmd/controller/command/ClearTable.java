@@ -30,15 +30,16 @@ public class ClearTable implements Command {
         String tableName = data[1];
         try {
             manager.clear(tableName);
-            view.write(String.format(ANSI_RED + "ВНИМАНИЕ!" + ANSI_RESET + " Вы собираетесь удалить все данные " +
-                    "с таблицы '%s'. 'y' для подтверждения, 'n' для отмены", tableName));
-            if (view.read().equalsIgnoreCase("Y")) {
+            view.write(String.format(ANSI_RED + "Удаляем данные с таблицы '%s'. Y/N" + ANSI_RESET, tableName));
+            if (view.read().equalsIgnoreCase("y")) {
+                view.write(view.read());
                 manager.clear(tableName);
-                view.write(String.format("Таблица %s была успешно очищена.", data[1]));
+                view.write(String.format("Таблица %s была успешно очищена.",tableName));
             }
         } catch (Exception e) {
 
-            view.write(String.format("Ошибка удаления таблицы '%s', по причине: %s", data[1], e.getMessage()));
+            view.write(String.format("Ошибка удаления таблицы '%s', по причине: %s", tableName, e.getMessage()));
         }
     }
 }
+

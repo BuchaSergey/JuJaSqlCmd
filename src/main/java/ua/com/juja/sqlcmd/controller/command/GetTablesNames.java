@@ -30,4 +30,8 @@ public class GetTablesNames implements Command {
         view.write(message);
     }
 }
-
+//connect|sqlcmd|postgres|postgres
+//create|test|name|Izya|fam|Rabin|id|777
+//show|test
+//clear|test
+//show|test
