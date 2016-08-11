@@ -98,8 +98,11 @@ public class ClearTableTest {
         Command command = new ClearTable(manager, view);
         command.process("clear|test");
         // then
-        verify(manager).clear("test");
+
         verify(view).write("\u001B[31mУдаляем данные с таблицы 'test'. Y/N\u001B[0m");
+        view.write("y");
+        verify(view).write("DADA");
+
 
 
     }
