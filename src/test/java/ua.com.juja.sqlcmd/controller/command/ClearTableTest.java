@@ -100,8 +100,9 @@ public class ClearTableTest {
         // then
 
         verify(view).write("\u001B[31mУдаляем данные с таблицы 'test'. Y/N\u001B[0m");
+
         view.write("y");
-        verify(view).write("DADA");
+        verify(view).write("Таблица test была успешно очищена.");
 
 
 
