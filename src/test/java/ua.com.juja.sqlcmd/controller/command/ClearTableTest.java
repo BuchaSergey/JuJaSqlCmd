@@ -84,11 +84,11 @@ public class ClearTableTest {
             Command command = new ClearTable(manager, view);
             command.process("clear|test");
             // then
-            command.process("y");
+
 
         ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
         verify(view, atLeastOnce()).write(captor.capture());
-        assertEquals("[\u001B[31mУдаляем данные с таблицы 'test'. Y/N\u001B[0m, Ошибка удаления таблицы 'test', по причине: null1]",captor.getAllValues().toString());
+        assertEquals("[\u001B[31mУдаляем данные с таблицы 'test'. Y/N\u001B[0m, Ошибка удаления таблицы 'test', по причине: null]",captor.getAllValues().toString());
 
     }
 
@@ -101,14 +101,6 @@ public class ClearTableTest {
         verify(manager).clear("test");
         verify(view).write("\u001B[31mУдаляем данные с таблицы 'test'. Y/N\u001B[0m");
 
-//                view.write(view.read());
-//                manager.clear("test");
-//                view.write("Таблица te11st была успешно очищена.");
-
-
-//        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
-//        verify(view, atLeastOnce()).write(captor.capture());
-//        assertEquals("[\u001B[31mУдаляем данные с таблицы 'test'. Y/N\u001B[0m, Ошибка удаления таблицы 'test', по причине: null1]",captor.getAllValues().toString());
 
     }
 }

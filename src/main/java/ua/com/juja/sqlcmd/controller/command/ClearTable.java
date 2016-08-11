@@ -29,10 +29,9 @@ public class ClearTable implements Command {
         }
         String tableName = data[1];
         try {
-            manager.clear(tableName);
+
             view.write(String.format(ANSI_RED + "Удаляем данные с таблицы '%s'. Y/N" + ANSI_RESET, tableName));
             if (view.read().equalsIgnoreCase("y")) {
-                view.write(view.read());
                 manager.clear(tableName);
                 view.write(String.format("Таблица %s была успешно очищена.",tableName));
             }
