@@ -1,61 +1,45 @@
 package ua.com.juja.sqlcmd.model;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Properties;
-
-
 public class Configuration {
-    private Properties properties;
-    public static final String CONFIG_SQLCMD_PROPERTIES = "C:\\Users\\Seriy\\IdeaProjects\\juja\\JuJaSqlCmd\\config\\sqlcmd.properties";//config/sqlcmd.properties
+    private String databaseName;
+    private String serverName;
+    private String portNumber;
+    private String userName;
+    private String driver;
+    private String password;
 
-    public Configuration() {
-        FileInputStream fileInput = null;
-        properties = new Properties();
-        File file = new File(CONFIG_SQLCMD_PROPERTIES);
-        try {
-            fileInput = new FileInputStream(file);
-            properties.load(fileInput);
-        } catch (Exception e) {
-            System.out.println("Error loading config " + file.getAbsolutePath());
-            e.printStackTrace();
-        } finally {
-            if (fileInput != null) {
-                try {
-                    fileInput.close();
-                } catch (IOException e) {
-                    // do nothing;
-                }
-            }
-        }
-    }
-
-
-    public String getServerName() {
-        return properties.getProperty("database.server.name");
+    public Configuration(String databaseName, String serverName, String portNumber, String userName, String driver, String password) {
+        this.databaseName = databaseName;
+        this.serverName = serverName;
+        this.portNumber = portNumber;
+        this.userName = userName;
+        this.driver = driver;
+        this.password = password;
     }
 
     public String getDatabaseName() {
-        return properties.getProperty("database.name");
+        return databaseName;
     }
 
-    public String getDatabasePort() {
-        return properties.getProperty("database.port");
+    public String getServerName() {
+        return serverName;
     }
 
-    public String getDriver() {
-        return properties.getProperty("database.jdbc.driver");
+    public String getPortNumber() {
+        return portNumber;
     }
 
     public String getUserName() {
-        return properties.getProperty("database.user.name");
+        return userName;
+    }
+
+    public String getDriver() {
+        return driver;
     }
 
     public String getPassword() {
-        return properties.getProperty("database.user.password");
+        return password;
     }
-
 
 
 }
