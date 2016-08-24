@@ -12,7 +12,7 @@ import ua.com.juja.sqlcmd.view.View;
 public class Main {
     public static void main(String[] args) {
         //Disable log4j
-        BasicConfigurator.configure();
+        BasicConfigurator.configure(); //new NullAppender()
         Logger.getRootLogger().setLevel(Level.OFF);
 
         View view = new Console();

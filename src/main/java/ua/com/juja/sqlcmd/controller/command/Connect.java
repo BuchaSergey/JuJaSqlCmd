@@ -42,7 +42,7 @@ public class Connect implements Command {
             manager.connect(database, userName, password);
             view.write(String.format("Подключение к базе '%s' прошло успешно!", database));
 
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
                     view.write(String.format("Подключение к базе '%s' для user '%s' не удалось по причине: %s. ",
                     database, userName, e.getMessage()))  ;
         }

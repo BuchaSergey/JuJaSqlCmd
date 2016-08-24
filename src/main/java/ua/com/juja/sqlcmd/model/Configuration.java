@@ -1,4 +1,4 @@
-package ua.com.juja.sqlcmd.controller.command;
+package ua.com.juja.sqlcmd.model;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,7 +8,7 @@ import java.util.Properties;
 
 public class Configuration {
     private Properties properties;
-    public static final String CONFIG_SQLCMD_PROPERTIES = "config/sqlcmd.properties";
+    public static final String CONFIG_SQLCMD_PROPERTIES = "C:\\Users\\Seriy\\IdeaProjects\\juja\\JuJaSqlCmd\\config\\sqlcmd.properties";//config/sqlcmd.properties
 
     public Configuration() {
         FileInputStream fileInput = null;
@@ -56,9 +56,6 @@ public class Configuration {
         return properties.getProperty("database.user.password");
     }
 
-    public boolean isUsingScanner() {
-        String property = properties.getProperty("usingScanner");
-        return property != null && property.equals(true);
-    }
+
 
 }

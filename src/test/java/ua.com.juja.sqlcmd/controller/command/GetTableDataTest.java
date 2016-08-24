@@ -120,7 +120,7 @@ public class GetTableDataTest {
         when(manager.getTableData(tableName)).thenReturn(records);
 
         //when
-        command.process(String.format("find|%s", tableName));
+        command.process(String.format("show|%s", tableName));
 
         //then
         shouldPrint(

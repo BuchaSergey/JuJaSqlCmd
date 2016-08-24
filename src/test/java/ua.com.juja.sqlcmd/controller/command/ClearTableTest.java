@@ -93,18 +93,16 @@ public class ClearTableTest {
     }
 
     @Test
-    public void testFull() {
-
-        Command command = new ClearTable(manager, view);
+    public void testWithConfirmClear() {
+        //given
+        when(view.read()).thenReturn("y");
+        //when
         command.process("clear|test");
-        // then
-
-        verify(view).write("\u001B[31mУдаляем данные с таблицы 'test'. Y/N\u001B[0m");
-
-        view.write("y");
+        //then
+        verify(manager).clear("test");
         verify(view).write("Таблица test была успешно очищена.");
-
-
-
     }
+
+
+
 }

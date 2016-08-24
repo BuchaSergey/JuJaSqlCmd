@@ -9,9 +9,7 @@ import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * Created by Серый on 05.05.2016.
- */
+
 public abstract class DatabaseManagerTest {
     protected DatabaseManager manager;
 

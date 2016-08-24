@@ -2,6 +2,7 @@ package ua.com.juja.sqlcmd.controller;
 
 
 import ua.com.juja.sqlcmd.controller.command.*;
+import ua.com.juja.sqlcmd.model.Configuration;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
@@ -14,8 +15,9 @@ public class MainController {
     public MainController(View view, DatabaseManager manager) {
         this.view = view;
         this.commands = new Command[]{
-                new Connect(manager, view),
                 new Help(view),
+                new Connect(manager, view),
+
                 new Exit(view),
                 new IsConnected(manager, view),
                 new GetTablesNames(manager, view),

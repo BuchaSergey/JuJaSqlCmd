@@ -6,8 +6,6 @@ import org.junit.Test;
 import ua.com.juja.sqlcmd.controller.Main;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.model.PostgreSQLManager;
-import ua.com.juja.sqlcmd.view.Console;
-import ua.com.juja.sqlcmd.view.View;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -15,16 +13,13 @@ import java.io.UnsupportedEncodingException;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * Created by Серый on 15.05.2016.
- */
+
 public class IntegrationTest {
 
     private ConfigurableInputStream in;
     private ByteArrayOutputStream out;
     private DatabaseManager databaseManager;
-    private View view;
-    private Console console;
+
 
     @Before
     public void setup() {
@@ -203,6 +198,26 @@ public class IntegrationTest {
                 "[test, user]\r\n" +
                 "Введи команду (или help для помощи):\r\n" +
                 // exit
+                "До скорой встречи!\r\n", getData());
+    }
+
+    @Test
+    public void testBadConnect() {
+        // given
+        in.add("connect|sqlcmd|postgres|postgresDDD");
+        in.add("exit");
+
+        // when
+        Main.main(new String[0]);
+
+        // then
+        assertEquals("Привет юзер!\r\n" +
+                "Введи, пожалуйста имя базы данных, имя пользователя и пароль в формате: connect|database|userName|password\r\n" +
+                // badConnect
+                "Подключение к базе 'sqlcmd' для user 'postgres' не удалось по причине: Проверьте правильность введенных данных, " +
+                "Ошибка при попытке подсоединения.. \r\n" +
+                // exit
+                "Введи команду (или help для помощи):\r\n" +
                 "До скорой встречи!\r\n", getData());
     }
 
