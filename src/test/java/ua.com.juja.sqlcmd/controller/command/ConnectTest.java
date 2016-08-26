@@ -52,18 +52,11 @@ public class ConnectTest {
     public void testCorrectConnectCommand() {
         //when
         command.process("connect|sqlcmd|postgres|postgres");
+
         //then
         verify(view).write("Подключение к базе 'sqlcmd' прошло успешно!");
     }
 
-    @Test
-    public void testConnectTableWrongData() {
 
-            manager.connect("databaseName","userName","wrong");
-
-            verify(view).write("WR");
-
-
-    }
 }
 
