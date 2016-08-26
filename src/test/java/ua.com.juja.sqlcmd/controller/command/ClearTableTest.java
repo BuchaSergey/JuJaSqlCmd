@@ -6,11 +6,8 @@ import org.mockito.ArgumentCaptor;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
-
 import static junit.framework.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 
@@ -33,15 +30,13 @@ public class ClearTableTest {
     public void testCanProcessClearWithParametersString() {
         // when
         boolean canProcess = command.canProcess("clear|user");
-
-
         // then
         assertTrue(canProcess);
     }
 
     @Test
     public void testClearTableWrongCommand() {
-        boolean  canNotProcess = command.canProcess("cleardf|user");
+        boolean canNotProcess = command.canProcess("cleardf|user");
         assertFalse(canNotProcess);
     }
 
@@ -49,7 +44,6 @@ public class ClearTableTest {
     public void testCantProcessClearWithoutParametersString() {
         // when
         boolean canProcess = command.canProcess("clear");
-
         // then
         assertFalse(canProcess);
     }
@@ -81,14 +75,12 @@ public class ClearTableTest {
     @Test
     public void testExceptionClear() {
 
-            Command command = new ClearTable(manager, view);
-            command.process("clear|test");
-            // then
-
-
+        Command command = new ClearTable(manager, view);
+        command.process("clear|test");
+        // then
         ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
         verify(view, atLeastOnce()).write(captor.capture());
-        assertEquals("[\u001B[31mУдаляем данные с таблицы 'test'. Y/N\u001B[0m, Ошибка удаления таблицы 'test', по причине: null]",captor.getAllValues().toString());
+        assertEquals("[\u001B[31mУдаляем данные с таблицы 'test'. Y/N\u001B[0m, Ошибка удаления таблицы 'test', по причине: null]", captor.getAllValues().toString());
 
     }
 
@@ -102,7 +94,4 @@ public class ClearTableTest {
         verify(manager).clear("test");
         verify(view).write("Таблица test была успешно очищена.");
     }
-
-
-
 }
