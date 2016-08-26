@@ -6,12 +6,12 @@ import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
 
-public class CreateTable implements Command {
+public class CreateEntry implements Command {
 
     private final DatabaseManager manager;
     private final View view;
 
-    public CreateTable(DatabaseManager manager, View view) {
+    public CreateEntry(DatabaseManager manager, View view) {
         this.manager = manager;
         this.view = view;
     }
@@ -31,8 +31,6 @@ public class CreateTable implements Command {
                     "а ты прислал: '%s'", command));
         }
 
-        String tableName = data[1];
-
         DataSet dataSet = new DataSetImpl();
         for (int index = 1; index < (data.length / 2); index++) {
             String columnName = data[index * 2];
@@ -41,12 +39,10 @@ public class CreateTable implements Command {
             dataSet.put(columnName, value);
         }
 
-        try {
-            manager.create(tableName, dataSet);
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
-        }
 
-        view.write(String.format("Запись %s была успешно создана в таблице '%s'.", dataSet, tableName));
+        manager.create(data[1], dataSet);
+
+
+        view.write(String.format("Запись %s была успешно создана в таблице '%s'.", dataSet, data[1]));
     }
 }
