@@ -18,7 +18,15 @@ public class IntegrationTest {
 
     private ConfigurableInputStream in;
     private ByteArrayOutputStream out;
-    private DatabaseManager databaseManager;
+    private static DatabaseManager databaseManager;
+
+    private final static String DB_USER = "postgres";
+    private final static String DB_PASSWORD = "postgres";
+    private final static String DB_NAME = "sqlcmd";
+    private final static String TABLE_NAME = "test";
+    private final static String SQL_CREATE_TABLE = TABLE_NAME + "(id SERIAL PRIMARY KEY," +
+            " username VARCHAR (50) UNIQUE NOT NULL," +
+            " password VARCHAR (50) NOT NULL)";
 
 
     @Before
@@ -30,6 +38,11 @@ public class IntegrationTest {
         System.setIn(in);
         System.setOut(new PrintStream(out));
     }
+
+//    @BeforeClass
+//    public static void init() {
+//        databaseManager.connect("postgres","postgres","postgres");
+//    }
 
     @After
 
