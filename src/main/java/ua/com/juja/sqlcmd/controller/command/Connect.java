@@ -38,14 +38,11 @@ public class Connect implements Command {
         String database = data[1];
         String userName = data[2];
         String password = data[3];
-        try {
+
             manager.connect(database, userName, password);
             view.write(String.format("Подключение к базе '%s' прошло успешно!", database));
 
-        } catch (IllegalArgumentException e) {
-                    view.write(String.format("Подключение к базе '%s' для user '%s' не удалось по причине: %s. ",
-                    database, userName, e.getMessage()))  ;
-        }
+
     }
 }
 
