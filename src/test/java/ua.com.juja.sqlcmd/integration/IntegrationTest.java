@@ -70,14 +70,22 @@ public class IntegrationTest {
                         "==============================\n" +
                         "\u001B[34m\tconnect|databaseName|userName|password\n" +
                         "\u001B[0m\t\tдля подключения к базе данных, с которой будем работать\n" +
+                        "\u001B[34m\tcreateDB|databaseName\n" +
+                        "\u001B[0m\t\tдля создания база данных\n" +
+                        "\u001B[34m\tdropDB|databaseName\n" +
+                        "\u001B[0m\t\tдля удаления база данных\n" +
                         "\u001B[34m\ttables\n" +
                         "\u001B[0m\t\tдля получения списка всех таблиц базы, к которой подключились\n" +
+                        "\u001B[34m\tcreateTable|tableName(name text, pass text, id serial, PRIMARY KEY(id)\n" +
+                        "\u001B[0m\t\tдля создания таблицы. \n" +
+                        "\u001B[34m\tcreateEntry|tableName|column1|value1|column2|value2|...|columnN|valueN\n" +
+                        "\u001B[0m\t\tдля создания записи в таблице\n" +
                         "\u001B[34m\tclear|tableName\n" +
                         "\u001B[0m\t\tдля очистки всей таблицы\n" +
-                        "\u001B[34m\tcreate|tableName|column1|value1|column2|value2|...|columnN|valueN\n" +
-                        "\u001B[0m\t\tдля создания записи в таблице\n" +
+                        "\u001B[34m\tdropTable|tableName\n" +
+                        "\u001B[0m\t\tдля удаления таблицы таблицы\n" +
                         "\u001B[34m\tshow|tableName\n" +
-                        "\u001B[0m\t\tдля получения содержимого таблицы 'tableName'\n" +
+                        "\u001B[0m\t\tдля получения содержимого таблицы\n" +
                         "\u001B[34m\thelp\n" +
                         "\u001B[0m\t\tдля вывода этого списка на экран\n" +
                         "\u001B[34m\texit\n" +

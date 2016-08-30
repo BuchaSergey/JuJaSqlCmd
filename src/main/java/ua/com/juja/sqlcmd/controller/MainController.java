@@ -60,7 +60,7 @@ public class MainController {
                     if (cause != null) {
                         message += " " + cause.getMessage();
                     }
-                    view.write("Неудача! по причине : " + message);
+                    view.write("Неудача! по причине: " + message);
                     view.write("Повтори попытку.");
                     break;
                 }
