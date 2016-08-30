@@ -14,7 +14,7 @@ public interface DatabaseManager {
     Set<String> getTableColumns(String tableName);
 
     void createDatabase(String databaseName);
-    void createTable(String tableName);
+    void createTable(String query);
     void deleteTable(String tableName);
     void deleteDatabase(String databaseName);
     void clear(String tableName);
