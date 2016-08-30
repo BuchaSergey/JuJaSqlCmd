@@ -2,9 +2,6 @@ package ua.com.juja.sqlcmd.model;
 
 import java.util.*;
 
-/**
- * Created by Серый on 13.05.2016.
- */
 public class InMemoryDatabaseManager implements DatabaseManager {
 
     private Map<String, List<DataSet>> tables = new LinkedHashMap();
@@ -55,6 +52,26 @@ public class InMemoryDatabaseManager implements DatabaseManager {
     @Override
     public Set<String> getTableColumns(String tableName) {
         return new LinkedHashSet<String>(Arrays.asList("name", "password", "id"));
+    }
+
+    @Override
+    public void createDatabase(String databaseName) {
+
+    }
+
+    @Override
+    public void createTable(String tableName) {
+
+    }
+
+    @Override
+    public void deleteTable(String tableName) {
+
+    }
+
+    @Override
+    public void deleteDatabase(String databaseName) {
+
     }
 
     @Override

@@ -15,6 +15,7 @@ public class MainController {
         this.view = view;
         this.commands = new Command[]{
                 new Connect(manager, view),
+
                 new Help(view),
                 new Exit(view),
                 new IsConnected(manager, view),
