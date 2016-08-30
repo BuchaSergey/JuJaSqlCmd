@@ -65,12 +65,12 @@ public class InMemoryDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public void deleteTable(String tableName) {
+    public void dropTable(String tableName) {
 
     }
 
     @Override
-    public void deleteDatabase(String databaseName) {
+    public void dropDB(String databaseName) {
 
     }
 

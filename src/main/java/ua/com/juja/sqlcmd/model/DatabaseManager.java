@@ -15,8 +15,8 @@ public interface DatabaseManager {
 
     void createDatabase(String databaseName);
     void createTable(String query);
-    void deleteTable(String tableName);
-    void deleteDatabase(String databaseName);
+    void dropTable(String tableName);
+    void dropDB(String databaseName);
     void clear(String tableName);
     void create(String tableName, DataSet input);
     void update(String tableName, int id, DataSet newValue);
