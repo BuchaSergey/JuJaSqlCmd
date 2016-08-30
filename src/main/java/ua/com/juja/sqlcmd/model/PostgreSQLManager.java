@@ -1,13 +1,15 @@
 package ua.com.juja.sqlcmd.model;
 
 import java.sql.*;
-import java.util.*;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 
 public class PostgreSQLManager implements DatabaseManager {
 
     public static final String DATABASE_URL = "jdbc:postgresql://localhost:5432/";
-    private Connection connection;
 
     static {
         try {
@@ -24,6 +26,8 @@ public class PostgreSQLManager implements DatabaseManager {
             }
         }
     }
+
+    private Connection connection;
 
     @Override
     public List<DataSet> getTableData(String tableName) {
@@ -45,7 +49,6 @@ public class PostgreSQLManager implements DatabaseManager {
             return result;
         }
     }
-
 
 
     @Override
@@ -94,7 +97,8 @@ public class PostgreSQLManager implements DatabaseManager {
             stmt.executeUpdate("INSERT INTO public." + tableName + " (" + tableNames + ")" +
                     "VALUES (" + values + ")");
         } catch (SQLException e) {
-            throw new RuntimeException("Проверьте правильность введенных данных, " + e.getMessage());        }
+            throw new RuntimeException("Проверьте правильность введенных данных, " + e.getMessage());
+        }
     }
 
     private String getValuesFormated(DataSet input, String format) {
@@ -140,6 +144,44 @@ public class PostgreSQLManager implements DatabaseManager {
         } catch (SQLException e) {
             e.printStackTrace();
             return tables;
+        }
+    }
+
+    @Override
+    public void createDatabase(String databaseName) {
+        try (Statement statement = connection.createStatement()) {
+            statement.executeUpdate("CREATE DATABASE " + databaseName);
+        } catch (SQLException e) {
+
+        }
+
+    }
+
+    @Override
+    public void createTable(String query) {
+        try (Statement statement = connection.createStatement()) {
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS " + query);
+        } catch (SQLException e) {
+
+        }
+    }
+
+    @Override
+    public void dropTable(String tableName) {
+
+        try (Statement statement = connection.createStatement()) {
+            statement.executeUpdate("DROP TABLE IF EXISTS " + tableName);
+        } catch (SQLException e) {
+
+        }
+    }
+
+    @Override
+    public void dropDB(String databaseName) {
+        try (Statement statement = connection.createStatement()) {
+            statement.executeUpdate("DROP DATABASE IF EXISTS " + databaseName);
+        } catch (SQLException e) {
+
         }
     }
 
