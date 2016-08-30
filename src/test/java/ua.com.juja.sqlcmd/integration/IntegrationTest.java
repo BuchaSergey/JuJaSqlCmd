@@ -16,11 +16,10 @@ import static org.junit.Assert.assertEquals;
 public class IntegrationTest {
 
     private ConfigurableInputStream in;
-
     private ByteArrayOutputStream out;
     private static DatabaseManager manager;
-    private final static String DB_USER = "postgres";
 
+    private final static String DB_USER = "postgres";
     private final static String DB_PASSWORD = "postgres";
     private final static String DB_NAME = "sqlcmd";
     private final static String TABLE_NAME = "test";
@@ -148,7 +147,7 @@ public class IntegrationTest {
         assertEquals("Привет юзер!\n" +
                 "Введи, пожалуйста имя базы данных, имя пользователя и пароль в формате: connect|database|userName|password\n" +
                 // show|user
-                "Вы не можете пользоваться командой 'show|" + TABLE_NAME +"' пока не подключитесь с помощью комманды connect|databaseName|userName|password\n" +
+                "Вы не можете пользоваться командой 'show|" + TABLE_NAME + "' пока не подключитесь с помощью комманды connect|databaseName|userName|password\n" +
                 "Введи команду (или help для помощи):\n" +
                 // exit
                 "До скорой встречи!\n", getData());
@@ -187,7 +186,7 @@ public class IntegrationTest {
         assertEquals("Привет юзер!\n" +
                 "Введи, пожалуйста имя базы данных, имя пользователя и пароль в формате: connect|database|userName|password\n" +
                 // connect
-                "Подключение к базе '" + DB_NAME +"' прошло успешно!\n" +
+                "Подключение к базе '" + DB_NAME + "' прошло успешно!\n" +
                 "Введи команду (или help для помощи):\n" +
                 // unsupported
                 "Несуществующая команда: unsupported\n" +
@@ -210,7 +209,7 @@ public class IntegrationTest {
         assertEquals("Привет юзер!\n" +
                 "Введи, пожалуйста имя базы данных, имя пользователя и пароль в формате: connect|database|userName|password\n" +
                 // connect
-                "Подключение к базе '" + DB_NAME +"' прошло успешно!\n" +
+                "Подключение к базе '" + DB_NAME + "' прошло успешно!\n" +
                 "Введи команду (или help для помощи):\n" +
                 //tables
                 "[" + TABLE_NAME + "]\n" +
@@ -246,7 +245,7 @@ public class IntegrationTest {
         in.add("connect|" + DB_NAME + "|" + DB_USER + "|" + DB_PASSWORD);
         in.add("create|" + TABLE_NAME + "|name|serge|fam|otec|id|1111");
         in.add("show|" + TABLE_NAME);
-        in.add("clear|"+ TABLE_NAME);
+        in.add("clear|" + TABLE_NAME);
         in.add("y");
         in.add("show|" + TABLE_NAME);
         in.add("exit");
@@ -257,29 +256,29 @@ public class IntegrationTest {
         // then
         assertEquals(
                 "Привет юзер!\n" +
-                "Введи, пожалуйста имя базы данных, имя пользователя и пароль в формате: connect|database|userName|password\n" +
-                "Подключение к базе 'sqlcmd' прошло успешно!\n" +
-                "Введи команду (или help для помощи):\n" +
-                "Запись {names:[name, fam, id], values:[serge, otec, 1111]} была успешно создана в таблице 'test'.\n" +
-                "Введи команду (или help для помощи):\n" +
-                "+------+-----+----+\n" +
-                "|name  |fam  |id  |\n" +
-                "+------+-----+----+\n" +
-                "|Stiven|*****|13  |\n" +
-                "+------+-----+----+\n" +
-                "|Eva   |+++++|14  |\n" +
-                "+------+-----+----+\n" +
-                "|serge |otec |1111|\n" +
-                "+------+-----+----+\n" +
-                "Введи команду (или help для помощи):\n" +
-                "\u001B[31mУдаляем данные с таблицы 'test'. Y/N\u001B[0m\n" +
-                "Таблица test была успешно очищена.\n" +
-                "Введи команду (или help для помощи):\n" +
-                "+----+---+--+\n" +
-                "|name|fam|id|\n" +
-                "+----+---+--+\n" +
-                "Введи команду (или help для помощи):\n" +
-                "До скорой встречи!\n", getData());
+                        "Введи, пожалуйста имя базы данных, имя пользователя и пароль в формате: connect|database|userName|password\n" +
+                        "Подключение к базе 'sqlcmd' прошло успешно!\n" +
+                        "Введи команду (или help для помощи):\n" +
+                        "Запись {names:[name, fam, id], values:[serge, otec, 1111]} была успешно создана в таблице 'test'.\n" +
+                        "Введи команду (или help для помощи):\n" +
+                        "+------+-----+----+\n" +
+                        "|name  |fam  |id  |\n" +
+                        "+------+-----+----+\n" +
+                        "|Stiven|*****|13  |\n" +
+                        "+------+-----+----+\n" +
+                        "|Eva   |+++++|14  |\n" +
+                        "+------+-----+----+\n" +
+                        "|serge |otec |1111|\n" +
+                        "+------+-----+----+\n" +
+                        "Введи команду (или help для помощи):\n" +
+                        "\u001B[31mУдаляем данные с таблицы 'test'. Y/N\u001B[0m\n" +
+                        "Таблица test была успешно очищена.\n" +
+                        "Введи команду (или help для помощи):\n" +
+                        "+----+---+--+\n" +
+                        "|name|fam|id|\n" +
+                        "+----+---+--+\n" +
+                        "Введи команду (или help для помощи):\n" +
+                        "До скорой встречи!\n", getData());
     }
 
     @Test
@@ -300,13 +299,13 @@ public class IntegrationTest {
         assertEquals("Привет юзер!\n" +
                 "Введи, пожалуйста имя базы данных, имя пользователя и пароль в формате: connect|database|userName|password\n" +
                 // connect sqlcmd
-                "Подключение к базе '" + DB_NAME +"' прошло успешно!\n" +
+                "Подключение к базе '" + DB_NAME + "' прошло успешно!\n" +
                 "Введи команду (или help для помощи):\n" +
                 //tables
                 "[test]\n" +
                 "Введи команду (или help для помощи):\n" +
                 // connect test
-                "Подключение к базе '" + DB_NAME2 +"' прошло успешно!\n" +
+                "Подключение к базе '" + DB_NAME2 + "' прошло успешно!\n" +
                 "Введи команду (или help для помощи):\n" +
                 //tables
                 "[" + TABLE_NAME2 + "]\n" +
@@ -340,7 +339,7 @@ public class IntegrationTest {
         // given
 
 
-                in.add("connect|" + DB_NAME + "|" + DB_USER + "|" + DB_PASSWORD);
+        in.add("connect|" + DB_NAME + "|" + DB_USER + "|" + DB_PASSWORD);
         in.add("clear|test");
         in.add("y");
 
@@ -356,7 +355,7 @@ public class IntegrationTest {
         assertEquals("Привет юзер!\n" +
                 "Введи, пожалуйста имя базы данных, имя пользователя и пароль в формате: connect|database|userName|password\n" +
                 // connect
-                "Подключение к базе '" + DB_NAME +"' прошло успешно!\n" +
+                "Подключение к базе '" + DB_NAME + "' прошло успешно!\n" +
                 "Введи команду (или help для помощи):\n" +
                 // clear|user
                 "\u001B[31mУдаляем данные с таблицы 'test'. Y/N\u001B[0m\n" +
@@ -395,7 +394,7 @@ public class IntegrationTest {
         assertEquals("Привет юзер!\n" +
                 "Введи, пожалуйста имя базы данных, имя пользователя и пароль в формате: connect|database|userName|password\n" +
                 // connect
-                "Подключение к базе '" + DB_NAME +"' прошло успешно!\n" +
+                "Подключение к базе '" + DB_NAME + "' прошло успешно!\n" +
                 "Введи команду (или help для помощи):\n" +
                 // clear|sadfasd|fsf|fdsf
                 "Неудача! по причине: Формат команды 'clear|tableName', а ты ввел: clear|sadfasd|fsf|fdsf\n" +
@@ -419,7 +418,7 @@ public class IntegrationTest {
         assertEquals("Привет юзер!\n" +
                 "Введи, пожалуйста имя базы данных, имя пользователя и пароль в формате: connect|database|userName|password\n" +
                 // connect
-                "Подключение к базе '" + DB_NAME +"' прошло успешно!\n" +
+                "Подключение к базе '" + DB_NAME + "' прошло успешно!\n" +
                 "Введи команду (или help для помощи):\n" +
                 // create|user|error
                 "Неудача! по причине: Должно быть четное количество параметров в формате 'create|tableName|column1|value1|column2|value2|...|columnN|valueN', а ты прислал: 'create|test|error'\n" +
