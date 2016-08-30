@@ -15,7 +15,10 @@ public class MainController {
         this.view = view;
         this.commands = new Command[]{
                 new Connect(manager, view),
-
+                new CreateDatabase(manager,view),
+                new CreateTable(manager,view),
+                new DropDB(manager,view),
+                new DropTable(manager,view),
                 new Help(view),
                 new Exit(view),
                 new IsConnected(manager, view),
@@ -57,7 +60,7 @@ public class MainController {
                     if (cause != null) {
                         message += " " + cause.getMessage();
                     }
-                    view.write("Неудача! по причине: " + message);
+                    view.write("Неудача! по причине : " + message);
                     view.write("Повтори попытку.");
                     break;
                 }
