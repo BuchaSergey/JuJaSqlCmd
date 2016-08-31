@@ -3,6 +3,7 @@ package ua.com.juja.sqlcmd.controller.command;
 import org.junit.Before;
 import org.junit.Test;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
+import ua.com.juja.sqlcmd.model.PropertiesLoader;
 import ua.com.juja.sqlcmd.view.View;
 
 import static junit.framework.Assert.assertEquals;
@@ -18,6 +19,9 @@ public class ConnectTest {
     private Command command;
     private DatabaseManager manager;
     private View view;
+
+    PropertiesLoader properties;
+
 
 
     @Before

@@ -5,6 +5,7 @@ import org.junit.Test;
 import ua.com.juja.sqlcmd.controller.Main;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.model.PostgreSQLManager;
+import ua.com.juja.sqlcmd.model.PropertiesLoader;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -18,10 +19,11 @@ public class IntegrationTest {
     private ConfigurableInputStream in;
     private ByteArrayOutputStream out;
     private static DatabaseManager manager;
+    private static PropertiesLoader property;
 
-    private final static String DB_USER = "postgres";
-    private final static String DB_PASSWORD = "postgres";
-    private final static String DB_NAME = "sqlcmd";
+    private final static String DB_USER = property.getUserName();
+    private final static String DB_PASSWORD = property.getPassword();
+    private final static String DB_NAME = property.getDatabaseName();
     private final static String TABLE_NAME = "test";
     private final static String SQL_CREATE_TABLE = TABLE_NAME + "(id SERIAL PRIMARY KEY," +
             " username VARCHAR (50) UNIQUE NOT NULL," +

@@ -114,7 +114,7 @@ public class PostgreSQLManager implements DatabaseManager {
     public void update(String tableName, int id, DataSet newValue) {
         try {
             String tableNames = getNameFormated(newValue, "%s = ?,");
-            String sql = "UPDATE public." + tableName + " SET " + tableNames + " WHERE id = ?";
+            String sql = "UPDATE " + tableName + " SET " + tableNames + " WHERE id = ?";
             PreparedStatement ps = connection.prepareStatement(sql);
 
             int index = 1;
