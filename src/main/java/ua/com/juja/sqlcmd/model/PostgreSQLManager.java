@@ -152,7 +152,7 @@ public class PostgreSQLManager implements DatabaseManager {
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate("CREATE DATABASE " + databaseName);
         } catch (SQLException e) {
-
+            //do nothing
         }
 
     }
@@ -162,7 +162,7 @@ public class PostgreSQLManager implements DatabaseManager {
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate("CREATE TABLE IF NOT EXISTS " + query);
         } catch (SQLException e) {
-
+            //do nothing
         }
     }
 
@@ -172,16 +172,16 @@ public class PostgreSQLManager implements DatabaseManager {
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate("DROP TABLE IF EXISTS " + tableName);
         } catch (SQLException e) {
-
+            //do nothing
         }
     }
 
     @Override
     public void dropDB(String databaseName) {
         try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate("DROP DATABASE IF EXISTS " + databaseName);
+            statement.executeUpdate("DROP DATABASE " + databaseName);
         } catch (SQLException e) {
-
+            //do nothing
         }
     }
 

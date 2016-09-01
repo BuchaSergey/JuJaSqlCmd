@@ -1,7 +1,6 @@
 package ua.com.juja.sqlcmd.integration;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import ua.com.juja.sqlcmd.controller.Main;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.model.PostgreSQLManager;
@@ -19,19 +18,23 @@ public class IntegrationTest {
     private ConfigurableInputStream in;
     private ByteArrayOutputStream out;
     private static DatabaseManager manager;
-    private static PropertiesLoader property;
+    private static PropertiesLoader pl = new PropertiesLoader();
 
-    private final static String DB_USER = property.getUserName();
-    private final static String DB_PASSWORD = property.getPassword();
-    private final static String DB_NAME = property.getDatabaseName();
+    private final static String DB_USER = pl.getUserName();
+    private final static String DB_PASSWORD = pl.getPassword();
+    private final static String DB_NAME = pl.getDatabaseName();
     private final static String TABLE_NAME = "test";
+
+    private final static String DB_NAME2 = "test";
+    private final static String TABLE_NAME2 = "qwe";
     private final static String SQL_CREATE_TABLE = TABLE_NAME + "(id SERIAL PRIMARY KEY," +
             " username VARCHAR (50) UNIQUE NOT NULL," +
             " password VARCHAR (50) NOT NULL)";
-    private final static String DB_NAME2 = "test";
-    private final static String TABLE_NAME2 = "qwe";
-//db = test
-    //tables = qwe
+    private final static String SQL_CREATE_TABLE2 = TABLE_NAME2 + "(id SERIAL PRIMARY KEY," +
+            " username VARCHAR (50) UNIQUE NOT NULL," +
+            " password VARCHAR (50) NOT NULL)";
+
+
 
     @Before
     public void setup() {
@@ -44,12 +47,23 @@ public class IntegrationTest {
 
     }
 
-//    @BeforeClass
-//    public static void init() {
-//
-//    }
-//
-//    @After
+    @BeforeClass
+    public static void init() {
+        manager.createDatabase(DB_NAME);
+        manager.createDatabase(DB_NAME2);
+
+        manager.connect(DB_NAME,DB_USER,DB_PASSWORD);
+        manager.createTable(SQL_CREATE_TABLE);
+        manager.createTable(SQL_CREATE_TABLE2);
+    }
+
+       @AfterClass
+       public static void clearAfterAllTests() {
+           manager.dropTable(TABLE_NAME);
+           manager.dropTable(TABLE_NAME2);
+           manager.dropDB(DB_NAME);
+           manager.dropDB(DB_NAME2);
+       }
 
     @Test
     public void testHelp() {
