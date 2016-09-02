@@ -20,7 +20,6 @@ public class DropTable implements Command {
 
     @Override
     public void process(String command) {
-
         String[] data = command.split("\\|");
         if (data.length != 2) {
             throw new IllegalArgumentException("Формат команды 'dropTable|tableName', а ты ввел: " + command);

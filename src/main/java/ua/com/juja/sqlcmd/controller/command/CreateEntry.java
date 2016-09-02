@@ -40,7 +40,7 @@ public class CreateEntry implements Command {
         }
 
 
-        manager.create(data[1], dataSet);
+        manager.createEntry(data[1], dataSet);
 
 
         view.write(String.format("Запись %s была успешно создана в таблице '%s'.", dataSet, data[1]));

@@ -11,8 +11,6 @@ public class InMemoryDatabaseManager implements DatabaseManager {
         return get(tableName);
     }
 
-
-
     @Override
     public Set<String> getTableNames() {
         return tables.keySet();
@@ -36,7 +34,7 @@ public class InMemoryDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public void create(String tableName, DataSet input) {
+    public void createEntry(String tableName, DataSet input) {
         get(tableName).add(input);
     }
 
@@ -55,12 +53,22 @@ public class InMemoryDatabaseManager implements DatabaseManager {
     }
 
     @Override
+    public Set<String> getDatabasesNames() {
+        return null;
+    }
+
+    @Override
     public void createDatabase(String databaseName) {
 
     }
 
     @Override
     public void createTable(String tableName) {
+
+    }
+
+    @Override
+    public void disconnectFromDB() {
 
     }
 

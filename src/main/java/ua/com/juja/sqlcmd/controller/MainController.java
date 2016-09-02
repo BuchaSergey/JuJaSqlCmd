@@ -17,6 +17,8 @@ public class MainController {
                 new Connect(manager, view),
                 new CreateDatabase(manager,view),
                 new CreateTable(manager,view),
+                new GetDatabasesNames(manager,view),
+                new DisconnectFromDB(manager, view),
                 new DropDB(manager,view),
                 new DropTable(manager,view),
                 new Help(view),

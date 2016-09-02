@@ -9,7 +9,10 @@ import java.util.Set;
 
 public class PostgreSQLManager implements DatabaseManager {
 
-    public static final String DATABASE_URL = "jdbc:postgresql://localhost:5432/";
+    private static final String DATABASE_URL = "jdbc:postgresql://localhost:5432/";
+    static PropertiesLoader propertiesLoader = new PropertiesLoader();
+    private static final String USER_NAME = propertiesLoader.getUserName();
+    private static final String PASSWORD = propertiesLoader.getPassword();
 
     static {
         try {
@@ -62,8 +65,7 @@ public class PostgreSQLManager implements DatabaseManager {
             }
             return tables;
         } catch (SQLException e) {
-            e.printStackTrace();
-            return tables;
+            throw new RuntimeException("не удалось получить имена таблиц");
         }
     }
 
@@ -90,7 +92,7 @@ public class PostgreSQLManager implements DatabaseManager {
     }
 
     @Override
-    public void create(String tableName, DataSet input) {
+    public void createEntry(String tableName, DataSet input) {
         try (Statement stmt = connection.createStatement();) {
             String tableNames = getNameFormated(input, "%s,");
             String values = getValuesFormated(input, "'%s',");
@@ -148,6 +150,22 @@ public class PostgreSQLManager implements DatabaseManager {
     }
 
     @Override
+    public Set<String> getDatabasesNames() {
+        connect("", USER_NAME, PASSWORD);
+        String sql = "SELECT datname FROM pg_database WHERE datistemplate = false;";
+        try (Statement ps = connection.createStatement();
+             ResultSet rs = ps.executeQuery(sql)) {
+            Set<String> result = new LinkedHashSet<>();
+            while (rs.next()) {
+                result.add(rs.getString(1));
+            }
+            return result;
+        } catch (SQLException e) {
+            throw new RuntimeException("Не удалось получить имена БД");
+        }
+    }
+
+    @Override
     public void createDatabase(String databaseName) {
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate("CREATE DATABASE " + databaseName);
@@ -164,6 +182,11 @@ public class PostgreSQLManager implements DatabaseManager {
         } catch (SQLException e) {
             //do nothing
         }
+    }
+
+    @Override
+    public void disconnectFromDB() {
+        connection = null;
     }
 
     @Override

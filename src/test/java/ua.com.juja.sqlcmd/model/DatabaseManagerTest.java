@@ -41,7 +41,7 @@ public abstract class DatabaseManagerTest {
         input.put("name", "Stiven");
         input.put("password", "pass");
         input.put("id", 13);
-        manager.create("user", input);
+        manager.createEntry("user", input);
 
         //then
         List<DataSet> users = manager.getTableData("user");
@@ -61,7 +61,7 @@ public abstract class DatabaseManagerTest {
         input.put("name", "Stiven");
         input.put("password", "pass");
         input.put("id", 13);
-        manager.create("user", input);
+        manager.createEntry("user", input);
 
         //when
         DataSet newValue = new DataSetImpl();
