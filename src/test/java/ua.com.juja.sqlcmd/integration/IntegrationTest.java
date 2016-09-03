@@ -24,15 +24,15 @@ public class IntegrationTest {
     private final static String DB_PASSWORD = pl.getPassword();
     private final static String DB_NAME = pl.getDatabaseName();
     private final static String TABLE_NAME = "test";
+    private final static String SQL_CREATE_TABLE = TABLE_NAME + " (id SERIAL PRIMARY KEY," +
+            " name VARCHAR (50) UNIQUE NOT NULL," +
+            " pass VARCHAR (50) NOT NULL)";
 
     private final static String DB_NAME2 = "test";
     private final static String TABLE_NAME2 = "qwe";
-    private final static String SQL_CREATE_TABLE = TABLE_NAME + "(id SERIAL PRIMARY KEY," +
-            " username VARCHAR (50) UNIQUE NOT NULL," +
-            " password VARCHAR (50) NOT NULL)";
-    private final static String SQL_CREATE_TABLE2 = TABLE_NAME2 + "(id SERIAL PRIMARY KEY," +
-            " username VARCHAR (50) UNIQUE NOT NULL," +
-            " password VARCHAR (50) NOT NULL)";
+    private final static String SQL_CREATE_TABLE2 = TABLE_NAME2 + " (id SERIAL PRIMARY KEY," +
+            " name VARCHAR (50) UNIQUE NOT NULL," +
+            " pass VARCHAR (50) NOT NULL)";
 
 
 
@@ -49,20 +49,29 @@ public class IntegrationTest {
 
     @BeforeClass
     public static void init() {
+        manager = new PostgreSQLManager();
+        manager.connect("", DB_USER, DB_PASSWORD);
+        manager.dropDB(DB_NAME);
+        manager.dropDB(DB_NAME2);
+
         manager.createDatabase(DB_NAME);
         manager.createDatabase(DB_NAME2);
 
-        manager.connect(DB_NAME,DB_USER,DB_PASSWORD);
+        manager.connect(DB_NAME, DB_USER, DB_PASSWORD);
         manager.createTable(SQL_CREATE_TABLE);
+
+        manager.connect(DB_NAME2, DB_USER, DB_PASSWORD);
         manager.createTable(SQL_CREATE_TABLE2);
+        manager.disconnectFromDB();
     }
 
        @AfterClass
        public static void clearAfterAllTests() {
-           manager.dropTable(TABLE_NAME);
-           manager.dropTable(TABLE_NAME2);
-           manager.dropDB(DB_NAME);
-           manager.dropDB(DB_NAME2);
+//           manager.connect("", DB_USER, DB_PASSWORD);
+//           manager.dropDB(DB_NAME2);
+//           manager.dropDB(DB_NAME);
+
+
        }
 
     @Test
@@ -267,7 +276,7 @@ public class IntegrationTest {
     public void testShowTableAfterClear() {
         // given
         in.add("connect|" + DB_NAME + "|" + DB_USER + "|" + DB_PASSWORD);
-        in.add("create|" + TABLE_NAME + "|name|serge|fam|otec|id|1111");
+        in.add("create|" + TABLE_NAME + "|id|1111|name|serge|pass|****");
         in.add("show|" + TABLE_NAME);
         in.add("clear|" + TABLE_NAME);
         in.add("y");
@@ -281,26 +290,22 @@ public class IntegrationTest {
         assertEquals(
                 "Привет юзер!\n" +
                         "Введи, пожалуйста имя базы данных, имя пользователя и пароль в формате: connect|database|userName|password\n" +
-                        "Подключение к базе 'sqlcmd' прошло успешно!\n" +
+                        "Подключение к базе '" + DB_NAME + "' прошло успешно!\n" +
                         "Введи команду (или help для помощи):\n" +
-                        "Запись {names:[name, fam, id], values:[serge, otec, 1111]} была успешно создана в таблице 'test'.\n" +
+                        "Запись {names:[id, name, pass], values:[1111, serge, ****]} была успешно создана в таблице '" + TABLE_NAME +"'.\n" +
                         "Введи команду (или help для помощи):\n" +
-                        "+------+-----+----+\n" +
-                        "|name  |fam  |id  |\n" +
-                        "+------+-----+----+\n" +
-                        "|Stiven|*****|13  |\n" +
-                        "+------+-----+----+\n" +
-                        "|Eva   |+++++|14  |\n" +
-                        "+------+-----+----+\n" +
-                        "|serge |otec |1111|\n" +
-                        "+------+-----+----+\n" +
+                        "+----+-----+----+\n" +
+                        "|id  |name |pass|\n" +
+                        "+----+-----+----+\n" +
+                        "|1111|serge|****|\n" +
+                        "+----+-----+----+\n" +
                         "Введи команду (или help для помощи):\n" +
-                        "\u001B[31mУдаляем данные с таблицы 'test'. Y/N\u001B[0m\n" +
-                        "Таблица test была успешно очищена.\n" +
+                        "\u001B[31mУдаляем данные с таблицы '" + TABLE_NAME + "'. Y/N\u001B[0m\n" +
+                        "Таблица " + TABLE_NAME + " была успешно очищена.\n" +
                         "Введи команду (или help для помощи):\n" +
-                        "+----+---+--+\n" +
-                        "|name|fam|id|\n" +
-                        "+----+---+--+\n" +
+                        "+--+----+----+\n" +
+                        "|id|name|pass|\n" +
+                        "+--+----+----+\n" +
                         "Введи команду (или help для помощи):\n" +
                         "До скорой встречи!\n", getData());
     }
@@ -326,7 +331,7 @@ public class IntegrationTest {
                 "Подключение к базе '" + DB_NAME + "' прошло успешно!\n" +
                 "Введи команду (или help для помощи):\n" +
                 //tables
-                "[test]\n" +
+                "[" + TABLE_NAME + "]\n" +
                 "Введи команду (или help для помощи):\n" +
                 // connect test
                 "Подключение к базе '" + DB_NAME2 + "' прошло успешно!\n" +
@@ -341,7 +346,7 @@ public class IntegrationTest {
     @Test
     public void testConnectWithError() {
         // given
-        in.add("connect|sqlcmd");
+        in.add("connect|" + DB_NAME);
         in.add("exit");
 
         // when
@@ -361,15 +366,13 @@ public class IntegrationTest {
     @Test
     public void testCreateRowInTable() {
         // given
-
-
         in.add("connect|" + DB_NAME + "|" + DB_USER + "|" + DB_PASSWORD);
-        in.add("clear|test");
+        in.add("clear|" + TABLE_NAME);
         in.add("y");
 
-        in.add("create|test|name|Stiven|fam|*****|id|13");
-        in.add("create|test|name|Eva|fam|+++++|id|14");
-        in.add("show|test");
+        in.add("create|" + TABLE_NAME + "|id|13|name|Stiven|pass|*****");
+        in.add("create|" + TABLE_NAME + "|id|14|name|Pupkin|pass|+++++");
+        in.add("show|" + TABLE_NAME );
         in.add("exit");
 
         // when
@@ -382,25 +385,22 @@ public class IntegrationTest {
                 "Подключение к базе '" + DB_NAME + "' прошло успешно!\n" +
                 "Введи команду (или help для помощи):\n" +
                 // clear|user
-                "\u001B[31mУдаляем данные с таблицы 'test'. Y/N\u001B[0m\n" +
-                "Таблица test была успешно очищена.\n" +
+                "\u001B[31mУдаляем данные с таблицы '" + TABLE_NAME + "'. Y/N\u001B[0m\n" +
+                "Таблица " + TABLE_NAME + " была успешно очищена.\n" +
                 "Введи команду (или help для помощи):\n" +
                 // create|user|id|13|name|Stiven|password|*****
-                "Запись {names:[name, fam, id], values:[Stiven, *****, 13]} была успешно создана в таблице 'test'.\n" +
+                "Запись {names:[id, name, pass], values:[13, Stiven, *****]} была успешно создана в таблице '" + TABLE_NAME + "'.\n" +
                 "Введи команду (или help для помощи):\n" +
-                // create|user|id|14|name|Eva|password|+++++
-                "Запись {names:[name, fam, id], values:[Eva, +++++, 14]} была успешно создана в таблице 'test'.\n" +
+                "Запись {names:[id, name, pass], values:[14, Pupkin, +++++]} была успешно создана в таблице '" + TABLE_NAME + "'.\n" +
                 "Введи команду (или help для помощи):\n" +
-                // show|user
-                "+------+-----+--+\n" +
-                "|name  |fam  |id|\n" +
-                "+------+-----+--+\n" +
-                "|Stiven|*****|13|\n" +
-                "+------+-----+--+\n" +
-                "|Eva   |+++++|14|\n" +
-                "+------+-----+--+\n" +
+                "+--+------+-----+\n" +
+                "|id|name  |pass |\n" +
+                "+--+------+-----+\n" +
+                "|13|Stiven|*****|\n" +
+                "+--+------+-----+\n" +
+                "|14|Pupkin|+++++|\n" +
+                "+--+------+-----+\n" +
                 "Введи команду (или help для помощи):\n" +
-                // exit
                 "До скорой встречи!\n", getData());
     }
 
@@ -432,7 +432,7 @@ public class IntegrationTest {
     public void testCreateWithErrors() {
         // given
         in.add("connect|" + DB_NAME + "|" + DB_USER + "|" + DB_PASSWORD);
-        in.add("create|test|error");
+        in.add("create|" + TABLE_NAME + "|error");
         in.add("exit");
 
         // when
@@ -445,7 +445,7 @@ public class IntegrationTest {
                 "Подключение к базе '" + DB_NAME + "' прошло успешно!\n" +
                 "Введи команду (или help для помощи):\n" +
                 // create|user|error
-                "Неудача! по причине: Должно быть четное количество параметров в формате 'create|tableName|column1|value1|column2|value2|...|columnN|valueN', а ты прислал: 'create|test|error'\n" +
+                "Неудача! по причине: Должно быть четное количество параметров в формате 'create|tableName|column1|value1|column2|value2|...|columnN|valueN', а ты прислал: 'create|" + TABLE_NAME + "|error'\n" +
                 "Повтори попытку.\n" +
                 "Введи команду (или help для помощи):\n" +
                 // exit
