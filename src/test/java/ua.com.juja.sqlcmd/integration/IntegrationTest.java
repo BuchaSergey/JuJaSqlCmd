@@ -68,14 +68,15 @@ public class IntegrationTest {
 
        @AfterClass
        public static void clearAfterAllTests() {
-           manager.connect(DB_NAME,DB_USER,DB_PASSWORD);
-           manager.dropTable(TABLE_NAME);
+//           manager.connect(DB_NAME,DB_USER,DB_PASSWORD);
+//           manager.dropTable(TABLE_NAME);
+//
+//           manager.connect(DB_NAME2,DB_USER,DB_PASSWORD);
+//           manager.dropTable(TABLE_NAME2);
+//           manager.disconnectFromDB();
 
-           manager.connect(DB_NAME2,DB_USER,DB_PASSWORD);
-           manager.dropTable(TABLE_NAME2);
-           manager.disconnectFromDB();
-
-           manager.connect("",DB_USER, DB_PASSWORD);
+           manager = new PostgreSQLManager();
+           manager.connect("", DB_USER, DB_PASSWORD);
            manager.dropDB(DB_NAME);
            manager.dropDB(DB_NAME2);
 
