@@ -78,7 +78,8 @@ public class PostgreSQLManager implements DatabaseManager {
 
     @Override
     public void connect(String database, String userName, String password) {
-        connectionValidation(connection);
+
+        closeOpenedConnection(connection);
         try {
             connection = DriverManager.getConnection(DATABASE_URL + database, userName,password);
         } catch (SQLException e) {
@@ -88,7 +89,7 @@ public class PostgreSQLManager implements DatabaseManager {
 
     }
 
-    private void connectionValidation(Connection connection) {
+    private void closeOpenedConnection(Connection connection) {
         if (connection != null) {
             try {
                 connection.close();
