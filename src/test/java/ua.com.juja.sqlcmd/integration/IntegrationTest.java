@@ -77,7 +77,9 @@ public class IntegrationTest {
 
            manager = new PostgreSQLManager();
            manager.connect("", DB_USER, DB_PASSWORD);
+
            manager.dropDB(DB_NAME);
+
            manager.dropDB(DB_NAME2);
 
 
