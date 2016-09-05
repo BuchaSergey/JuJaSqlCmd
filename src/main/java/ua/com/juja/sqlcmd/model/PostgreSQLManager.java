@@ -9,10 +9,17 @@ import java.util.Set;
 
 public class PostgreSQLManager implements DatabaseManager {
 
-    private static final String DATABASE_URL = "jdbc:postgresql://localhost:5432/";
+
     static PropertiesLoader propertiesLoader = new PropertiesLoader();
+    private static final String HOST = propertiesLoader.getServerName();
+    private static final String PORT = propertiesLoader.getDatabasePort();
+    private static final String DATABASE_URL = "jdbc:postgresql://" + HOST + ":" + PORT + "/";
+
     private static final String USER_NAME = propertiesLoader.getUserName();
     private static final String PASSWORD = propertiesLoader.getPassword();
+
+    private static final String ERROR = "Невозможно выполнить.";
+
 
     static {
         try {
@@ -71,15 +78,24 @@ public class PostgreSQLManager implements DatabaseManager {
 
     @Override
     public void connect(String database, String userName, String password) {
-
+        connectionValidation(connection);
         try {
-            connection = DriverManager.getConnection(
-                    DATABASE_URL + database, userName,
-                    password);
+            connection = DriverManager.getConnection(DATABASE_URL + database, userName,password);
         } catch (SQLException e) {
+            connection = null;
             throw new RuntimeException("Проверьте правильность введенных данных, " + e.getMessage());
         }
 
+    }
+
+    private void connectionValidation(Connection connection) {
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                throw new DatabaseManagerException(ERROR, e);
+            }
+        }
     }
 
     @Override
@@ -88,6 +104,25 @@ public class PostgreSQLManager implements DatabaseManager {
             stmt.executeUpdate("DELETE FROM " + tableName);
         } catch (SQLException e) {
             throw new RuntimeException("Неправильное имя таблицы. ");
+        }
+    }
+
+    @Override
+    public void createDatabase(String databaseName) {
+        try (Statement statement = connection.createStatement()) {
+            statement.executeUpdate("CREATE DATABASE " + databaseName);
+        } catch (SQLException e) {
+            throw new DatabaseManagerException(ERROR, e);
+        }
+
+    }
+
+    @Override
+    public void createTable(String query) {
+        try (Statement statement = connection.createStatement()) {
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS " + query);
+        } catch (SQLException e) {
+            throw new DatabaseManagerException(ERROR, e);
         }
     }
 
@@ -103,34 +138,31 @@ public class PostgreSQLManager implements DatabaseManager {
         }
     }
 
-    private String getValuesFormated(DataSet input, String format) {
-        String values = "";
-        for (Object value : input.getValues()) {
-            values += String.format(format, value);
+    @Override
+    public void dropDB(String databaseName) {
+
+        try (Statement statement = connection.createStatement()) {
+            statement.executeUpdate("DROP DATABASE " + databaseName);
+        } catch (SQLException e) {
+            throw new DatabaseManagerException(
+                    String.format("Не могу удалить БД: %s",databaseName), e);
+
         }
-        values = values.substring(0, values.length() - 1);
-        return values;
     }
 
     @Override
-    public void update(String tableName, int id, DataSet newValue) {
-        try {
-            String tableNames = getNameFormated(newValue, "%s = ?,");
-            String sql = "UPDATE " + tableName + " SET " + tableNames + " WHERE id = ?";
-            PreparedStatement ps = connection.prepareStatement(sql);
+    public void dropTable(String tableName) {
 
-            int index = 1;
-            for (Object value : newValue.getValues()) {
-                ps.setObject(index, value);
-                index++;
-            }
-            ps.setInt(index, id);
-
-            ps.executeUpdate();
-            ps.close();
+        try (Statement statement = connection.createStatement()) {
+            statement.executeUpdate("DROP TABLE IF EXISTS " + tableName);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DatabaseManagerException(ERROR, e);
         }
+    }
+
+    @Override
+    public void disconnectFromDB() {
+        connection = null;
     }
 
     @Override
@@ -165,52 +197,13 @@ public class PostgreSQLManager implements DatabaseManager {
         }
     }
 
-    @Override
-    public void createDatabase(String databaseName) {
-        try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate("CREATE DATABASE " + databaseName);
-        } catch (SQLException e) {
-            //do nothing
+    private String getValuesFormated(DataSet input, String format) {
+        String values = "";
+        for (Object value : input.getValues()) {
+            values += String.format(format, value);
         }
-
-    }
-
-    @Override
-    public void createTable(String query) {
-        try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate("CREATE TABLE IF NOT EXISTS " + query);
-        } catch (SQLException e) {
-            //do nothing
-        }
-    }
-
-    @Override
-    public void disconnectFromDB() {
-        connection = null;
-    }
-
-    @Override
-    public void dropTable(String tableName) {
-
-        try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate("DROP TABLE IF EXISTS " + tableName);
-        } catch (SQLException e) {
-            //do nothing
-        }
-    }
-
-    @Override
-    public void dropDB(String databaseName) {
-        try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate("DROP DATABASE " + databaseName);
-        } catch (SQLException e) {
-            //do nothing
-        }
-    }
-
-    @Override
-    public boolean isConnected() {
-        return connection != null;
+        values = values.substring(0, values.length() - 1);
+        return values;
     }
 
     private String getNameFormated(DataSet newValue, String format) {
@@ -220,5 +213,31 @@ public class PostgreSQLManager implements DatabaseManager {
         }
         string = string.substring(0, string.length() - 1);
         return string;
+    }
+
+    @Override
+    public boolean isConnected() {
+        return connection != null;
+    }
+
+    @Override
+    public void update(String tableName, int id, DataSet newValue) {
+        try {
+            String tableNames = getNameFormated(newValue, "%s = ?,");
+            String sql = "UPDATE " + tableName + " SET " + tableNames + " WHERE id = ?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+
+            int index = 1;
+            for (Object value : newValue.getValues()) {
+                ps.setObject(index, value);
+                index++;
+            }
+            ps.setInt(index, id);
+
+            ps.executeUpdate();
+            ps.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
