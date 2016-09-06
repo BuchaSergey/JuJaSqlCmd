@@ -163,7 +163,7 @@ public class PostgreSQLManager implements DatabaseManager {
 
     @Override
     public void disconnectFromDB() {
-        connection = null;
+        connect("", USER_NAME, PASSWORD);
     }
 
     @Override

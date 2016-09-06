@@ -1,6 +1,9 @@
 package ua.com.juja.sqlcmd.integration;
 
-import org.junit.*;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import ua.com.juja.sqlcmd.controller.Main;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.model.PostgreSQLManager;
@@ -15,37 +18,22 @@ import static org.junit.Assert.assertEquals;
 
 public class IntegrationTest {
 
-    private ConfigurableInputStream in;
-    private ByteArrayOutputStream out;
-    private static DatabaseManager manager;
-    private static PropertiesLoader pl = new PropertiesLoader();
-
-    private final static String DB_USER = pl.getUserName();
-    private final static String DB_PASSWORD = pl.getPassword();
-    private final static String DB_NAME = pl.getDatabaseName();
     private final static String TABLE_NAME = "test";
     private final static String SQL_CREATE_TABLE = TABLE_NAME + " (id SERIAL PRIMARY KEY," +
             " name VARCHAR (50) UNIQUE NOT NULL," +
             " pass VARCHAR (50) NOT NULL)";
-
     private final static String DB_NAME2 = "test";
     private final static String TABLE_NAME2 = "qwe";
     private final static String SQL_CREATE_TABLE2 = TABLE_NAME2 + " (id SERIAL PRIMARY KEY," +
             " name VARCHAR (50) UNIQUE NOT NULL," +
             " pass VARCHAR (50) NOT NULL)";
-
-
-
-    @Before
-    public void setup() {
-        manager = new PostgreSQLManager();
-        out = new ByteArrayOutputStream();
-        in = new ConfigurableInputStream();
-
-        System.setIn(in);
-        System.setOut(new PrintStream(out));
-
-    }
+    private static DatabaseManager manager;
+    private static PropertiesLoader pl = new PropertiesLoader();
+    private final static String DB_USER = pl.getUserName();
+    private final static String DB_PASSWORD = pl.getPassword();
+    private final static String DB_NAME = pl.getDatabaseName();
+    private ConfigurableInputStream in;
+    private ByteArrayOutputStream out;
 
     @BeforeClass
     public static void init() {
@@ -59,6 +47,7 @@ public class IntegrationTest {
 
         manager.connect(DB_NAME, DB_USER, DB_PASSWORD);
         manager.createTable(SQL_CREATE_TABLE);
+        manager.disconnectFromDB();
 
         manager.connect(DB_NAME2, DB_USER, DB_PASSWORD);
         manager.createTable(SQL_CREATE_TABLE2);
@@ -66,8 +55,8 @@ public class IntegrationTest {
 
     }
 
-       @AfterClass
-       public static void clearAfterAllTests() {
+    @AfterClass
+    public static void clearAfterAllTests() {
 //           manager.connect(DB_NAME,DB_USER,DB_PASSWORD);
 //           manager.dropTable(TABLE_NAME);
 //
@@ -75,15 +64,31 @@ public class IntegrationTest {
 //           manager.dropTable(TABLE_NAME2);
 //           manager.disconnectFromDB();
 
-           manager = new PostgreSQLManager();
-           manager.connect("", DB_USER, DB_PASSWORD);
-
-           manager.dropDB(DB_NAME);
-
-           manager.dropDB(DB_NAME2);
+//        manager = new PostgreSQLManager();
+//        manager.connect("", DB_USER, DB_PASSWORD);
 
 
-       }
+            manager.disconnectFromDB();
+           // manager.dropDB(DB_NAME2);
+//            manager.dropDB(DB_NAME);
+
+//
+        //   manager.dropDB(DB_NAME);
+//
+//
+
+    }
+
+    @Before
+    public void setup() {
+        manager = new PostgreSQLManager();
+        out = new ByteArrayOutputStream();
+        in = new ConfigurableInputStream();
+
+        System.setIn(in);
+        System.setOut(new PrintStream(out));
+
+    }
 
     @Test
     public void testHelp() {
@@ -221,6 +226,7 @@ public class IntegrationTest {
         // given
         in.add("connect|" + DB_NAME + "|" + DB_USER + "|" + DB_PASSWORD);
         in.add("unsupported");
+        in.add("disconnect");
         in.add("exit");
 
         // when
@@ -235,6 +241,8 @@ public class IntegrationTest {
                 // unsupported
                 "Несуществующая команда: unsupported\n" +
                 "Введи команду (или help для помощи):\n" +
+                "Disconnected\n" +
+                "Введи команду (или help для помощи):\n" +
                 // exit
                 "До скорой встречи!\n", getData());
     }
@@ -244,6 +252,7 @@ public class IntegrationTest {
         // given
         in.add("connect|" + DB_NAME + "|" + DB_USER + "|" + DB_PASSWORD);
         in.add("tables");
+        in.add("disconnect");
         in.add("exit");
 
         // when
@@ -258,6 +267,8 @@ public class IntegrationTest {
                 //tables
                 "[" + TABLE_NAME + "]\n" +
                 "Введи команду (или help для помощи):\n" +
+                "Disconnected\n" +
+                "Введи команду (или help для помощи):\n" +
                 // exit
                 "До скорой встречи!\n", getData());
     }
@@ -266,6 +277,7 @@ public class IntegrationTest {
     public void testBadConnect() {
         // given
         in.add("connect|" + DB_NAME + "|" + DB_USER + "|" + DB_PASSWORD + "WRONG");
+        in.add("disconnect");
         in.add("exit");
 
         // when
@@ -280,6 +292,8 @@ public class IntegrationTest {
                 "Повтори попытку.\n" +
                 // exit
                 "Введи команду (или help для помощи):\n" +
+                "Disconnected\n" +
+                "Введи команду (или help для помощи):\n" +
                 "До скорой встречи!\n", getData());
     }
 
@@ -292,6 +306,7 @@ public class IntegrationTest {
         in.add("clear|" + TABLE_NAME);
         in.add("y");
         in.add("show|" + TABLE_NAME);
+        in.add("disconnect");
         in.add("exit");
 
         // when
@@ -303,7 +318,7 @@ public class IntegrationTest {
                         "Введи, пожалуйста имя базы данных, имя пользователя и пароль в формате: connect|database|userName|password\n" +
                         "Подключение к базе '" + DB_NAME + "' прошло успешно!\n" +
                         "Введи команду (или help для помощи):\n" +
-                        "Запись {names:[id, name, pass], values:[1111, serge, ****]} была успешно создана в таблице '" + TABLE_NAME +"'.\n" +
+                        "Запись {names:[id, name, pass], values:[1111, serge, ****]} была успешно создана в таблице '" + TABLE_NAME + "'.\n" +
                         "Введи команду (или help для помощи):\n" +
                         "+----+-----+----+\n" +
                         "|id  |name |pass|\n" +
@@ -318,6 +333,8 @@ public class IntegrationTest {
                         "|id|name|pass|\n" +
                         "+--+----+----+\n" +
                         "Введи команду (или help для помощи):\n" +
+                        "Disconnected\n" +
+                        "Введи команду (или help для помощи):\n" +
                         "До скорой встречи!\n", getData());
     }
 
@@ -325,11 +342,12 @@ public class IntegrationTest {
     public void testConnectAfterConnect() {
         // given
         in.add("connect|" + DB_NAME + "|" + DB_USER + "|" + DB_PASSWORD);
-
         in.add("tables");
+        in.add("disconnect");
+
         in.add("connect|" + DB_NAME2 + "|" + DB_USER + "|" + DB_PASSWORD);
-
         in.add("tables");
+        in.add("disconnect");
         in.add("exit");
 
         // when
@@ -344,11 +362,16 @@ public class IntegrationTest {
                 //tables
                 "[" + TABLE_NAME + "]\n" +
                 "Введи команду (или help для помощи):\n" +
+                //disconnect
+                "Disconnected\n" +
+                "Введи команду (или help для помощи):\n" +
                 // connect test
                 "Подключение к базе '" + DB_NAME2 + "' прошло успешно!\n" +
                 "Введи команду (или help для помощи):\n" +
                 //tables
                 "[" + TABLE_NAME2 + "]\n" +
+                "Введи команду (или help для помощи):\n" +
+                "Disconnected\n" +
                 "Введи команду (или help для помощи):\n" +
                 // exit
                 "До скорой встречи!\n", getData());
@@ -358,6 +381,7 @@ public class IntegrationTest {
     public void testConnectWithError() {
         // given
         in.add("connect|" + DB_NAME);
+        in.add("disconnect");
         in.add("exit");
 
         // when
@@ -369,6 +393,8 @@ public class IntegrationTest {
                 // connect sqlcmd
                 "Неудача! по причине: Неверно количество параметров разделенных знаком '|', ожидается 4, но есть: 2\n" +
                 "Повтори попытку.\n" +
+                "Введи команду (или help для помощи):\n" +
+                "Disconnected\n" +
                 "Введи команду (или help для помощи):\n" +
                 // exit
                 "До скорой встречи!\n", getData());
@@ -383,7 +409,8 @@ public class IntegrationTest {
 
         in.add("create|" + TABLE_NAME + "|id|13|name|Stiven|pass|*****");
         in.add("create|" + TABLE_NAME + "|id|14|name|Pupkin|pass|+++++");
-        in.add("show|" + TABLE_NAME );
+        in.add("show|" + TABLE_NAME);
+        in.add("disconnect");
         in.add("exit");
 
         // when
@@ -412,6 +439,8 @@ public class IntegrationTest {
                 "|14|Pupkin|+++++|\n" +
                 "+--+------+-----+\n" +
                 "Введи команду (или help для помощи):\n" +
+                "Disconnected\n" +
+                "Введи команду (или help для помощи):\n" +
                 "До скорой встречи!\n", getData());
     }
 
@@ -420,6 +449,7 @@ public class IntegrationTest {
         // given
         in.add("connect|" + DB_NAME + "|" + DB_USER + "|" + DB_PASSWORD);
         in.add("clear|sadfasd|fsf|fdsf");
+        in.add("disconnect");
         in.add("exit");
 
         // when
@@ -435,6 +465,8 @@ public class IntegrationTest {
                 "Неудача! по причине: Формат команды 'clear|tableName', а ты ввел: clear|sadfasd|fsf|fdsf\n" +
                 "Повтори попытку.\n" +
                 "Введи команду (или help для помощи):\n" +
+                "Disconnected\n" +
+                "Введи команду (или help для помощи):\n" +
                 // exit
                 "До скорой встречи!\n", getData());
     }
@@ -444,6 +476,7 @@ public class IntegrationTest {
         // given
         in.add("connect|" + DB_NAME + "|" + DB_USER + "|" + DB_PASSWORD);
         in.add("create|" + TABLE_NAME + "|error");
+        in.add("disconnect");
         in.add("exit");
 
         // when
@@ -458,6 +491,8 @@ public class IntegrationTest {
                 // create|user|error
                 "Неудача! по причине: Должно быть четное количество параметров в формате 'create|tableName|column1|value1|column2|value2|...|columnN|valueN', а ты прислал: 'create|" + TABLE_NAME + "|error'\n" +
                 "Повтори попытку.\n" +
+                "Введи команду (или help для помощи):\n" +
+                "Disconnected\n" +
                 "Введи команду (или help для помощи):\n" +
                 // exit
                 "До скорой встречи!\n", getData());
