@@ -10,16 +10,13 @@ import java.util.Set;
 public class PostgreSQLManager implements DatabaseManager {
 
 
+    private static final String ERROR = "Невозможно выполнить.";
     static PropertiesLoader propertiesLoader = new PropertiesLoader();
     private static final String HOST = propertiesLoader.getServerName();
     private static final String PORT = propertiesLoader.getDatabasePort();
     private static final String DATABASE_URL = "jdbc:postgresql://" + HOST + ":" + PORT + "/";
-
     private static final String USER_NAME = propertiesLoader.getUserName();
     private static final String PASSWORD = propertiesLoader.getPassword();
-
-    private static final String ERROR = "Невозможно выполнить.";
-
 
     static {
         try {
@@ -81,7 +78,7 @@ public class PostgreSQLManager implements DatabaseManager {
 
         closeOpenedConnection(connection);
         try {
-            connection = DriverManager.getConnection(DATABASE_URL + database, userName,password);
+            connection = DriverManager.getConnection(DATABASE_URL + database, userName, password);
         } catch (SQLException e) {
             connection = null;
             throw new RuntimeException("Проверьте правильность введенных данных, " + e.getMessage());
@@ -146,7 +143,7 @@ public class PostgreSQLManager implements DatabaseManager {
             statement.executeUpdate("DROP DATABASE " + databaseName);
         } catch (SQLException e) {
             throw new DatabaseManagerException(
-                    String.format("Не могу удалить БД: %s",databaseName), e);
+                    String.format("Не могу удалить БД: %s", databaseName), e);
 
         }
     }

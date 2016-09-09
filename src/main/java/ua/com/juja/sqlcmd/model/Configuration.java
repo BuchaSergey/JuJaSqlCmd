@@ -29,9 +29,7 @@ public class Configuration {
         return portNumber;
     }
 
-    public String getUserName() {
-        return userName;
-    }
+    public String getUserName() { return userName; }
 
     public String getDriver() {
         return driver;

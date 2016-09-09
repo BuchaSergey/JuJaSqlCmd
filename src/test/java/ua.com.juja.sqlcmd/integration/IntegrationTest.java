@@ -39,8 +39,6 @@ public class IntegrationTest {
     public static void init() {
         manager = new PostgreSQLManager();
         manager.connect("", DB_USER, DB_PASSWORD);
-        manager.dropDB(DB_NAME);
-        manager.dropDB(DB_NAME2);
 
         manager.createDatabase(DB_NAME);
         manager.createDatabase(DB_NAME2);
@@ -52,31 +50,14 @@ public class IntegrationTest {
         manager.connect(DB_NAME2, DB_USER, DB_PASSWORD);
         manager.createTable(SQL_CREATE_TABLE2);
         manager.disconnectFromDB();
-
     }
 
     @AfterClass
     public static void clearAfterAllTests() {
-//           manager.connect(DB_NAME,DB_USER,DB_PASSWORD);
-//           manager.dropTable(TABLE_NAME);
-//
-//           manager.connect(DB_NAME2,DB_USER,DB_PASSWORD);
-//           manager.dropTable(TABLE_NAME2);
-//           manager.disconnectFromDB();
-
-//        manager = new PostgreSQLManager();
-//        manager.connect("", DB_USER, DB_PASSWORD);
-
-
-            manager.disconnectFromDB();
-           // manager.dropDB(DB_NAME2);
-//            manager.dropDB(DB_NAME);
-
-//
-        //   manager.dropDB(DB_NAME);
-//
-//
-
+       manager = new PostgreSQLManager();
+       manager.disconnectFromDB();
+        manager.dropDB(DB_NAME);
+       manager.dropDB(DB_NAME2);
     }
 
     @Before
@@ -87,7 +68,6 @@ public class IntegrationTest {
 
         System.setIn(in);
         System.setOut(new PrintStream(out));
-
     }
 
     @Test
@@ -111,6 +91,10 @@ public class IntegrationTest {
                         "==============================\n" +
                         "\u001B[34m\tconnect|databaseName|userName|password\n" +
                         "\u001B[0m\t\tдля подключения к базе данных, с которой будем работать\n" +
+                        "\u001B[34m\tdatabases\n" +
+                        "\u001B[0m\t\tсписок баз данных\n" +
+                        "\u001B[34m\tdisconnect\n" +
+                        "\u001B[0m\t\tдля отключение от БД\n" +
                         "\u001B[34m\tcreateDB|databaseName\n" +
                         "\u001B[0m\t\tдля создания база данных\n" +
                         "\u001B[34m\tdropDB|databaseName\n" +
@@ -133,9 +117,7 @@ public class IntegrationTest {
                         "\u001B[0m\t\tдля выхода из программы\n" +
                         "==============================\n" +
                         "Введи команду (или help для помощи):\n" +
-                        "До скорой встречи!\n"
-
-                , getData());
+                        "До скорой встречи!\n" , getData());
     }
 
     public String getData() {

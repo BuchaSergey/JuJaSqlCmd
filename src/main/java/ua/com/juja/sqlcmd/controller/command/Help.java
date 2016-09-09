@@ -31,6 +31,12 @@ public class Help implements Command {
         view.write(ANSI_BLUE + "\tconnect|databaseName|userName|password");
         view.write(ANSI_RESET + "\t\tдля подключения к базе данных, с которой будем работать");
 
+        view.write(ANSI_BLUE + "\tdatabases");
+        view.write(ANSI_RESET + "\t\tсписок баз данных");
+
+        view.write(ANSI_BLUE + "\tdisconnect");
+        view.write(ANSI_RESET + "\t\tдля отключение от БД");
+
         view.write(ANSI_BLUE + "\tcreateDB|databaseName");
         view.write(ANSI_RESET + "\t\tдля создания база данных");
 
