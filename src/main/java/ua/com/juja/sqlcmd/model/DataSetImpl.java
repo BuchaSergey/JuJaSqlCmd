@@ -8,7 +8,7 @@ public class DataSetImpl implements DataSet {
     private Map<String, Object> data = new LinkedHashMap();
 
     @Override
-    public void put(String name, Object value) {
+    public void putNewValueDataSet(String name, Object value) {
         data.put(name, value);
     }
 
@@ -27,16 +27,6 @@ public class DataSetImpl implements DataSet {
 
         return data.get(name);
     }
-
-    @Override
-    public void updateFrom(DataSet newValue) {
-        Set<String> columns = newValue.getNames();
-        for (String name : columns) {
-            Object data = newValue.get(name);
-            this.put(name, data);
-        }
-    }
-
     @Override
     public String toString() {
         return "{" +

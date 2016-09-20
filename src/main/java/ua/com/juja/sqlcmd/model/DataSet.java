@@ -6,8 +6,7 @@ import java.util.Set;
 
 public interface DataSet {
 
-    void put(String name, Object value);
-    void updateFrom(DataSet newValue);
+    void putNewValueDataSet(String name, Object value);
 
     List<Object> getValues();
     Set<String> getNames();

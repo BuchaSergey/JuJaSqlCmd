@@ -38,9 +38,9 @@ public abstract class DatabaseManagerTest {
 
         //when
         DataSet input = new DataSetImpl();
-        input.put("name", "Stiven");
-        input.put("password", "pass");
-        input.put("id", 13);
+        input.putNewValueDataSet("name", "Stiven");
+        input.putNewValueDataSet("password", "pass");
+        input.putNewValueDataSet("id", 13);
         manager.createEntry("user", input);
 
         //then
@@ -58,15 +58,15 @@ public abstract class DatabaseManagerTest {
         manager.clear("user");
 
         DataSet input = new DataSetImpl();
-        input.put("name", "Stiven");
-        input.put("password", "pass");
-        input.put("id", 13);
+        input.putNewValueDataSet("name", "Stiven");
+        input.putNewValueDataSet("password", "pass");
+        input.putNewValueDataSet("id", 13);
         manager.createEntry("user", input);
 
         //when
         DataSet newValue = new DataSetImpl();
-        newValue.put("password", "pass2");
-        newValue.put("name", "Pup");
+        newValue.putNewValueDataSet("password", "pass2");
+        newValue.putNewValueDataSet("name", "Pup");
         manager.update("user", 13, newValue);
 
         //then
@@ -82,10 +82,8 @@ public abstract class DatabaseManagerTest {
     public void testGetColumnNames() {
         //given
         manager.clear("user");
-
         //when
         Set<String> columns = manager.getTableColumns("user");
-
         //then
         assertEquals("[name, password, id]", columns.toString());
     }

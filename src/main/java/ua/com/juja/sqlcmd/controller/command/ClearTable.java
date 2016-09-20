@@ -36,7 +36,6 @@ public class ClearTable implements Command {
                 view.write(String.format("Таблица %s была успешно очищена.",tableName));
             }
         } catch (Exception e) {
-
             view.write(String.format("Ошибка удаления таблицы '%s', по причине: %s", tableName, e.getMessage()));
         }
     }

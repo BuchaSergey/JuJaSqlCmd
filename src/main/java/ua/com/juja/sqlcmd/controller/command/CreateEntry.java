@@ -36,7 +36,7 @@ public class CreateEntry implements Command {
             String columnName = data[index * 2];
             String value = data[index * 2 + 1];
 
-            dataSet.put(columnName, value);
+            dataSet.putNewValueDataSet(columnName, value);
         }
 
 
