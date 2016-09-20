@@ -3,8 +3,6 @@ package ua.com.juja.sqlcmd.controller.command;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
-import ua.com.juja.sqlcmd.model.DataSet;
-import ua.com.juja.sqlcmd.model.DataSetImpl;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
@@ -34,31 +32,35 @@ public class GetTableDataTest {
     @Test
     public void testPrintTableData() {
         //given
-        setupTableColumns("user", "id", "name", "password");
+        String tableName = "test";
+        Set<String> columns = new LinkedHashSet<>(Arrays.asList("id", "name"));
 
-        DataSet user1 = new DataSetImpl();
-        user1.putNewValueDataSet("id", 12);
-        user1.putNewValueDataSet("name", "Stiven");
-        user1.putNewValueDataSet("password", "*****");
+        Map<String, Object> firstEntry = new LinkedHashMap<>();
+        firstEntry.put("id", 1);
+        firstEntry.put("name", "FirstUser");
 
-        DataSet user2 = new DataSetImpl();
-        user2.putNewValueDataSet("id", 13);
-        user2.putNewValueDataSet("name", "Eva");
-        user2.putNewValueDataSet("password", "+++++");
+        Map<String, Object> secondEntry = new LinkedHashMap<>();
+        secondEntry.put("id", 2);
+        secondEntry.put("name", "SecondUser");
 
-        when(manager.getTableData("user")).thenReturn(Arrays.asList(user1, user2));
+        List<Map<String, Object>> records = new LinkedList<>(Arrays.asList(firstEntry, secondEntry));
+
+        when(manager.getTableColumns(tableName)).thenReturn(columns);
+        when(manager.getTableData(tableName)).thenReturn(records);
 
         //when
-        command.process("find|user");
+        command.process(String.format("show|%s", tableName));
 
-        //then
-        shouldPrint("[+--+------+--------+\n" +
-                    "|id|name  |password|\n" +
-                    "+--+------+--------+\n" +
-                    "|12|Stiven|*****   |\n" +
-                    "+--+------+--------+\n" +
-                    "|13|Eva   |+++++   |\n" +
-                    "+--+------+--------+]");
+        shouldPrint(
+                        "[+--+----------+\n" +
+                        "|id|name      |\n" +
+                        "+--+----------+\n" +
+                        "|1 |FirstUser |\n" +
+                        "+--+----------+\n" +
+                        "|2 |SecondUser|\n" +
+                        "+--+----------+]"
+        );
+
     }
 
     private void setupTableColumns(String tableName, String... columns) {
@@ -77,10 +79,8 @@ public class GetTableDataTest {
     public void testCanProcessFindWithParametersString() {
         // given
         Command command = new GetTableData(manager, view);
-
         // when
         boolean canProcess = command.canProcess("show|user");
-
         // then
         assertTrue(canProcess);
     }
@@ -99,8 +99,6 @@ public class GetTableDataTest {
 
     @Test
     public void testCantProcessFindQweString() {
-        // given
-
         // when
         boolean canProcess = command.canProcess("qwe");
 
@@ -110,11 +108,11 @@ public class GetTableDataTest {
 
     @Test
     public void testPrintEmptyTableData() {
-//given
+        //given
         String tableName = "test";
         Set<String> columns = new LinkedHashSet<>(Arrays.asList("id", "name"));
 
-        List<DataSet> records = new LinkedList<>();
+        List<Map<String, Object>> records = new LinkedList<>();
 
         when(manager.getTableColumns(tableName)).thenReturn(columns);
         when(manager.getTableData(tableName)).thenReturn(records);
@@ -133,16 +131,19 @@ public class GetTableDataTest {
     @Test
     public void testPrintTableDataWithOneColumn() {
         //given
-        setupTableColumns("test", "id");
+        String tableName = "test";
+        Set<String> columns = new LinkedHashSet<>(Collections.singletonList("id"));
 
-        DataSet user1 = new DataSetImpl();
-        user1.putNewValueDataSet("id", 12);
+        Map<String, Object> firstEntry = new LinkedHashMap<>();
+        firstEntry.put("id", 1);
 
-        DataSet user2 = new DataSetImpl();
-        user2.putNewValueDataSet("id", 13);
+        Map<String, Object> secondEntry = new LinkedHashMap<>();
+        secondEntry.put("id", 2);
 
-        when(manager.getTableData("test"))
-                .thenReturn(Arrays.asList(user1, user2));
+        List<Map<String, Object>> records = new LinkedList<>(Arrays.asList(firstEntry, secondEntry));
+
+        when(manager.getTableColumns(tableName)).thenReturn(columns);
+        when(manager.getTableData(tableName)).thenReturn(records);
 
         //when
         command.process("show|test");

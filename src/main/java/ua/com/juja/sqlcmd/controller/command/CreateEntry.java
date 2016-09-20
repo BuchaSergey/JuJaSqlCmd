@@ -1,9 +1,10 @@
 package ua.com.juja.sqlcmd.controller.command;
 
-import ua.com.juja.sqlcmd.model.DataSet;
-import ua.com.juja.sqlcmd.model.DataSetImpl;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 
 public class CreateEntry implements Command {
@@ -30,19 +31,14 @@ public class CreateEntry implements Command {
                     "'create|tableName|column1|value1|column2|value2|...|columnN|valueN', " +
                     "а ты прислал: '%s'", command));
         }
-
-        DataSet dataSet = new DataSetImpl();
+        Map<String, Object> tableData = new LinkedHashMap<>();
         for (int index = 1; index < (data.length / 2); index++) {
-            String columnName = data[index * 2];
+            String column = data[index * 2];
             String value = data[index * 2 + 1];
 
-            dataSet.putNewValueDataSet(columnName, value);
+            tableData.put(column, value);
         }
-
-
-        manager.createEntry(data[1], dataSet);
-
-
-        view.write(String.format("Запись %s была успешно создана в таблице '%s'.", dataSet, data[1]));
+        manager.createEntry(data[1], tableData);
+        view.write(String.format("Запись %s была успешно создана в таблице '%s'.", tableData, data[1]));
     }
 }

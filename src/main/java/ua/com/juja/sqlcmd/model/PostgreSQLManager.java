@@ -1,10 +1,7 @@
 package ua.com.juja.sqlcmd.model;
 
 import java.sql.*;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 public class PostgreSQLManager implements DatabaseManager {
@@ -38,26 +35,25 @@ public class PostgreSQLManager implements DatabaseManager {
     private Connection connection;
 
     @Override
-    public List<DataSet> getTableData(String tableName) {
-        List<DataSet> result = new LinkedList();
-        try (Statement stmt = connection.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT * FROM public." + tableName)) {
+    public List<Map<String, Object>> getTableData(String tableName) {
+        try (Statement statement = connection.createStatement();
+             ResultSet rs = statement.executeQuery("SELECT * FROM " + tableName))
+        {
             ResultSetMetaData rsmd = rs.getMetaData();
+
+            List<Map<String, Object>> result = new LinkedList<>();
             while (rs.next()) {
-                DataSet dataSet = new DataSetImpl();
-                result.add(dataSet);
-                for (int i = 0; i < rsmd.getColumnCount(); i++) {
-                    dataSet.putNewValueDataSet(rsmd.getColumnName(i + 1), rs.getObject(i + 1));
+                Map<String, Object> data = new LinkedHashMap<>();
+                for (int index = 1; index <= rsmd.getColumnCount(); index++) {
+                    data.put(rsmd.getColumnName(index), rs.getObject(index));
                 }
+                result.add(data);
             }
             return result;
         } catch (SQLException e) {
-            e.printStackTrace();
-            result.clear();
-            return result;
+            throw new DatabaseManagerException(ERROR, e);
         }
     }
-
 
     @Override
     public Set<String> getTableNames() {
@@ -84,7 +80,6 @@ public class PostgreSQLManager implements DatabaseManager {
             connection = null;
             throw new RuntimeException("Проверьте правильность введенных данных, " + e.getMessage());
         }
-
     }
 
     private void closeOpenedConnection(Connection connection) {
@@ -107,6 +102,41 @@ public class PostgreSQLManager implements DatabaseManager {
     }
 
     @Override
+    public void createEntry(String tableName, Map<String, Object> input) {
+
+        String rowNames = getFormatedName(input, "\"%s\",");
+        String values = getFormatedValues(input, "'%s',");
+        String sql = "INSERT INTO " + tableName + " (" + rowNames + ") " + "VALUES (" +  values + ")";
+
+        try (Statement statement = connection.createStatement()) {
+            statement.executeUpdate(sql);
+        } catch (SQLException e) {
+            throw new DatabaseManagerException(ERROR, e);
+        }
+    }
+
+    private String getFormatedName(Map<String, Object> newValue, String format) {
+        String string = "";
+        for (String name : newValue.keySet()) {
+            string += String.format(format, name);
+        }
+        string = string.substring(0, string.length() - 1);
+        return string;
+    }
+
+    private String getFormatedValues(Map<String, Object> input, String format) {
+        String values = "";
+        for (Object value : input.values()) {
+            values += String.format(format, value);
+        }
+        values = values.substring(0, values.length() - 1);
+        return values;
+    }
+
+
+
+
+    @Override
     public void createDatabase(String databaseName) {
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate("CREATE DATABASE " + databaseName);
@@ -122,18 +152,6 @@ public class PostgreSQLManager implements DatabaseManager {
             statement.executeUpdate("CREATE TABLE IF NOT EXISTS " + query);
         } catch (SQLException e) {
             throw new DatabaseManagerException(ERROR, e);
-        }
-    }
-
-    @Override
-    public void createEntry(String tableName, DataSet input) {
-        try (Statement stmt = connection.createStatement();) {
-            String tableNames = getNameFormated(input, "%s,");
-            String values = getValuesFormated(input, "'%s',");
-            stmt.executeUpdate("INSERT INTO public." + tableName + " (" + tableNames + ")" +
-                    "VALUES (" + values + ")");
-        } catch (SQLException e) {
-            throw new RuntimeException("Проверьте правильность введенных данных, " + e.getMessage());
         }
     }
 
@@ -161,7 +179,7 @@ public class PostgreSQLManager implements DatabaseManager {
 
     @Override
     public void disconnectFromDB() {
-        connect("", USER_NAME, PASSWORD);
+        connection = null;
     }
 
     @Override
@@ -175,8 +193,7 @@ public class PostgreSQLManager implements DatabaseManager {
             }
             return tables;
         } catch (SQLException e) {
-            e.printStackTrace();
-            return tables;
+            throw new DatabaseManagerException(ERROR, e);
         }
     }
 
@@ -196,23 +213,6 @@ public class PostgreSQLManager implements DatabaseManager {
         }
     }
 
-    private String getValuesFormated(DataSet input, String format) {
-        String values = "";
-        for (Object value : input.getValues()) {
-            values += String.format(format, value);
-        }
-        values = values.substring(0, values.length() - 1);
-        return values;
-    }
-
-    private String getNameFormated(DataSet newValue, String format) {
-        String string = "";
-        for (String name : newValue.getNames()) {
-            string += String.format(format, name);
-        }
-        string = string.substring(0, string.length() - 1);
-        return string;
-    }
 
     @Override
     public boolean isConnected() {
@@ -220,23 +220,20 @@ public class PostgreSQLManager implements DatabaseManager {
     }
 
     @Override
-    public void update(String tableName, int id, DataSet newValue) {
-        try {
-            String tableNames = getNameFormated(newValue, "%s = ?,");
-            String sql = "UPDATE " + tableName + " SET " + tableNames + " WHERE id = ?";
-            PreparedStatement ps = connection.prepareStatement(sql);
+    public void update(String tableName, int id, Map<String, Object> newValue) {
+        String tableNames = getFormatedName(newValue, "\"%s\" = ?,");
+        String sql = "UPDATE " + tableName +  " SET " +  tableNames + " WHERE id = ?";
 
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
             int index = 1;
-            for (Object value : newValue.getValues()) {
+            for (Object value : newValue.values()) {
                 ps.setObject(index, value);
                 index++;
             }
-            ps.setInt(index, id);
-
+            ps.setObject(index, id);
             ps.executeUpdate();
-            ps.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DatabaseManagerException(ERROR, e);
         }
     }
 }
