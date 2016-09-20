@@ -54,10 +54,10 @@ public class IntegrationTest {
 
     @AfterClass
     public static void clearAfterAllTests() {
-       manager = new PostgreSQLManager();
-       manager.disconnectFromDB();
+        manager = new PostgreSQLManager();
+        manager.disconnectFromDB();
         manager.dropDB(DB_NAME);
-       manager.dropDB(DB_NAME2);
+        manager.dropDB(DB_NAME2);
     }
 
     @Before
@@ -117,7 +117,7 @@ public class IntegrationTest {
                         "\u001B[0m\t\tдля выхода из программы\n" +
                         "==============================\n" +
                         "Введи команду (или help для помощи):\n" +
-                        "До скорой встречи!\n" , getData());
+                        "До скорой встречи!\n", getData());
     }
 
     public String getData() {

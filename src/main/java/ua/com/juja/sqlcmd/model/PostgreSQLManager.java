@@ -14,7 +14,8 @@ public class PostgreSQLManager implements DatabaseManager {
     static PropertiesLoader propertiesLoader = new PropertiesLoader();
     private static final String HOST = propertiesLoader.getServerName();
     private static final String PORT = propertiesLoader.getDatabasePort();
-    private static final String DATABASE_URL = "jdbc:postgresql://" + HOST + ":" + PORT + "/";
+    private static final String DRIVER = propertiesLoader.getDriver();
+    private static final String DATABASE_URL = DRIVER + HOST + ":" + PORT + "/";
     private static final String USER_NAME = propertiesLoader.getUserName();
     private static final String PASSWORD = propertiesLoader.getPassword();
 
@@ -46,7 +47,7 @@ public class PostgreSQLManager implements DatabaseManager {
                 DataSet dataSet = new DataSetImpl();
                 result.add(dataSet);
                 for (int i = 0; i < rsmd.getColumnCount(); i++) {
-                    dataSet.put(rsmd.getColumnName(i + 1), rs.getObject(i + 1));
+                    dataSet.putNewValueDataSet(rsmd.getColumnName(i + 1), rs.getObject(i + 1));
                 }
             }
             return result;

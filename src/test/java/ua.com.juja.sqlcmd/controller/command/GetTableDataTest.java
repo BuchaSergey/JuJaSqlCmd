@@ -37,14 +37,14 @@ public class GetTableDataTest {
         setupTableColumns("user", "id", "name", "password");
 
         DataSet user1 = new DataSetImpl();
-        user1.put("id", 12);
-        user1.put("name", "Stiven");
-        user1.put("password", "*****");
+        user1.putNewValueDataSet("id", 12);
+        user1.putNewValueDataSet("name", "Stiven");
+        user1.putNewValueDataSet("password", "*****");
 
         DataSet user2 = new DataSetImpl();
-        user2.put("id", 13);
-        user2.put("name", "Eva");
-        user2.put("password", "+++++");
+        user2.putNewValueDataSet("id", 13);
+        user2.putNewValueDataSet("name", "Eva");
+        user2.putNewValueDataSet("password", "+++++");
 
         when(manager.getTableData("user")).thenReturn(Arrays.asList(user1, user2));
 
@@ -136,10 +136,10 @@ public class GetTableDataTest {
         setupTableColumns("test", "id");
 
         DataSet user1 = new DataSetImpl();
-        user1.put("id", 12);
+        user1.putNewValueDataSet("id", 12);
 
         DataSet user2 = new DataSetImpl();
-        user2.put("id", 13);
+        user2.putNewValueDataSet("id", 13);
 
         when(manager.getTableData("test"))
                 .thenReturn(Arrays.asList(user1, user2));
