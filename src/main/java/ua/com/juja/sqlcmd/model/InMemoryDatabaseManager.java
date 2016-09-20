@@ -12,6 +12,11 @@ public class InMemoryDatabaseManager implements DatabaseManager {
     }
 
     @Override
+    public List<Map<String, Object>> getTableDataMap(String tableName) {
+        return null;
+    }
+
+    @Override
     public Set<String> getTableNames() {
         return tables.keySet();
     }

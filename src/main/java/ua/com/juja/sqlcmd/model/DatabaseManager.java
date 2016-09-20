@@ -1,6 +1,7 @@
 package ua.com.juja.sqlcmd.model;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 
@@ -10,6 +11,8 @@ public interface DatabaseManager {
     boolean isConnected();
 
     List<DataSet> getTableData(String tableName);
+
+    List<Map<String, Object>> getTableDataMap(String tableName);
     Set<String> getTableNames();
     Set<String> getTableColumns(String tableName);
     Set<String> getDatabasesNames();
