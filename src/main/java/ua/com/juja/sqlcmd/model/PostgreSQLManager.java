@@ -77,7 +77,6 @@ public class PostgreSQLManager implements DatabaseManager {
         try {
             connection = DriverManager.getConnection(DATABASE_URL + database, userName, password);
         } catch (SQLException e) {
-            connection = null;
             throw new RuntimeException("Проверьте правильность введенных данных, " + e.getMessage());
         }
     }
@@ -159,7 +158,7 @@ public class PostgreSQLManager implements DatabaseManager {
     public void dropDB(String databaseName) {
 
         try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate("DROP DATABASE " + databaseName);
+            statement.executeUpdate("DROP DATABASE IF EXISTS " + databaseName);
         } catch (SQLException e) {
             throw new DatabaseManagerException(
                     String.format("Не могу удалить БД: %s", databaseName), e);
@@ -173,7 +172,8 @@ public class PostgreSQLManager implements DatabaseManager {
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate("DROP TABLE IF EXISTS " + tableName);
         } catch (SQLException e) {
-            throw new DatabaseManagerException(ERROR, e);
+            throw new DatabaseManagerException(
+                    String.format("Не могу удалить таблицу: %s", tableName), e);
         }
     }
 

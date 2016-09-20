@@ -1,113 +1,289 @@
 package ua.com.juja.sqlcmd.model;
 
 
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 
 import java.util.*;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 public class PostgreSQLManagerTest  {
 
-    private static PropertiesLoader pl = new PropertiesLoader();
-
-    private final static String DB_USER = pl.getUserName();
-    private final static String DB_PASSWORD = pl.getPassword();
-    private final static String DB_NAME = pl.getDatabaseName();
-    private final static String TABLE_NAME = "user";
-    private final static String TABLE_NAME2 = "test";
+    private final static String DB_USER = "postgres";
+    private final static String DB_PASSWORD = "postgres";
+    private final static String DATABASE_NAME = "postgresqlmanagertest";
+    private final static String TABLE_NAME = "test";
+    private final static String TABLE_NAME2 = "test2";
     private final static String NOT_EXIST_TABLE = "notExistTable";
     private final static String SQL_CREATE_TABLE = TABLE_NAME + " (id SERIAL PRIMARY KEY," +
-            " name VARCHAR (50) UNIQUE NOT NULL," +
-            " pass VARCHAR (50) NOT NULL)";
-        private static DatabaseManager manager;
+            " username VARCHAR (50) UNIQUE NOT NULL," +
+            " password VARCHAR (50) NOT NULL)";
+    private final static String SQL_CREATE_TABLE2 = TABLE_NAME2 + " (id SERIAL PRIMARY KEY," +
+            " username VARCHAR (50) UNIQUE NOT NULL," +
+            " password VARCHAR (50) NOT NULL)";
 
+    private static DatabaseManager manager;
 
     @BeforeClass
     public static void init() {
         manager = new PostgreSQLManager();
         manager.connect("", DB_USER, DB_PASSWORD);
-
-        manager.createDatabase(DB_NAME);
-        manager.connect(DB_NAME, DB_USER, DB_PASSWORD);
+        manager.dropDB(DATABASE_NAME);
+        manager.createDatabase(DATABASE_NAME);
+        manager.connect(DATABASE_NAME, DB_USER, DB_PASSWORD);
         manager.createTable(SQL_CREATE_TABLE);
 
         manager.disconnectFromDB();
     }
 
-    @AfterClass
-    public static void clearAfterAllTests() {
-        manager = new PostgreSQLManager();
-        manager.connect("", DB_USER, DB_PASSWORD);
-        manager.dropDB(DB_NAME);
-    }
-
     @Before
     public void setup() {
-        manager = new PostgreSQLManager();
-        manager.connect("", DB_USER, DB_PASSWORD);
+        manager.connect(DATABASE_NAME, DB_USER, DB_PASSWORD);
     }
 
-        @Test
-        public void testGetAllTableNames() {
-            Set<String> tablesNames = manager.getTableNames();
+    @After
+    public void clear() {
 
-            assertEquals("[" + TABLE_NAME + ", "   + TABLE_NAME2 + "]", tablesNames.toString());
-        }
+    }
 
-        @Test
-        public void testGetTableData() {
-            //given
-            List<Map<String, Object>> expected = new ArrayList<>();
+    @AfterClass
+    public static void clearAfterAllTests() {
+        manager.connect("",DB_USER,DB_PASSWORD);
+        manager.dropDB(DATABASE_NAME);
+        manager.disconnectFromDB();
+    }
 
-            Map<String, Object> newData = new LinkedHashMap<>();
-            newData.put("username", "Bob");
-            newData.put("password", "*****");
-            newData.put("id", 1);
-            manager.createEntry(TABLE_NAME, newData);
+    @Test
+    public void testClear() {
+        //given
+        List<Map<String, Object>> expected = new ArrayList<>();
 
-            //when
-            manager.clear(TABLE_NAME);
-            List<Map<String, Object>> tests = manager.getTableData(TABLE_NAME);
+        Map<String, Object> newData = new LinkedHashMap<>();
+        newData.put("username", "Bob");
+        newData.put("password", "*****");
+        newData.put("id", 1);
+        manager.createEntry(TABLE_NAME, newData);
 
+        //when
+        manager.clear(TABLE_NAME);
+        List<Map<String, Object>> tests = manager.getTableData(TABLE_NAME);
+
+        //then
+        assertEquals(expected, tests);
+    }
+
+    @Test(expected = DatabaseManagerException.class)
+    public void testClearNotExistTable() {
+        //when
+        manager.clear(NOT_EXIST_TABLE);
+    }
+
+    @Test(expected = DatabaseManagerException.class)
+    public void testConnectToNotExistDatabase() {
+        //when
+        try {
+            manager.connect(NOT_EXIST_TABLE, DB_USER, DB_PASSWORD);
+            fail();
+        } catch (Exception e) {
             //then
-            assertEquals(expected, tests);
-        }
-
-        @Test
-        public void testUpdateTableData() {
-            //given
-            manager.clear(TABLE_NAME);
-
-            Map<String, Object> input = new LinkedHashMap<>();
-            input.put("name", "Stiven");
-            input.put("password", "pass");
-            input.put("id", 13);
-            manager.createEntry(TABLE_NAME, input);
-
-            //when
-            Map<String, Object> newValue = new LinkedHashMap<>();
-            newValue.put("password", "pass2");
-            newValue.put("name", "Pup");
-
-            manager.update(TABLE_NAME, 1, newValue);
-
-            //then
-            Map<String, Object> user = manager.getTableData(TABLE_NAME).get(0);
-            assertEquals(newValue, user);
-        }
-
-        @Test
-        public void testGetColumnNames() {
-            //given
-            manager.clear(TABLE_NAME);
-            //when
-            Set<String> columns = manager.getTableColumns(TABLE_NAME);
-            //then
-            assertEquals("[name, password, id]", columns.toString());
+            manager.connect(DATABASE_NAME, DB_USER, DB_PASSWORD);
+            throw e;
         }
     }
 
+    @Test(expected = DatabaseManagerException.class)
+    public void testConnectToDatabaseWhenIncorrectUserAndPassword() {
+        //when
+        try {
+            manager.connect(DATABASE_NAME, "notExistUser", "qwertyuiop");
+            fail();
+        } catch (Exception e) {
+            //then
+            manager.connect(DATABASE_NAME, DB_USER, DB_PASSWORD);
+            throw e;
+        }
+    }
+
+    @Test(expected = DatabaseManagerException.class)
+    public void testConnectToServerWhenIncorrectUserAndPassword() {
+        //when
+        try {
+            manager.connect("", "notExistUser", "qwertyuiop");
+            //fail();
+        } catch (Exception e) {
+            //then
+            manager.connect(DATABASE_NAME, DB_USER, DB_PASSWORD);
+            throw e;
+        }
+    }
+
+    @Test
+    public void testCreateDatabase() {
+        //given
+        String newDatabase = "createdatabasetest";
+
+        //when
+        manager.createDatabase(newDatabase);
+
+        //then
+        Set<String> databases = manager.getDatabasesNames();
+        if (!databases.contains(newDatabase)) {
+            fail();
+        }
+        manager.dropDB(newDatabase);
+    }
+
+    @Test
+    public void testCreateTable() {
+        //given
+        Set<String> expected = new LinkedHashSet<>(Collections.singletonList(TABLE_NAME));
+        manager.dropTable(TABLE_NAME);
+
+        //when
+        manager.createTable(SQL_CREATE_TABLE);
+
+        //then
+        Set<String> actual = manager.getTableNames();
+        assertEquals(expected, actual);
+    }
+
+    @Test(expected = DatabaseManagerException.class)
+    public void testCreateTableWrongQuery() {
+        //given
+        String query = "testTable(qwerty)";
+
+        //when
+        manager.createTable(query);
+    }
+
+    @Test
+    public void testDropDatabase() {
+        //given
+        String newDatabase = "dropdatabasetest";
+        manager.createDatabase(newDatabase);
+
+        //when
+        manager.dropDB(newDatabase);
+
+        //then
+        Set<String> databases = manager.getDatabasesNames();
+        if (databases.contains(newDatabase)) {
+            fail();
+        }
+    }
+
+    @Test
+    public void testDropTable() {
+        //given
+        String tableName = "secondTest";
+        Set<String> expected = new LinkedHashSet<>(Collections.singletonList(TABLE_NAME));
+        manager.createTable(tableName + "(id serial PRIMARY KEY)");
+
+        //when
+        manager.dropTable(tableName);
+
+        //then
+        Set<String> actual = manager.getTableNames();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testGetDatabases() {
+        //given
+        //when
+        Set<String> actual = manager.getDatabasesNames();
+
+        //then
+        assertNotNull(actual);
+    }
+
+    @Test
+    public void testGetTableColumns() {
+        //given
+        Set<String> expected = new LinkedHashSet<>(Arrays.asList("id", "username", "password"));
+
+        //when
+        Set<String> actual = manager.getTableColumns(TABLE_NAME);
+
+        //then
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testGetTableNames() {
+        //given
+        Set<String> expected = new LinkedHashSet<>(Collections.singletonList(TABLE_NAME));
+
+        //when
+        Set<String> actual = manager.getTableNames();
+
+        //then
+        assertEquals(expected, actual);
+    }
+
+    @Test(expected = DatabaseManagerException.class)
+    public void testInsertNotExistTable() {
+        //given
+        Map<String, Object> newData = new LinkedHashMap<>();
+        newData.put("username", "Bob");
+        newData.put("password", "*****");
+        newData.put("id", 1);
+
+        //when
+        //then
+        manager.createEntry(NOT_EXIST_TABLE, newData);
+    }
+
+    @Test
+    public void testInsertWithId() {
+        //given
+        Map<String, Object> newData = new LinkedHashMap<>();
+        newData.put("username", "Bob");
+        newData.put("password", "*****");
+        newData.put("id", 1);
+
+        //when
+        manager.createEntry(TABLE_NAME, newData);
+
+        //then
+        Map<String, Object> user = manager.getTableData(TABLE_NAME).get(0);
+        assertEquals(newData, user);
+    }
+
+    @Test
+    public void testUpdate() {
+        //given
+        Map<String, Object> newData = new LinkedHashMap<>();
+        newData.put("username", "testUser");
+        newData.put("password", "azerty");
+        newData.put("id", 1);
+
+        manager.createEntry(TABLE_NAME, newData);
+
+        //when
+        Map<String, Object> updateData = new LinkedHashMap<>();
+        updateData.put("username", "Bill");
+        updateData.put("password", "qwerty");
+        updateData.put("id", 1);
+
+        manager.update(TABLE_NAME, 1, updateData);
+
+        //then
+        Map<String, Object> user = manager.getTableData(TABLE_NAME).get(0);
+        assertEquals(updateData, user);
+    }
+
+    @Test(expected = DatabaseManagerException.class)
+    public void testUpdateNotExistTable() {
+        //when
+        Map<String, Object> updateData = new LinkedHashMap<>();
+        updateData.put("username", "Bill");
+        updateData.put("password", "qwerty");
+        updateData.put("id", 1);
+
+        //then
+        manager.update(NOT_EXIST_TABLE, 1, updateData);
+    }
+}
