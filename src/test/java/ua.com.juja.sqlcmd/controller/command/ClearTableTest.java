@@ -76,11 +76,11 @@ public class ClearTableTest {
     public void testExceptionClear() {
 
         Command command = new ClearTable(manager, view);
-        command.process("clear|test");
+        command.process("clear|wrong");
         // then
         ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
         verify(view, atLeastOnce()).write(captor.capture());
-        assertEquals("[\u001B[31mУдаляем данные с таблицы 'test'. Y/N\u001B[0m, Ошибка удаления таблицы 'test', по причине: null]", captor.getAllValues().toString());
+        assertEquals("[Данной таблицы 'wrong' не существует. Проверьте имяТаблицы]", captor.getAllValues().toString());
 
     }
 

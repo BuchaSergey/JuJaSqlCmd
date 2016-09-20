@@ -135,10 +135,10 @@ public class GetTableDataTest {
         Set<String> columns = new LinkedHashSet<>(Collections.singletonList("id"));
 
         Map<String, Object> firstEntry = new LinkedHashMap<>();
-        firstEntry.put("id", 1);
+        firstEntry.put("id", 12);
 
         Map<String, Object> secondEntry = new LinkedHashMap<>();
-        secondEntry.put("id", 2);
+        secondEntry.put("id", 13);
 
         List<Map<String, Object>> records = new LinkedList<>(Arrays.asList(firstEntry, secondEntry));
 

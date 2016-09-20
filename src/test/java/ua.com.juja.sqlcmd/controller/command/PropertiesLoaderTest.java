@@ -3,7 +3,6 @@ package ua.com.juja.sqlcmd.controller.command;
 
 import org.junit.Before;
 import org.junit.Test;
-import ua.com.juja.sqlcmd.model.Configuration;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.model.PropertiesLoader;
 import ua.com.juja.sqlcmd.view.View;
@@ -14,7 +13,6 @@ import static org.mockito.Mockito.mock;
 
 public class PropertiesLoaderTest {
     private PropertiesLoader properties;
-    private Configuration conf;
     private DatabaseManager manager;
     private View view;
     private Command command;

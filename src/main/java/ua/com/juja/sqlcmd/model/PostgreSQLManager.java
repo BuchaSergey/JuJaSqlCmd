@@ -77,7 +77,7 @@ public class PostgreSQLManager implements DatabaseManager {
         try {
             connection = DriverManager.getConnection(DATABASE_URL + database, userName, password);
         } catch (SQLException e) {
-            throw new RuntimeException("Проверьте правильность введенных данных, " + e.getMessage());
+            throw new DatabaseManagerException("Проверьте правильность введенных данных, ", e);
         }
     }
 
@@ -96,7 +96,7 @@ public class PostgreSQLManager implements DatabaseManager {
         try (Statement stmt = connection.createStatement();) {
             stmt.executeUpdate("DELETE FROM " + tableName);
         } catch (SQLException e) {
-            throw new RuntimeException("Неправильное имя таблицы. ");
+            throw new DatabaseManagerException("Неправильное имя таблицы.", e);
         }
     }
 

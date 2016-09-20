@@ -11,16 +11,14 @@ import static org.junit.Assert.fail;
 
 public class PostgreSQLManagerTest  {
 
-    private final static String DB_USER = "postgres";
-    private final static String DB_PASSWORD = "postgres";
-    private final static String DATABASE_NAME = "postgresqlmanagertest";
+    private  static PropertiesLoader pl = new PropertiesLoader();
+
+    private final static String DB_USER = pl.getUserName();
+    private final static String DB_PASSWORD = pl.getPassword();
+    private final static String DATABASE_NAME = pl.getDatabaseName();
     private final static String TABLE_NAME = "test";
-    private final static String TABLE_NAME2 = "test2";
     private final static String NOT_EXIST_TABLE = "notExistTable";
     private final static String SQL_CREATE_TABLE = TABLE_NAME + " (id SERIAL PRIMARY KEY," +
-            " username VARCHAR (50) UNIQUE NOT NULL," +
-            " password VARCHAR (50) NOT NULL)";
-    private final static String SQL_CREATE_TABLE2 = TABLE_NAME2 + " (id SERIAL PRIMARY KEY," +
             " username VARCHAR (50) UNIQUE NOT NULL," +
             " password VARCHAR (50) NOT NULL)";
 
@@ -32,20 +30,17 @@ public class PostgreSQLManagerTest  {
         manager.connect("", DB_USER, DB_PASSWORD);
         manager.dropDB(DATABASE_NAME);
         manager.createDatabase(DATABASE_NAME);
-        manager.connect(DATABASE_NAME, DB_USER, DB_PASSWORD);
-        manager.createTable(SQL_CREATE_TABLE);
-
-        manager.disconnectFromDB();
-    }
+     }
 
     @Before
     public void setup() {
         manager.connect(DATABASE_NAME, DB_USER, DB_PASSWORD);
+        manager.createTable(SQL_CREATE_TABLE);
     }
 
     @After
     public void clear() {
-
+        manager.dropTable(TABLE_NAME);
     }
 
     @AfterClass
