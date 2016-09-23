@@ -86,7 +86,7 @@ public class PostgreSQLManager implements DatabaseManager {
             try {
                 connection.close();
             } catch (SQLException e) {
-                throw new DatabaseManagerException(ERROR, e);
+                throw new DatabaseManagerException("Не могу закрыть connection", e);
             }
         }
     }
@@ -140,7 +140,7 @@ public class PostgreSQLManager implements DatabaseManager {
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate("CREATE DATABASE " + databaseName);
         } catch (SQLException e) {
-            throw new DatabaseManagerException(ERROR, e);
+            throw new DatabaseManagerException("Не могу создать БД " + databaseName, e);
         }
 
     }
@@ -150,7 +150,7 @@ public class PostgreSQLManager implements DatabaseManager {
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate("CREATE TABLE IF NOT EXISTS " + query);
         } catch (SQLException e) {
-            throw new DatabaseManagerException(ERROR, e);
+            throw new DatabaseManagerException("Не могу создать таблицу из запроса ", e);
         }
     }
 
