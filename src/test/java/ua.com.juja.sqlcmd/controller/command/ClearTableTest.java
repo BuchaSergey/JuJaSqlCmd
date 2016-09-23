@@ -86,12 +86,28 @@ public class ClearTableTest {
 
     @Test
     public void testWithConfirmClear() {
-        //given
         when(view.read()).thenReturn("y");
+
         //when
+
         command.process("clear|test");
+
         //then
         verify(manager).clear("test");
-        verify(view).write("Таблица test была успешно очищена.");
+
+        verify(view).write("Table 'test' successful cleared");
+
+    }
+
+    @Test
+    public void testProcessWithoutConfirmedClearing() {
+        when(view.read()).thenReturn("n");
+
+        //when
+
+        command.process("clear|test");
+
+        //then
+        verify(manager).clear("test");
     }
 }

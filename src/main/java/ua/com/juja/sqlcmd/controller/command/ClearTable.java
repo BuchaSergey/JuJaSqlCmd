@@ -34,18 +34,18 @@ public class ClearTable implements Command {
 
         if(tableNames.contains(clearTableName)) {
             confirmAndClearTable(clearTableName);
-        } else view.write(String.format("Данной таблицы '%s' не существует. Проверьте имяТаблицы", clearTableName));
+       } else view.write(String.format("Данной таблицы '%s' не существует. Проверьте имяТаблицы", clearTableName));
     }
 
-    private void confirmAndClearTable(String tableName) {
+    private void confirmAndClearTable(String clearTableName) {
         try {
-            view.write(String.format(ANSI_RED + "Удаляем данные с таблицы '%s'. Y/N" + ANSI_RESET, tableName));
+            view.write(String.format(ANSI_RED + "Удаляем данные с таблицы '%s'. Y/N" + ANSI_RESET, clearTableName));
             if (view.read().equalsIgnoreCase("y")) {
-                manager.clear(tableName);
-                view.write(String.format("Таблица %s была успешно очищена.", tableName));
+                manager.clear(clearTableName);
+                view.write(String.format("Таблица %s была успешно очищена.", clearTableName));
             }
         } catch (Exception e) {
-            view.write(String.format("Ошибка удаления таблицы '%s', по причине: %s", tableName, e.getMessage()));
+            view.write(String.format("Ошибка удаления таблицы '%s', по причине: %s", clearTableName, e.getMessage()));
         }
     }
 }
