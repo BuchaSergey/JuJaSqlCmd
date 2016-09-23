@@ -1,14 +1,12 @@
 package ua.com.juja.sqlcmd.controller.command;
 
 
-import org.junit.Before;
 import org.junit.Test;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.model.PropertiesLoader;
 import ua.com.juja.sqlcmd.view.View;
 
 import static junit.framework.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
 
 
 public class PropertiesLoaderTest {
@@ -27,14 +25,6 @@ public class PropertiesLoaderTest {
     private final static String DB_PASSWORD = "postgres";
 
 
-
-
-    @Before
-    public void setup() {
-        manager = mock(DatabaseManager.class);
-        view = mock(View.class);
-
-    }
 
     @Test
     public void testGetDatabaseName()
