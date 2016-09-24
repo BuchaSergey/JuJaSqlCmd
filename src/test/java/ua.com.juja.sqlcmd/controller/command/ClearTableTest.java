@@ -87,14 +87,10 @@ public class ClearTableTest {
     @Test
     public void testWithConfirmClear() {
         when(view.read()).thenReturn("y");
-
         //when
-
         command.process("clear|test");
-
         //then
         verify(manager).clear("test");
-
         verify(view).write("Table 'test' successful cleared");
 
     }
@@ -104,7 +100,6 @@ public class ClearTableTest {
         when(view.read()).thenReturn("n");
 
         //when
-
         command.process("clear|test");
 
         //then

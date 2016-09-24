@@ -7,7 +7,7 @@ import java.util.*;
 public class PostgreSQLManager implements DatabaseManager {
 
 
-    private static final String ERROR = "Невозможно выполнить.";
+    private static final String ERROR = "Невозможно выполнить: ";
     static PropertiesLoader propertiesLoader = new PropertiesLoader();
     private static final String HOST = propertiesLoader.getServerName();
     private static final String PORT = propertiesLoader.getDatabasePort();
@@ -66,7 +66,7 @@ public class PostgreSQLManager implements DatabaseManager {
             }
             return tables;
         } catch (SQLException e) {
-            throw new RuntimeException("не удалось получить имена таблиц");
+            throw new DatabaseManagerException( ERROR + "не удалось получить имена таблиц", e);
         }
     }
 
@@ -162,7 +162,6 @@ public class PostgreSQLManager implements DatabaseManager {
         } catch (SQLException e) {
             throw new DatabaseManagerException(
                     String.format("Не могу удалить БД: %s", databaseName), e);
-
         }
     }
 
@@ -209,7 +208,7 @@ public class PostgreSQLManager implements DatabaseManager {
             }
             return result;
         } catch (SQLException e) {
-            throw new RuntimeException("Не удалось получить имена БД");
+            throw new DatabaseManagerException(ERROR + "не удалось получить имена БД", e);
         }
     }
 

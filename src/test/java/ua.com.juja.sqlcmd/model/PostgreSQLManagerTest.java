@@ -5,23 +5,21 @@ import org.junit.*;
 
 import java.util.*;
 
-import static org.junit.Assert.assertEquals;
+import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
-public class PostgreSQLManagerTest  {
+public class PostgreSQLManagerTest {
 
-    private  static PropertiesLoader pl = new PropertiesLoader();
-
-    private final static String DB_USER = pl.getUserName();
-    private final static String DB_PASSWORD = pl.getPassword();
-    private final static String DATABASE_NAME = pl.getDatabaseName();
     private final static String TABLE_NAME = "test";
     private final static String NOT_EXIST_TABLE = "notExistTable";
     private final static String SQL_CREATE_TABLE = TABLE_NAME + " (id SERIAL PRIMARY KEY," +
             " username VARCHAR (50) UNIQUE NOT NULL," +
             " password VARCHAR (50) NOT NULL)";
-
+    private static PropertiesLoader pl = new PropertiesLoader();
+    private final static String DB_USER = pl.getUserName();
+    private final static String DB_PASSWORD = pl.getPassword();
+    private final static String DATABASE_NAME = pl.getDatabaseName();
     private static DatabaseManager manager;
 
     @BeforeClass
@@ -30,7 +28,15 @@ public class PostgreSQLManagerTest  {
         manager.connect("", DB_USER, DB_PASSWORD);
         manager.dropDB(DATABASE_NAME);
         manager.createDatabase(DATABASE_NAME);
-     }
+    }
+
+    @AfterClass
+    public static void clearAfterAllTests() {
+        manager.connect("", DB_USER, DB_PASSWORD);
+
+        manager.dropDB(DATABASE_NAME);
+        manager.disconnectFromDB();
+    }
 
     @Before
     public void setup() {
@@ -41,13 +47,6 @@ public class PostgreSQLManagerTest  {
     @After
     public void clear() {
         manager.dropTable(TABLE_NAME);
-    }
-
-    @AfterClass
-    public static void clearAfterAllTests() {
-        manager.connect("",DB_USER,DB_PASSWORD);
-        manager.dropDB(DATABASE_NAME);
-        manager.disconnectFromDB();
     }
 
     @Test
@@ -106,7 +105,6 @@ public class PostgreSQLManagerTest  {
         //when
         try {
             manager.connect("", "notExistUser", "qwertyuiop");
-            //fail();
         } catch (Exception e) {
             //then
             manager.connect(DATABASE_NAME, DB_USER, DB_PASSWORD);
@@ -231,6 +229,7 @@ public class PostgreSQLManagerTest  {
         manager.createEntry(NOT_EXIST_TABLE, newData);
     }
 
+
     @Test
     public void testInsertWithId() {
         //given
@@ -281,4 +280,41 @@ public class PostgreSQLManagerTest  {
         //then
         manager.update(NOT_EXIST_TABLE, 1, updateData);
     }
+
+//    @Rule public ExpectedException exception = ExpectedException.none();
+//
+//
+//    @Test
+//    public void testExceptionGetTableNames()  {
+//        exception.expect(DatabaseManagerException.class);
+//        exception.expectMessage(containsString("Невозможно выполнить: "));
+//        manager.getTableNames();
+//    }
+//
+//    @Test
+//    public void testExceptionGetTDatabasesNames()  {
+//        exception.expect(DatabaseManagerException.class);
+//        exception.expectMessage(containsString("Невозможно выполнить: "));
+//        manager.getDatabasesNames();
+//    }
+
+    @Test
+    public void testExceptionGetTableNames2()  {
+        manager.connect("", "postgres","postgres");
+        try {
+
+            manager.getTableNames();
+
+        } catch (DatabaseManagerException e) {
+            assertEquals("Невозможно выпо3лнить: ", e.getMessage());
+        }
+
+    }
+
+    @Test(expected = Exception.class)
+    public void testExceptionGetTableNames3 ()  {
+            manager.connect("","","");
+            manager.getTableNames();
+          }
+
 }
