@@ -56,21 +56,6 @@ public class PostgreSQLManager implements DatabaseManager {
     }
 
     @Override
-    public Set<String> getTableNames() {
-        Set<String> tables = new LinkedHashSet();
-        try (Statement stmt = connection.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT table_name FROM information_schema.tables" +
-                     " WHERE table_schema='public' AND table_type='BASE TABLE'");) {
-            while (rs.next()) {
-                tables.add(rs.getString("table_name"));
-            }
-            return tables;
-        } catch (SQLException e) {
-            throw new DatabaseManagerException( ERROR + "не удалось получить имена таблиц", e);
-        }
-    }
-
-    @Override
     public void connect(String database, String userName, String password) {
 
         closeOpenedConnection(connection);
@@ -132,9 +117,6 @@ public class PostgreSQLManager implements DatabaseManager {
         return values;
     }
 
-
-
-
     @Override
     public void createDatabase(String databaseName) {
         try (Statement statement = connection.createStatement()) {
@@ -144,6 +126,9 @@ public class PostgreSQLManager implements DatabaseManager {
         }
 
     }
+
+
+
 
     @Override
     public void createTable(String query) {
@@ -182,38 +167,6 @@ public class PostgreSQLManager implements DatabaseManager {
     }
 
     @Override
-    public Set<String> getTableColumns(String tableName) {
-        Set<String> tables = new LinkedHashSet();
-        try (Statement stmt = connection.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT * FROM information_schema.columns " +
-                     "WHERE table_schema = 'public' AND table_name = '" + tableName + "'")) {
-            while (rs.next()) {
-                tables.add(rs.getString("column_name"));
-            }
-            return tables;
-        } catch (SQLException e) {
-            throw new DatabaseManagerException(ERROR, e);
-        }
-    }
-
-    @Override
-    public Set<String> getDatabasesNames() {
-        connect("", USER_NAME, PASSWORD);
-        String sql = "SELECT datname FROM pg_database WHERE datistemplate = false;";
-        try (Statement ps = connection.createStatement();
-             ResultSet rs = ps.executeQuery(sql)) {
-            Set<String> result = new LinkedHashSet<>();
-            while (rs.next()) {
-                result.add(rs.getString(1));
-            }
-            return result;
-        } catch (SQLException e) {
-            throw new DatabaseManagerException(ERROR + "не удалось получить имена БД", e);
-        }
-    }
-
-
-    @Override
     public boolean isConnected() {
         return connection != null;
     }
@@ -231,6 +184,53 @@ public class PostgreSQLManager implements DatabaseManager {
             }
             ps.setObject(index, id);
             ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new DatabaseManagerException(ERROR, e);
+        }
+    }
+
+    @Override
+    public Set<String> getTableNames() {
+        Set<String> tables = new LinkedHashSet();
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT table_name FROM information_schema.tables" +
+                     " WHERE table_schema='public' AND table_type='BASE TABLE'");) {
+            while (rs.next()) {
+                tables.add(rs.getString("table_name"));
+            }
+            return tables;
+        } catch (SQLException e) {
+            throw new DatabaseManagerException( ERROR + "не удалось получить имена таблиц", e);
+        }
+    }
+
+
+    @Override
+    public Set<String> getDatabasesNames() {
+        connect("", USER_NAME, PASSWORD);
+        String sql = "SELECT datname FROM pg_database WHERE datistemplate = false;";
+        try (Statement ps = connection.createStatement();
+             ResultSet rs = ps.executeQuery(sql)) {
+            Set<String> result = new LinkedHashSet<>();
+            while (rs.next()) {
+                result.add(rs.getString(1));
+            }
+            return result;
+        } catch (SQLException e) {
+            throw new DatabaseManagerException(ERROR + "не удалось получить имена БД", e);
+        }
+    }
+
+    @Override
+    public Set<String> getTableColumns(String tableName) {
+        Set<String> tables = new LinkedHashSet();
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT * FROM information_schema.columns " +
+                     "WHERE table_schema = 'public' AND table_name = '" + tableName + "'")) {
+            while (rs.next()) {
+                tables.add(rs.getString("column_name"));
+            }
+            return tables;
         } catch (SQLException e) {
             throw new DatabaseManagerException(ERROR, e);
         }
