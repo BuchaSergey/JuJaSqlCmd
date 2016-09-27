@@ -1,14 +1,26 @@
 package ua.com.juja.sqlcmd.controller.command;
 
+import org.junit.Before;
 import org.junit.Test;
+import ua.com.juja.sqlcmd.view.View;
 
 import static junit.framework.TestCase.assertTrue;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.fail;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 
 public class ExitTest {
 
-    private FakeView view = new FakeView();
+    private Command command;
+    private View view;
+
+    @Before
+    public void setup() {
+        view = mock(View.class);
+        command = new Exit(view);
+    }
 
     @Test
     public void testCanProcessExitString() {
@@ -47,7 +59,7 @@ public class ExitTest {
             // do nothing
         }
         // then
-        assertEquals("До скорой встречи!\n", view.getContent());
+        verify(view).write("До скорой встречи!");
         // throws ExitException
     }
 }
