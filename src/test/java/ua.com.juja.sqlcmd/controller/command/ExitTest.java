@@ -60,6 +60,6 @@ public class ExitTest {
         }
         // then
         verify(view).write("До скорой встречи!");
-        // throws ExitException
+
     }
 }
