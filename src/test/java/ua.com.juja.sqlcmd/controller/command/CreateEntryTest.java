@@ -13,9 +13,6 @@ import static org.mockito.Mockito.mock;
 
 public class CreateEntryTest {
 
-    //TODO sozdat Before s tablicey test
-    //TODO AFTER udalit tablicu test
-
     private DatabaseManager manager;
     private View view;
     private Command command;

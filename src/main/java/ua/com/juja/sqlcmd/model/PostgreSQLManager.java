@@ -174,9 +174,9 @@ public class PostgreSQLManager implements DatabaseManager {
     @Override
     public void update(String tableName, int id, Map<String, Object> newValue) {
         String tableNames = getFormatedName(newValue, "\"%s\" = ?,");
-        String sql = "UPDATE " + tableName +  " SET " +  tableNames + " WHERE id = ?";
+        String query = "UPDATE " + tableName +  " SET " +  tableNames + " WHERE id = ?";
 
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
             int index = 1;
             for (Object value : newValue.values()) {
                 ps.setObject(index, value);
@@ -208,9 +208,9 @@ public class PostgreSQLManager implements DatabaseManager {
     @Override
     public Set<String> getDatabasesNames() {
         connect("", USER_NAME, PASSWORD);
-        String sql = "SELECT datname FROM pg_database WHERE datistemplate = false;";
+        String query = "SELECT datname FROM pg_database WHERE datistemplate = false;";
         try (Statement ps = connection.createStatement();
-             ResultSet rs = ps.executeQuery(sql)) {
+             ResultSet rs = ps.executeQuery(query)) {
             Set<String> result = new LinkedHashSet<>();
             while (rs.next()) {
                 result.add(rs.getString(1));

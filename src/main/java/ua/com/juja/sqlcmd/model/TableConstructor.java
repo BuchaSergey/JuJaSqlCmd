@@ -1,8 +1,6 @@
 package ua.com.juja.sqlcmd.model;
 
-/**
- * Created by Seriy on 29.07.2016.
- */
+
 import org.nocrala.tools.texttablefmt.BorderStyle;
 import org.nocrala.tools.texttablefmt.ShownBorders;
 import org.nocrala.tools.texttablefmt.Table;

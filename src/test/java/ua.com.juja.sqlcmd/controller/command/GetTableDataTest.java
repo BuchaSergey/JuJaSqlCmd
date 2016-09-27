@@ -20,6 +20,7 @@ public class GetTableDataTest {
     private DatabaseManager manager;
     private View view;
     private Command command;
+    private String tableName = "test";
 
     @Before
     public void setup() {
@@ -32,7 +33,7 @@ public class GetTableDataTest {
     @Test
     public void testPrintTableData() {
         //given
-        String tableName = "test";
+
         Set<String> columns = new LinkedHashSet<>(Arrays.asList("id", "name"));
 
         Map<String, Object> firstEntry = new LinkedHashMap<>();
@@ -109,7 +110,7 @@ public class GetTableDataTest {
     @Test
     public void testPrintEmptyTableData() {
         //given
-        String tableName = "test";
+
         Set<String> columns = new LinkedHashSet<>(Arrays.asList("id", "name"));
 
         List<Map<String, Object>> records = new LinkedList<>();
@@ -131,7 +132,7 @@ public class GetTableDataTest {
     @Test
     public void testPrintTableDataWithOneColumn() {
         //given
-        String tableName = "test";
+
         Set<String> columns = new LinkedHashSet<>(Collections.singletonList("id"));
 
         Map<String, Object> firstEntry = new LinkedHashMap<>();
