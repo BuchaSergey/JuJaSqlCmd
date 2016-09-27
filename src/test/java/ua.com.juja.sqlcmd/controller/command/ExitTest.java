@@ -5,9 +5,7 @@ import org.junit.Test;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.*;
 
-/**
- * Created by indigo on 01.09.2015.
- */
+
 public class ExitTest {
 
     private FakeView view = new FakeView();
