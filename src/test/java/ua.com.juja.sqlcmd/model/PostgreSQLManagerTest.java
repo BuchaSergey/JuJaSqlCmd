@@ -2,7 +2,6 @@ package ua.com.juja.sqlcmd.model;
 
 
 import org.junit.*;
-import org.mockito.Mockito;
 import ua.com.juja.sqlcmd.view.View;
 
 import java.sql.Connection;
@@ -128,19 +127,6 @@ public class PostgreSQLManagerTest {
         }
     }
 
-//    @Test
-//    public void testCreateTable() {
-//        //given
-//        Set<String> expected = new LinkedHashSet<>(Collections.singletonList(TABLE_NAME));
-//        manager.dropTable(TABLE_NAME);
-//
-//        //when
-//        manager.createTable(SQL_CREATE_TABLE);
-//
-//        //then
-//        Set<String> actual = manager.getTableNames();
-//        assertEquals(expected, actual);
-//    }
 
     @Test
     public void testCreateDatabase() {
@@ -370,15 +356,7 @@ public class PostgreSQLManagerTest {
     }
 
 
-    @Test //(expected = SQLException.class)
 
-    public void testExceptionGetTableNamesRule()  {
-        when(manMock.getTableNames()).thenThrow(new DatabaseManagerException("Za", new SQLException()));
-        try {
-            manMock.getTableNames();
-        } catch (Exception e) {
-        }
-    }
 
 
     @Test
@@ -422,17 +400,31 @@ public class PostgreSQLManagerTest {
         }
     }
 
-    @Test(expected = SQLException.class)
+    @Test
 
     public void testGetDatabasesNames() throws SQLException {
 
-        when(connection.createStatement()).thenReturn(null);
+       // when(connection.createStatement()).thenThrow( new SQLException());
 
-        when(statement.executeQuery("someQuery")).thenReturn(null);
-
-        manMock.getDatabasesNames();
-
+        //when(statement.execute("someQuery")).thenReturn(false).thenThrow( new RuntimeException());
+       doThrow(new DatabaseManagerException("Невозможно выполнить: не удалось получить имена таблиц",new SQLException())).when(manMock).getDatabasesNames();
         verify(manMock).getDatabasesNames();
+        verify(viewMock).write("???");
 
     }
+
+    @Test
+
+    public void testGetDatabasesNames2() throws SQLException {
+
+        // when(connection.createStatement()).thenThrow( new SQLException());
+
+        //when(statement.execute("someQuery")).thenReturn(false).thenThrow( new RuntimeException());
+        doThrow(new DatabaseManagerException("Невозможно выполнить: не удалось получить имена таблиц",new SQLException())).when(manMock).getDatabasesNames();
+        verify(manMock).getDatabasesNames();
+        verify(viewMock).write("???");
+
+    }
+
+
 }
