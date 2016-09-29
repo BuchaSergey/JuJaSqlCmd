@@ -4,13 +4,12 @@ import org.junit.*;
 import ua.com.juja.sqlcmd.view.View;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.*;
 
 import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
 
 public class PostgreSQLManagerTest {
 
@@ -124,36 +123,6 @@ public class PostgreSQLManagerTest {
             manager.connect(DATABASE_NAME, DB_USER, DB_PASSWORD);
             throw e;
         }
-    }
-
-//    @Test
-//    public void testCreateTable() {
-//        //given
-//        Set<String> expected = new LinkedHashSet<>(Collections.singletonList(TABLE_NAME));
-//        manager.dropTable(TABLE_NAME);
-//
-//        //when
-//        manager.createTable(SQL_CREATE_TABLE);
-//
-//        //then
-//        Set<String> actual = manager.getTableNames();
-//        assertEquals(expected, actual);
-//    }
-
-    @Test
-    public void testCreateDatabase() {
-        //given
-        String newDatabase = "createdatabasetest";
-
-        //when
-        manager.createDatabase(newDatabase);
-
-        //then
-        Set<String> databases = manager.getDatabasesNames();
-        if (!databases.contains(newDatabase)) {
-            fail();
-        }
-        manager.dropDB(newDatabase);
     }
 
     @Test(expected = DatabaseManagerException.class)
@@ -295,143 +264,10 @@ public class PostgreSQLManagerTest {
     }
 
 
-    @Test(expected = DatabaseManagerException.class)
-    public void testExceptionGetTableNames2() {
-
-        doThrow(new DatabaseManagerException
-                (ERROR + "не удалось получить имена таблиц", new SQLException())).when(manMock).getTableNames();
-        try {
-            manMock.getTableNames();
-        } catch (DatabaseManagerException e) {
-            assertEquals("Невозможно выполнить: не удалось получить имена таблиц", e.getMessage());
-            throw e;
-        }
-    }
-
-    @Test(expected = DatabaseManagerException.class)
-    public void testExceptionGetTableNames_Con() {
-
-        manMock.connect(null, null, null);
-//        doThrow(new DatabaseManagerException
-//                (ERROR + "не удалось получить имена таблиц", new SQLException())).when(manMock).getTableNames();
-        try {
-            manMock.getTableNames();
-        } catch (DatabaseManagerException e) {
-            assertEquals("Невозможно выполнить: не удалось получить имена таблиц", e.getMessage());
-            throw e;
-        }
-    }
-
-    @Test
-    public void testExceptionGetTableNames3() {
-        manager.connect("", "postgres", "postgres");
-        try {
-            manager.getDatabasesNames();
-            throw new DatabaseManagerException(ERROR, new SQLException());
-        } catch (DatabaseManagerException e) {
-            assertEquals("Невозможно выполнить: ", e.getMessage());
-        }
-    }
 
     @Test
     public void testIsConnected() {
         assertTrue(manager.isConnected());
-    }
-
-    @Test(expected = DatabaseManagerException.class)
-    public void testGetTableColumnException() {
-        try {
-            manager.getTableColumns(NOT_EXIST_TABLE);
-            throw new DatabaseManagerException(ERROR, new SQLException());
-        } catch (Exception e) {
-            assertEquals("Невозможно выполнить: ", e.getMessage());
-        }
-
-
-    }
-
-    @Test //(expected = SQLException.class)
-
-    public void testGetDatabasesNamesException() throws SQLException {
-
-        when(manMock.getDatabasesNames()).
-                thenThrow(new Exception());;
-        //
-        try {
-            manMock.getDatabasesNames();
-        } catch (Exception e) {
-            assertEquals(e.getMessage(), ERROR + "не удалось получить имена БД");
-        }
-
-        //verify(connection).createStatement();
-
-    }
-
-
-    @Test //(expected = SQLException.class)
-
-    public void testExceptionGetTableNamesRule()  {
-        when(manMock.getTableNames()).thenThrow(new DatabaseManagerException("Za", new SQLException()));
-        try {
-            manMock.getTableNames();
-        } catch (Exception e) {
-        }
-    }
-
-
-    @Test
-    public void testExceptionGetTableNamesFail() {
-        //when
-        try {
-            manager.getTableNames();
-            throw new DatabaseManagerException( ERROR + "не удалось получить имена таблиц", new SQLException());
-        } catch (Exception e) {
-            //then
-            assertEquals("Невозможно выполнить: не удалось получить имена таблиц", e.getMessage());
-
-        }
-    }
-
-
-
-    @Test
-    public void closeOpenedConnectionException()  {
-
-        try {
-         connection.close();
-            doThrow(new DatabaseManagerException("Невозможно выполнить: не удалось получить имена таблиц",new SQLException()));
-        } catch (SQLException e) {
-            assertEquals("2",e.getMessage());
-        }
-    }
-
-
-    @Test
-    public void testExceptionGetTableNamesFailStatw() {
-        //when
-        try {
-            when(connection.createStatement()).thenThrow(new DatabaseManagerException("Невозможно выполнить: не удалось получить имена таблиц",new SQLException()));
-            when(statement.executeQuery("someQuery")).thenThrow(new DatabaseManagerException("Невозможно выполнить: не удалось получить имена таблиц",new SQLException()));
-            manMock.getTableNames();
-        } catch (Exception e) {
-            //then
-            assertEquals("Нев3озможно выполнить: не удалось получить имена таблиц", e.getMessage());
-            verify(manMock).getTableNames();
-        }
-    }
-
-    @Test(expected = SQLException.class)
-
-    public void testGetDatabasesNames() throws SQLException {
-
-        when(connection.createStatement()).thenReturn(null);
-
-        when(statement.executeQuery("someQuery")).thenReturn(null);
-
-        manMock.getDatabasesNames();
-
-        verify(manMock).getDatabasesNames();
-
     }
 
 }
