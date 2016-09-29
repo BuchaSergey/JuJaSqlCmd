@@ -64,12 +64,6 @@ public class GetTableDataTest {
 
     }
 
-    private void setupTableColumns(String tableName, String... columns) {
-        when(manager.getTableColumns(tableName))
-                .thenReturn(new LinkedHashSet<String>(Arrays.asList(columns)));
-
-    }
-
     public void shouldPrint(String expected) {
         ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
         verify(view, atLeastOnce()).write(captor.capture());
