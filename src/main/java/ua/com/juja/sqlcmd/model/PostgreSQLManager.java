@@ -124,7 +124,6 @@ public class PostgreSQLManager implements DatabaseManager {
 
     }
 
-
     @Override
     public void createTable(String query) {
         try (Statement statement = connection.createStatement()) {
@@ -196,7 +195,6 @@ public class PostgreSQLManager implements DatabaseManager {
             throw new DatabaseManagerException("Не удалось получить имена таблиц", e);
         }
     }
-
 
     @Override
     public Set<String> getDatabasesNames() {

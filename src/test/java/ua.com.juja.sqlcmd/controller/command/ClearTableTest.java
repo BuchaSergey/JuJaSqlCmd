@@ -78,16 +78,4 @@ public class ClearTableTest {
         verify(manager).clear("test");
 
     }
-
-    @Test
-    public void testProcessWithoutConfirmedClearing() {
-        when(view.read()).thenThrow(new Exception());
-
-        //when
-        command.process("clear|test");
-
-        //then
-        verify(manager).clear("test");
-        verify(view).write("zaza");
-    }
 }
