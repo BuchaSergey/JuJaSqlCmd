@@ -29,7 +29,7 @@ public class IntegrationTest {
             " pass VARCHAR (50) NOT NULL)";
 
     private static DatabaseManager manager;
-    private static PropertiesLoader pl = new PropertiesLoader();
+    private static final PropertiesLoader pl = new PropertiesLoader();
     private final static String DB_USER = pl.getUserName();
     private final static String DB_PASSWORD = pl.getPassword();
     private final static String DB_NAME = pl.getDatabaseName();

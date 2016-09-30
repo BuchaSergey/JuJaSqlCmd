@@ -8,8 +8,8 @@ import ua.com.juja.sqlcmd.view.View;
 
 class MainController {
 
-    private Command[] commands;
-    private View view;
+    private final Command[] commands;
+    private final View view;
 
     public MainController(View view, DatabaseManager manager) {
         this.view = view;

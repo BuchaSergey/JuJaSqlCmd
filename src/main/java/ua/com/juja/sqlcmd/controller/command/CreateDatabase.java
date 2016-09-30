@@ -6,8 +6,8 @@ import ua.com.juja.sqlcmd.view.View;
 
 public class CreateDatabase implements Command {
 
-    private DatabaseManager manager;
-    private View view;
+    private final DatabaseManager manager;
+    private final View view;
 
     public CreateDatabase(DatabaseManager manager, View view) {
         this.manager = manager;

@@ -15,7 +15,7 @@ public class PropertiesLoaderTest {
     private final static String DB_NAME = "sqlcmd";
     private final static String DB_USER_NAME = "postgres";
     private final static String DB_PASSWORD = "postgres";
-    private PropertiesLoader pl = new PropertiesLoader();
+    private final PropertiesLoader pl = new PropertiesLoader();
 
     @Test
     public void testGetDatabaseName() {

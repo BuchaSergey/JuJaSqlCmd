@@ -8,8 +8,8 @@ import java.util.Set;
 
 public class GetTablesNames implements Command {
 
-    private DatabaseManager manager;
-    private View view;
+    private final DatabaseManager manager;
+    private final View view;
 
     public GetTablesNames(DatabaseManager manager, View view) {
         this.manager = manager;

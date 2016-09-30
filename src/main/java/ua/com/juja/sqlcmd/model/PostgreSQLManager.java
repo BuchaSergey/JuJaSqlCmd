@@ -6,7 +6,7 @@ import java.util.*;
 
 public class PostgreSQLManager implements DatabaseManager {
 
-    private static PropertiesLoader propertiesLoader = new PropertiesLoader();
+    private static final PropertiesLoader propertiesLoader = new PropertiesLoader();
     private static final String HOST = propertiesLoader.getServerName();
     private static final String PORT = propertiesLoader.getDatabasePort();
     private static final String DRIVER = propertiesLoader.getDriver();

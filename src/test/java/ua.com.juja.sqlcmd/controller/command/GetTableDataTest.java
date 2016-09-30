@@ -20,7 +20,7 @@ public class GetTableDataTest {
     private DatabaseManager manager;
     private View view;
     private Command command;
-    private String tableName = "test";
+    private final String tableName = "test";
 
     @Before
     public void setup() {

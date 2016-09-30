@@ -5,7 +5,7 @@ import ua.com.juja.sqlcmd.view.View;
 
 public class Unsupported implements Command {
 
-    private View view;
+    private final View view;
 
     public Unsupported(View view) {
         this.view = view;

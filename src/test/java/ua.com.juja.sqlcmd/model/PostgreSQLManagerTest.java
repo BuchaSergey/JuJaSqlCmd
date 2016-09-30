@@ -14,7 +14,7 @@ public class PostgreSQLManagerTest {
     private final static String SQL_CREATE_TABLE = TABLE_NAME + " (id SERIAL PRIMARY KEY," +
             " username VARCHAR (50) UNIQUE NOT NULL," +
             " password VARCHAR (50) NOT NULL)";
-    private static PropertiesLoader pl = new PropertiesLoader();
+    private static final PropertiesLoader pl = new PropertiesLoader();
     private final static String DB_USER = pl.getUserName();
     private final static String DB_PASSWORD = pl.getPassword();
     private final static String DATABASE_NAME = pl.getDatabaseName();
@@ -220,7 +220,7 @@ public class PostgreSQLManagerTest {
         Map<String, Object> newData = new LinkedHashMap<>();
         newData.put("username", "testUser");
         newData.put("password", "azerty");
-        newData.put("id", 1);
+        newData.put("id", 2);
 
         manager.createEntry(TABLE_NAME, newData);
 
@@ -228,9 +228,9 @@ public class PostgreSQLManagerTest {
         Map<String, Object> updateData = new LinkedHashMap<>();
         updateData.put("username", "Bill");
         updateData.put("password", "qwerty");
-        updateData.put("id", 1);
+        updateData.put("id", 2);
 
-        manager.update(TABLE_NAME, 1, updateData);
+        manager.update(TABLE_NAME, 2, updateData);
 
         //then
         Map<String, Object> user = manager.getTableData(TABLE_NAME).get(0);

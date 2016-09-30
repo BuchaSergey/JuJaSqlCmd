@@ -11,9 +11,9 @@ import java.util.Set;
 
 public class TableConstructor {
 
-    private Set<String> columns;
-    private Table table;
-    private List<Map<String, Object>> tableData;
+    private final Set<String> columns;
+    private final Table table;
+    private final List<Map<String, Object>> tableData;
 
     public TableConstructor(Set<String> columns, List<Map<String, Object>> tableData) {
         this.columns = columns;

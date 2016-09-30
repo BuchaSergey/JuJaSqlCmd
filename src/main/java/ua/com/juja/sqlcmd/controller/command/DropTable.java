@@ -5,8 +5,8 @@ import ua.com.juja.sqlcmd.view.View;
 
 
 public class DropTable implements Command {
-    private DatabaseManager manager;
-    private View view;
+    private final DatabaseManager manager;
+    private final View view;
 
     public DropTable(DatabaseManager manager, View view) {
         this.manager = manager;
