@@ -154,6 +154,11 @@ public class PostgreSQLManager implements DatabaseManager {
 
     @Override
     public void disconnectFromDB() {
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         connection = null;
     }
 

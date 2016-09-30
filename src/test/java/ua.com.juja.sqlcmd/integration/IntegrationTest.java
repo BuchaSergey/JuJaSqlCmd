@@ -56,7 +56,6 @@ public class IntegrationTest {
 
     @AfterClass
     public static void clearAfterAllTests() {
-
         manager = new PostgreSQLManager();
         manager.connect("", DB_USER, DB_PASSWORD);
         manager.dropDB(DB_NAME);
@@ -262,7 +261,6 @@ public class IntegrationTest {
     public void testBadConnect() {
         // given
         in.add("connect|" + DB_NAME + "|" + DB_USER + "|" + DB_PASSWORD + "WRONG");
-        in.add("disconnect");
         in.add("exit");
 
         // when
@@ -276,8 +274,6 @@ public class IntegrationTest {
                 "Ошибка при попытке подсоединения.\n" +
                 "Повтори попытку.\n" +
                 // exit
-                "Введи команду (или help для помощи):\n" +
-                "Disconnected\n" +
                 "Введи команду (или help для помощи):\n" +
                 "До скорой встречи!\n", getData());
     }
@@ -366,7 +362,6 @@ public class IntegrationTest {
     public void testConnectWithError() {
         // given
         in.add("connect|" + DB_NAME);
-        in.add("disconnect");
         in.add("exit");
 
         // when
@@ -378,8 +373,6 @@ public class IntegrationTest {
                 // connect sqlcmd
                 "Неудача! по причине: Неверно количество параметров разделенных знаком '|', ожидается 4, но есть: 2\n" +
                 "Повтори попытку.\n" +
-                "Введи команду (или help для помощи):\n" +
-                "Disconnected\n" +
                 "Введи команду (или help для помощи):\n" +
                 // exit
                 "До скорой встречи!\n", getData());
