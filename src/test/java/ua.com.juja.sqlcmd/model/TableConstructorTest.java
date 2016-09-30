@@ -39,11 +39,6 @@ public class TableConstructorTest {
 
         List<Map<String, Object>> tableData = new LinkedList<>(Arrays.asList(firstEntry, secondEntry));
 
-        TableConstructor constructor = new TableConstructor(columns, tableData);
-
-        return constructor;
-
+        return new TableConstructor(columns, tableData);
     }
-
-
 }

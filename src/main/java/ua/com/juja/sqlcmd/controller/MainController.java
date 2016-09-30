@@ -40,10 +40,12 @@ public class MainController {
         }
     }
 
+    @SuppressWarnings("InfiniteLoopStatement")
     private void doWork() {
         view.write("Привет юзер!");
         view.write("Введи, пожалуйста имя базы данных, имя пользователя и пароль в формате: connect|database|userName|password");
 
+        //noinspection InfiniteLoopStatement
         while (true) {
             String input = view.read();
 

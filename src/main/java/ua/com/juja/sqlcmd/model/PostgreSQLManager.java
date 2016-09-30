@@ -77,7 +77,7 @@ public class PostgreSQLManager implements DatabaseManager {
 
     @Override
     public void clear(String tableName) {
-        try (Statement stmt = connection.createStatement();) {
+        try (Statement stmt = connection.createStatement()) {
             stmt.executeUpdate("DELETE FROM " + tableName);
         } catch (SQLException e) {
             throw new DatabaseManagerException("Неправильное имя таблицы.", e);
@@ -191,7 +191,7 @@ public class PostgreSQLManager implements DatabaseManager {
         Set<String> tables = new LinkedHashSet();
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT table_name FROM information_schema.tables" +
-                     " WHERE table_schema='public' AND table_type='BASE TABLE'");) {
+                     " WHERE table_schema='public' AND table_type='BASE TABLE'")) {
             while (rs.next()) {
                 tables.add(rs.getString("table_name"));
             }

@@ -22,17 +22,13 @@ public class CreateEntryTest {
         manager = mock(DatabaseManager.class);
         view = mock(View.class);
         command = new CreateEntry(manager, view);
-
     }
-
 
     @Test
     public void testCanProcess() {
         // when
-
         boolean create = command.canProcess("create|test");
         assertTrue(create);
-
     }
 
     @Test

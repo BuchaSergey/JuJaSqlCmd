@@ -5,8 +5,6 @@ import ua.com.juja.sqlcmd.view.View;
 
 public class Connect implements Command {
 
-    private static String COMMAND_SAMPLE = "connect|sqlcmd|postgres|postgres";
-
     private DatabaseManager manager;
     private View view;
 
@@ -16,6 +14,7 @@ public class Connect implements Command {
     }
 
     private int count() {
+        String COMMAND_SAMPLE = "connect|sqlcmd|postgres|postgres";
         return COMMAND_SAMPLE.split("\\|").length;
     }
 

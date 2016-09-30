@@ -25,7 +25,6 @@ public class ClearTableTest {
         command = new ClearTable(manager, view);
     }
 
-
     @Test
     public void testCanProcessClearWithParametersString() {
         // when

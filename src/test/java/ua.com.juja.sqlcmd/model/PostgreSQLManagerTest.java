@@ -1,15 +1,11 @@
 package ua.com.juja.sqlcmd.model;
 
 import org.junit.*;
-import ua.com.juja.sqlcmd.view.View;
 
-import java.sql.Connection;
-import java.sql.Statement;
 import java.util.*;
 
 import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
 
 public class PostgreSQLManagerTest {
 
@@ -24,10 +20,6 @@ public class PostgreSQLManagerTest {
     private final static String DB_PASSWORD = pl.getPassword();
     private final static String DATABASE_NAME = pl.getDatabaseName();
     private static DatabaseManager manager;
-    private static DatabaseManager manMock;
-    private static View viewMock;
-    private static Connection connection;
-    private static Statement statement;
 
 
     @BeforeClass
@@ -50,12 +42,7 @@ public class PostgreSQLManagerTest {
     public void setup() {
         manager.connect(DATABASE_NAME, DB_USER, DB_PASSWORD);
         manager.createTable(SQL_CREATE_TABLE);
-
-        manMock = mock(DatabaseManager.class);
-        viewMock = mock(View.class);
-        connection = mock(Connection.class);
-        statement = mock(Statement.class);
-    }
+     }
 
     @After
     public void clear() {
@@ -262,7 +249,6 @@ public class PostgreSQLManagerTest {
         //then
         manager.update(NOT_EXIST_TABLE, 1, updateData);
     }
-
 
     @Test
     public void testIsConnected() {

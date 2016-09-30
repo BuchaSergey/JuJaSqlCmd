@@ -3,7 +3,6 @@ package ua.com.juja.sqlcmd.controller.command;
 import org.junit.Before;
 import org.junit.Test;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
-import ua.com.juja.sqlcmd.model.PropertiesLoader;
 import ua.com.juja.sqlcmd.view.View;
 
 import static junit.framework.Assert.assertEquals;
@@ -18,9 +17,6 @@ public class ConnectTest {
     private DatabaseManager manager;
     private View view;
 
-    PropertiesLoader properties;
-
-
     @Before
     public void setup() {
         manager = mock(DatabaseManager.class);
@@ -34,7 +30,6 @@ public class ConnectTest {
         boolean canProcess = command.canProcess("connect|sqlcmd|postgres|postgres");
         // then
         assertTrue(canProcess);
-
     }
 
     @Test
@@ -57,7 +52,5 @@ public class ConnectTest {
         //then
         verify(view).write("Подключение к базе 'sqlcmd' прошло успешно!");
     }
-
-
 }
 
