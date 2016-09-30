@@ -53,7 +53,7 @@ public class GetTableDataTest {
         command.process(String.format("show|%s", tableName));
 
         shouldPrint(
-                        "[+--+----------+\n" +
+                "[+--+----------+\n" +
                         "|id|name      |\n" +
                         "+--+----------+\n" +
                         "|1 |FirstUser |\n" +
@@ -123,6 +123,7 @@ public class GetTableDataTest {
                         "+--+----+]"
         );
     }
+
     @Test
     public void testPrintTableDataWithOneColumn() {
         //given
@@ -145,12 +146,12 @@ public class GetTableDataTest {
 
         //then
         shouldPrint("[+--+\n" +
-                    "|id|\n" +
-                    "+--+\n" +
-                    "|12|\n" +
-                    "+--+\n" +
-                    "|13|\n" +
-                    "+--+]");
+                "|id|\n" +
+                "+--+\n" +
+                "|12|\n" +
+                "+--+\n" +
+                "|13|\n" +
+                "+--+]");
     }
 
     @Test

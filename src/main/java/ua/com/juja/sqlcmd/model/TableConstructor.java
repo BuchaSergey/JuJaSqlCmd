@@ -8,6 +8,7 @@ import org.nocrala.tools.texttablefmt.Table;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 public class TableConstructor {
 
     private Set<String> columns;

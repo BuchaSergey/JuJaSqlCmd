@@ -21,10 +21,13 @@ public class UnsupportedTest {
         view = Mockito.mock(View.class);
         command = new Unsupported(view);
     }
+
     @Test
     public void testCanProcess() {
+
         // when
         boolean canP = command.canProcess("");
+
         //then
         assertTrue(canP);
     }

@@ -9,9 +9,7 @@ import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-/**
- * Created by Seriy on 27.08.2016.
- */
+
 public class HelpTest {
     private DatabaseManager manager;
     private View view;

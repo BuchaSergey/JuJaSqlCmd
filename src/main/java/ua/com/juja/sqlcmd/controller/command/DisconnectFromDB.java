@@ -8,6 +8,7 @@ public class DisconnectFromDB implements Command {
 
     private DatabaseManager manager;
     private View view;
+
     public DisconnectFromDB(DatabaseManager manager, View view) {
         this.manager = manager;
         this.view = view;

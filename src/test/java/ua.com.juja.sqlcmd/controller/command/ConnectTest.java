@@ -11,9 +11,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-/**
- * Created by Seriy on 12.08.2016.
- */
+
 public class ConnectTest {
 
     private Command command;
@@ -21,7 +19,6 @@ public class ConnectTest {
     private View view;
 
     PropertiesLoader properties;
-
 
 
     @Before

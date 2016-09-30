@@ -37,8 +37,7 @@ public class PostgreSQLManager implements DatabaseManager {
     @Override
     public List<Map<String, Object>> getTableData(String tableName) {
         try (Statement statement = connection.createStatement();
-             ResultSet rs = statement.executeQuery("SELECT * FROM " + tableName))
-        {
+             ResultSet rs = statement.executeQuery("SELECT * FROM " + tableName)) {
             ResultSetMetaData rsmd = rs.getMetaData();
 
             List<Map<String, Object>> result = new LinkedList<>();
@@ -90,7 +89,7 @@ public class PostgreSQLManager implements DatabaseManager {
 
         String rowNames = getFormatedName(input, "\"%s\",");
         String values = getFormatedValues(input, "'%s',");
-        String sql = "INSERT INTO " + tableName + " (" + rowNames + ") " + "VALUES (" +  values + ")";
+        String sql = "INSERT INTO " + tableName + " (" + rowNames + ") " + "VALUES (" + values + ")";
 
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(sql);
@@ -126,8 +125,6 @@ public class PostgreSQLManager implements DatabaseManager {
         }
 
     }
-
-
 
 
     @Override
@@ -174,7 +171,7 @@ public class PostgreSQLManager implements DatabaseManager {
     @Override
     public void update(String tableName, int id, Map<String, Object> newValue) {
         String tableNames = getFormatedName(newValue, "\"%s\" = ?,");
-        String query = "UPDATE " + tableName +  " SET " +  tableNames + " WHERE id = ?";
+        String query = "UPDATE " + tableName + " SET " + tableNames + " WHERE id = ?";
 
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             int index = 1;
@@ -200,7 +197,7 @@ public class PostgreSQLManager implements DatabaseManager {
             }
             return tables;
         } catch (SQLException e) {
-            throw new DatabaseManagerException( ERROR + "не удалось получить имена таблиц", e);
+            throw new DatabaseManagerException(ERROR + "не удалось получить имена таблиц", e);
         }
     }
 

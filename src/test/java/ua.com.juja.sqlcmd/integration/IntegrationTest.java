@@ -27,6 +27,7 @@ public class IntegrationTest {
     private final static String SQL_CREATE_TABLE2 = TABLE_NAME2 + " (id SERIAL PRIMARY KEY," +
             " name VARCHAR (50) UNIQUE NOT NULL," +
             " pass VARCHAR (50) NOT NULL)";
+
     private static DatabaseManager manager;
     private static PropertiesLoader pl = new PropertiesLoader();
     private final static String DB_USER = pl.getUserName();
@@ -307,7 +308,6 @@ public class IntegrationTest {
                         "+----+-----+----+\n" +
                         "|1111|serge|****|\n" +
                         "+----+-----+----+\n" +
-
                         "Введи команду (или help для помощи):\n" +
                         "\u001B[31mУдаляем данные с таблицы '" + TABLE_NAME + "'. Y/N\u001B[0m\n" +
                         "Таблица " + TABLE_NAME + " была успешно очищена.\n" +

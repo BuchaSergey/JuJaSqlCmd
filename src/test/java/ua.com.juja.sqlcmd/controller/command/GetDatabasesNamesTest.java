@@ -10,13 +10,9 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
-/**
- * Created by Seriy on 02.09.2016.
- */
+
 public class GetDatabasesNamesTest {
     private DatabaseManager manager;
     private View view;
@@ -38,14 +34,17 @@ public class GetDatabasesNamesTest {
 
     @Test
     public void testWithConfirmDropDB() {
+        //given
         Set<String> databases = new LinkedHashSet<>(Arrays.asList("database1", "database2", "database3"));
         when(manager.getDatabasesNames()).thenReturn(databases);
+
         //when
         command.process("databases");
+
         //then
         verify(manager).getDatabasesNames();
         verify(view).write("____БАЗЫ____");
-        for (String database: databases) {
+        for (String database : databases) {
             verify(view).write(database);
         }
 

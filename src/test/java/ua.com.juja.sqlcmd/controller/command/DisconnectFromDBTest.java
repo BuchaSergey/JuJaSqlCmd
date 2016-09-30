@@ -9,10 +9,8 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-/**
- * Created by Seriy on 02.09.2016.
- */
-public class DisconnectFromDBTest  {
+
+public class DisconnectFromDBTest {
 
     private DatabaseManager manager;
     private View view;

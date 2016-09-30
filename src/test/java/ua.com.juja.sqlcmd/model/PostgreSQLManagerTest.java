@@ -264,7 +264,6 @@ public class PostgreSQLManagerTest {
     }
 
 
-
     @Test
     public void testIsConnected() {
         assertTrue(manager.isConnected());

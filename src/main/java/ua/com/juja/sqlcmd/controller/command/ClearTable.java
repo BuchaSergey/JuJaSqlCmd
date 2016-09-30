@@ -32,9 +32,9 @@ public class ClearTable implements Command {
         Set<String> tableNames = manager.getTableNames();
         String clearTableName = data[1];
 
-        if(tableNames.contains(clearTableName)) {
+        if (tableNames.contains(clearTableName)) {
             confirmAndClearTable(clearTableName);
-       } else view.write(String.format("Данной таблицы '%s' не существует. Проверьте имяТаблицы", clearTableName));
+        } else view.write(String.format("Данной таблицы '%s' не существует. Проверьте имяТаблицы", clearTableName));
     }
 
     private void confirmAndClearTable(String clearTableName) {

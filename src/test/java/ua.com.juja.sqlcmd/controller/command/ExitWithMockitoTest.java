@@ -8,9 +8,7 @@ import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 
-/**
- * Created by indigo on 01.09.2015.
- */
+
 public class ExitWithMockitoTest {
 
     private View view = Mockito.mock(View.class);

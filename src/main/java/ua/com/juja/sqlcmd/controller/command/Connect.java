@@ -39,8 +39,8 @@ public class Connect implements Command {
         String userName = data[2];
         String password = data[3];
 
-            manager.connect(database, userName, password);
-            view.write(String.format("Подключение к базе '%s' прошло успешно!", database));
+        manager.connect(database, userName, password);
+        view.write(String.format("Подключение к базе '%s' прошло успешно!", database));
 
 
     }

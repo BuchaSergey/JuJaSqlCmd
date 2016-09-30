@@ -10,9 +10,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import static junit.framework.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 
 public class GetTablesNamesTest {
@@ -49,7 +47,6 @@ public class GetTablesNamesTest {
         command.process("tables");
         //then
         verify(manager).getTableNames();
-
 
 
     }

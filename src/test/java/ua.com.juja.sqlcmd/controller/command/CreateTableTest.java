@@ -11,9 +11,7 @@ import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-/**
- * Created by Seriy on 30.08.2016.
- */
+
 public class CreateTableTest {
 
     private DatabaseManager manager;

@@ -1,7 +1,6 @@
 package ua.com.juja.sqlcmd.model;
 
 import org.junit.Test;
-import ua.com.juja.sqlcmd.view.View;
 
 import java.util.*;
 
@@ -9,23 +8,18 @@ import static org.junit.Assert.assertEquals;
 
 public class TableConstructorTest {
 
-    private DatabaseManager manager;
-    private View view;
-
-
-
-
-    @Test public void testTableConstructorWithOneParameters() {
+    @Test
+    public void testTableConstructorWithOneParameters() {
 
         TableConstructor table = initTableConstructor();
 
         assertEquals("+--+----------+--------+\n" +
-                     "|id|name      |password|\n" +
-                     "+--+----------+--------+\n" +
-                     "|1 |FirstUser |+++++   |\n" +
-                     "+--+----------+--------+\n" +
-                     "|2 |SecondUser|#####   |\n" +
-                     "+--+----------+--------+", table.getTableString() );
+                "|id|name      |password|\n" +
+                "+--+----------+--------+\n" +
+                "|1 |FirstUser |+++++   |\n" +
+                "+--+----------+--------+\n" +
+                "|2 |SecondUser|#####   |\n" +
+                "+--+----------+--------+", table.getTableString());
     }
 
     private TableConstructor initTableConstructor() {
@@ -47,7 +41,7 @@ public class TableConstructorTest {
 
         TableConstructor constructor = new TableConstructor(columns, tableData);
 
-        return  constructor;
+        return constructor;
 
     }
 
