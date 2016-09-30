@@ -14,7 +14,6 @@ public class PostgreSQLManagerTest {
     private final static String SQL_CREATE_TABLE = TABLE_NAME + " (id SERIAL PRIMARY KEY," +
             " username VARCHAR (50) UNIQUE NOT NULL," +
             " password VARCHAR (50) NOT NULL)";
-    private static final String ERROR = "Невозможно выполнить: ";
     private static PropertiesLoader pl = new PropertiesLoader();
     private final static String DB_USER = pl.getUserName();
     private final static String DB_PASSWORD = pl.getPassword();
