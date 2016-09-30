@@ -64,7 +64,7 @@ public class GetTableDataTest {
 
     }
 
-    public void shouldPrint(String expected) {
+    private void shouldPrint(String expected) {
         ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
         verify(view, atLeastOnce()).write(captor.capture());
         assertEquals(expected, captor.getAllValues().toString());

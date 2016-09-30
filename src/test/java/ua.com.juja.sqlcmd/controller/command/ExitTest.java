@@ -24,9 +24,6 @@ public class ExitTest {
 
     @Test
     public void testCanProcessExitString() {
-        // given
-        Command command = new Exit(view);
-
         // when
         boolean canProcess = command.canProcess("exit");
 
@@ -36,9 +33,6 @@ public class ExitTest {
 
     @Test
     public void testCantProcessQweString() {
-        // given
-        Command command = new Exit(view);
-
         // when
         boolean canProcess = command.canProcess("qwe");
 
@@ -48,8 +42,6 @@ public class ExitTest {
 
     @Test
     public void testProcessExitCommand_throwsExitException() {
-        // given
-        Command command = new Exit(view);
 
         // when
         try {

@@ -8,7 +8,7 @@ public class PostgreSQLManager implements DatabaseManager {
 
 
     private static final String ERROR = "Невозможно выполнить: ";
-    static PropertiesLoader propertiesLoader = new PropertiesLoader();
+    private static PropertiesLoader propertiesLoader = new PropertiesLoader();
     private static final String HOST = propertiesLoader.getServerName();
     private static final String PORT = propertiesLoader.getDatabasePort();
     private static final String DRIVER = propertiesLoader.getDriver();
@@ -88,7 +88,7 @@ public class PostgreSQLManager implements DatabaseManager {
     public void createEntry(String tableName, Map<String, Object> input) {
 
         String rowNames = getFormatedName(input, "\"%s\",");
-        String values = getFormatedValues(input, "'%s',");
+        String values = getFormatedValues(input);
         String sql = "INSERT INTO " + tableName + " (" + rowNames + ") " + "VALUES (" + values + ")";
 
         try (Statement statement = connection.createStatement()) {
@@ -107,10 +107,10 @@ public class PostgreSQLManager implements DatabaseManager {
         return string;
     }
 
-    private String getFormatedValues(Map<String, Object> input, String format) {
+    private String getFormatedValues(Map<String, Object> input) {
         String values = "";
         for (Object value : input.values()) {
-            values += String.format(format, value);
+            values += String.format("'%s',", value);
         }
         values = values.substring(0, values.length() - 1);
         return values;
@@ -188,7 +188,7 @@ public class PostgreSQLManager implements DatabaseManager {
 
     @Override
     public Set<String> getTableNames() {
-        Set<String> tables = new LinkedHashSet();
+        Set<String> tables = new HashSet<>();
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT table_name FROM information_schema.tables" +
                      " WHERE table_schema='public' AND table_type='BASE TABLE'")) {
@@ -220,7 +220,7 @@ public class PostgreSQLManager implements DatabaseManager {
 
     @Override
     public Set<String> getTableColumns(String tableName) {
-        Set<String> tables = new LinkedHashSet();
+        Set<String> tables = new HashSet<>();
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT * FROM information_schema.columns " +
                      "WHERE table_schema = 'public' AND table_name = '" + tableName + "'")) {

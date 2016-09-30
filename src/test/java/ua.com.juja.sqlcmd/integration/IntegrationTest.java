@@ -121,7 +121,7 @@ public class IntegrationTest {
                         "До скорой встречи!\n", getData());
     }
 
-    public String getData() {
+    private String getData() {
         try {
             String result = new String(out.toByteArray(), "UTF-8").replaceAll("\r\n", "\n");
             out.reset();

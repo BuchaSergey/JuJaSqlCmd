@@ -7,7 +7,7 @@ import java.util.Properties;
 
 public class PropertiesLoader {
 
-    public static final String CONFIG_SQLCMD_PROPERTIES = "config/sqlcmd.properties";
+    private static final String CONFIG_SQLCMD_PROPERTIES = "config/sqlcmd.properties";
     private Properties properties;
 
     public PropertiesLoader() {
