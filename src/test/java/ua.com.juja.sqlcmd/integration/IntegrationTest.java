@@ -41,6 +41,9 @@ public class IntegrationTest {
         manager = new PostgreSQLManager();
         manager.connect("", DB_USER, DB_PASSWORD);
 
+        manager.dropDB(DB_NAME);
+        manager.dropDB(DB_NAME2);
+
         manager.createDatabase(DB_NAME);
         manager.createDatabase(DB_NAME2);
 
@@ -50,15 +53,22 @@ public class IntegrationTest {
 
         manager.connect(DB_NAME2, DB_USER, DB_PASSWORD);
         manager.createTable(SQL_CREATE_TABLE2);
+
+        manager.dropDB(DB_NAME);
+        manager.dropDB(DB_NAME2);
         manager.disconnectFromDB();
+
     }
 
     @AfterClass
     public static void clearAfterAllTests() {
+
         manager = new PostgreSQLManager();
-        manager.disconnectFromDB();
+        manager.connect("", DB_USER, DB_PASSWORD);
+
         manager.dropDB(DB_NAME);
         manager.dropDB(DB_NAME2);
+
     }
 
     @Before
@@ -270,7 +280,7 @@ public class IntegrationTest {
         assertEquals("Привет юзер!\n" +
                 "Введи, пожалуйста имя базы данных, имя пользователя и пароль в формате: connect|database|userName|password\n" +
                 // badConnect
-                "Неудача! по причине: Проверьте правильность введенных данных, " +
+                "Неудача! по причине: Проверьте правильность введенных данных,  " +
                 "Ошибка при попытке подсоединения.\n" +
                 "Повтори попытку.\n" +
                 // exit
