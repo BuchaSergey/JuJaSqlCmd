@@ -24,7 +24,7 @@ public class TableConstructorTest {
                      "+--+----------+--------+\n" +
                      "|1 |FirstUser |+++++   |\n" +
                      "+--+----------+--------+\n" +
-                     "|2 |Sec3ondUser|#####   |\n" +
+                     "|2 |SecondUser|#####   |\n" +
                      "+--+----------+--------+", table.getTableString() );
     }
 
