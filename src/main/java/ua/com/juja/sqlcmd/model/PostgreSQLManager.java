@@ -13,6 +13,7 @@ public class PostgreSQLManager implements DatabaseManager {
     private static final String DATABASE_URL = DRIVER + HOST + ":" + PORT + "/";
     private static final String USER_NAME = propertiesLoader.getUserName();
     private static final String PASSWORD = propertiesLoader.getPassword();
+    private Connection connection;
 
     static {
         try {
@@ -29,8 +30,6 @@ public class PostgreSQLManager implements DatabaseManager {
             }
         }
     }
-
-    private Connection connection;
 
     @Override
     public List<Map<String, Object>> getTableData(String tableName) {
