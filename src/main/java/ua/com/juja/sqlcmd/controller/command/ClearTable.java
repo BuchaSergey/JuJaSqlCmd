@@ -3,15 +3,13 @@ package ua.com.juja.sqlcmd.controller.command;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
-import java.util.Set;
-
 
 public class ClearTable implements Command {
 
-    private DatabaseManager manager;
-    private View view;
     private static final String ANSI_RED = "\u001B[31m";
     private static final String ANSI_RESET = "\u001B[0m";
+    private DatabaseManager manager;
+    private View view;
 
     public ClearTable(DatabaseManager manager, View view) {
         this.manager = manager;
@@ -29,12 +27,8 @@ public class ClearTable implements Command {
         if (data.length != 2) {
             throw new IllegalArgumentException("Формат команды 'clear|tableName', а ты ввел: " + command);
         }
-        Set<String> tableNames = manager.getTableNames();
         String clearTableName = data[1];
-
-        if (tableNames.contains(clearTableName)) {
-            confirmAndClearTable(clearTableName);
-        } else view.write(String.format("Данной таблицы '%s' не существует. Проверьте имяТаблицы", clearTableName));
+        confirmAndClearTable(clearTableName);
     }
 
     private void confirmAndClearTable(String clearTableName) {

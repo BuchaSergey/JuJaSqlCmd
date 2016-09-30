@@ -6,8 +6,6 @@ import java.util.*;
 
 public class PostgreSQLManager implements DatabaseManager {
 
-
-    private static final String ERROR = "Невозможно выполнить: ";
     private static PropertiesLoader propertiesLoader = new PropertiesLoader();
     private static final String HOST = propertiesLoader.getServerName();
     private static final String PORT = propertiesLoader.getDatabasePort();
@@ -50,7 +48,7 @@ public class PostgreSQLManager implements DatabaseManager {
             }
             return result;
         } catch (SQLException e) {
-            throw new DatabaseManagerException(ERROR, e);
+            throw new DatabaseManagerException(String.format("Не возможно получить данные из таблицы %s",tableName), e);
         }
     }
 
@@ -94,7 +92,7 @@ public class PostgreSQLManager implements DatabaseManager {
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(sql);
         } catch (SQLException e) {
-            throw new DatabaseManagerException(ERROR, e);
+            throw new DatabaseManagerException(String.format("Не возможно создать строку данных в таблице %s",tableName), e);
         }
     }
 
@@ -138,7 +136,6 @@ public class PostgreSQLManager implements DatabaseManager {
 
     @Override
     public void dropDB(String databaseName) {
-
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate("DROP DATABASE IF EXISTS " + databaseName);
         } catch (SQLException e) {
@@ -149,7 +146,6 @@ public class PostgreSQLManager implements DatabaseManager {
 
     @Override
     public void dropTable(String tableName) {
-
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate("DROP TABLE IF EXISTS " + tableName);
         } catch (SQLException e) {
@@ -182,7 +178,7 @@ public class PostgreSQLManager implements DatabaseManager {
             ps.setObject(index, id);
             ps.executeUpdate();
         } catch (SQLException e) {
-            throw new DatabaseManagerException(ERROR, e);
+            throw new DatabaseManagerException(String.format("Не возможно обновить строку данных в таблице %s",tableName), e);
         }
     }
 
@@ -197,7 +193,7 @@ public class PostgreSQLManager implements DatabaseManager {
             }
             return tables;
         } catch (SQLException e) {
-            throw new DatabaseManagerException(ERROR + "не удалось получить имена таблиц", e);
+            throw new DatabaseManagerException("Не удалось получить имена таблиц", e);
         }
     }
 
@@ -214,7 +210,7 @@ public class PostgreSQLManager implements DatabaseManager {
             }
             return result;
         } catch (SQLException e) {
-            throw new DatabaseManagerException(ERROR + "не удалось получить имена БД", e);
+            throw new DatabaseManagerException("Не удалось получить имена БД", e);
         }
     }
 
@@ -229,7 +225,7 @@ public class PostgreSQLManager implements DatabaseManager {
             }
             return tables;
         } catch (SQLException e) {
-            throw new DatabaseManagerException(ERROR, e);
+            throw new DatabaseManagerException(String.format("Не возможно получить название столбцов их таблицы %s",tableName), e);
         }
     }
 }
