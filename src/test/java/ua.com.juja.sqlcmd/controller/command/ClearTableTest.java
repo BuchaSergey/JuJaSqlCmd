@@ -17,7 +17,6 @@ public class ClearTableTest {
     private View view;
     private Command command;
 
-
     @Before
     public void setup() {
         manager = mock(DatabaseManager.class);
@@ -73,14 +72,13 @@ public class ClearTableTest {
 
     @Test
     public void testExceptionClear() {
-
+        //given
         Command command = new ClearTable(manager, view);
         command.process("clear|wrong");
         // then
         ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
         verify(view, atLeastOnce()).write(captor.capture());
         assertEquals("[Данной таблицы 'wrong' не существует. Проверьте имяТаблицы]", captor.getAllValues().toString());
-
     }
 
     @Test
@@ -91,7 +89,6 @@ public class ClearTableTest {
         //then
         verify(manager).clear("test");
         verify(view).write("Table 'test' successful cleared");
-
     }
 
     @Test
