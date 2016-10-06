@@ -31,6 +31,8 @@ public class PostgreSQLManager implements DatabaseManager {
         }
     }
 
+
+
     @Override
     public List<Map<String, Object>> getTableData(String tableName) {
         try (Statement statement = connection.createStatement();
@@ -47,7 +49,7 @@ public class PostgreSQLManager implements DatabaseManager {
             }
             return result;
         } catch (SQLException e) {
-            throw new DatabaseManagerException(String.format("Не возможно получить данные из таблицы %s",tableName), e);
+            throw new DatabaseManagerException(String.format("Не возможно получить данные из таблицы %s", tableName), e);
         }
     }
 
@@ -86,12 +88,12 @@ public class PostgreSQLManager implements DatabaseManager {
 
         String rowNames = getFormatedName(input, "\"%s\",");
         String values = getFormatedValues(input);
-        String sql = "INSERT INTO " + tableName + " (" + rowNames + ") " + "VALUES (" + values + ")";
+        String query = "INSERT INTO " + tableName + " (" + rowNames + ") " + "VALUES (" + values + ")";
 
         try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate(sql);
+            statement.executeUpdate(query);
         } catch (SQLException e) {
-            throw new DatabaseManagerException(String.format("Не возможно создать строку данных в таблице %s",tableName), e);
+            throw new DatabaseManagerException(String.format("Не возможно создать строку данных в таблице %s", tableName), e);
         }
     }
 
@@ -154,10 +156,14 @@ public class PostgreSQLManager implements DatabaseManager {
 
     @Override
     public void disconnectFromDB() {
+        if (connection == null) {
+            System.out.println(("Чтобы что-то отдисконнектить надо что-то приконектить"));
+        }
         try {
             connection.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DatabaseManagerException(
+                    "Не могу закрыть connection при disconnectFromDB:", e);
         }
         connection = null;
     }
@@ -181,7 +187,7 @@ public class PostgreSQLManager implements DatabaseManager {
             ps.setObject(index, id);
             ps.executeUpdate();
         } catch (SQLException e) {
-            throw new DatabaseManagerException(String.format("Не возможно обновить строку данных в таблице %s",tableName), e);
+            throw new DatabaseManagerException(String.format("Не возможно обновить строку данных в таблице %s", tableName), e);
         }
     }
 
@@ -218,16 +224,18 @@ public class PostgreSQLManager implements DatabaseManager {
 
     @Override
     public Set<String> getTableColumns(String tableName) {
-        Set<String> tables = new HashSet<>();
-        try (Statement stmt = connection.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT * FROM information_schema.columns " +
-                     "WHERE table_schema = 'public' AND table_name = '" + tableName + "'")) {
-            while (rs.next()) {
-                tables.add(rs.getString("column_name"));
+        String query = "SELECT * FROM information_schema.columns WHERE table_schema = 'public' AND table_name = ?";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setObject(1 ,tableName);
+            try (ResultSet rs = ps.executeQuery()) {
+                Set<String> result = new LinkedHashSet<>();
+                while (rs.next()) {
+                    result.add(rs.getString("column_name"));
+                }
+                return result;
             }
-            return tables;
         } catch (SQLException e) {
-            throw new DatabaseManagerException(String.format("Не возможно получить название столбцов их таблицы %s",tableName), e);
+            throw new DatabaseManagerException(String.format("Не возможно получить название столбцов их таблицы %s", tableName), e);
         }
     }
 }
