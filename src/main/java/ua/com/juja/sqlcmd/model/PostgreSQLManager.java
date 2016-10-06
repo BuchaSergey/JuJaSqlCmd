@@ -157,7 +157,7 @@ public class PostgreSQLManager implements DatabaseManager {
     @Override
     public void disconnectFromDB() {
         if (connection == null) {
-            System.out.println(("Чтобы что-то отдисконнектить надо что-то приконектить"));
+            System.out.println("Чтобы что-то отдисконнектить надо что-то приконектить");
         }
         try {
             connection.close();
