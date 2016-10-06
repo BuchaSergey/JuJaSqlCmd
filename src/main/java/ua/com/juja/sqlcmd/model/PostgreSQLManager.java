@@ -13,7 +13,6 @@ public class PostgreSQLManager implements DatabaseManager {
     private static final String DATABASE_URL = DRIVER + HOST + ":" + PORT + "/";
     private static final String USER_NAME = propertiesLoader.getUserName();
     private static final String PASSWORD = propertiesLoader.getPassword();
-    private Connection connection;
 
     static {
         try {
@@ -31,7 +30,7 @@ public class PostgreSQLManager implements DatabaseManager {
         }
     }
 
-
+    private Connection connection;
 
     @Override
     public List<Map<String, Object>> getTableData(String tableName) {
@@ -157,7 +156,8 @@ public class PostgreSQLManager implements DatabaseManager {
     @Override
     public void disconnectFromDB() {
         if (connection == null) {
-            System.out.println("Чтобы что-то отдисконнектить надо что-то приконектить");
+            throw new DatabaseManagerException(
+                    "Чтобы что-то отдисконнектить надо что-то приконектить", new Exception());
         }
         try {
             connection.close();
@@ -226,7 +226,7 @@ public class PostgreSQLManager implements DatabaseManager {
     public Set<String> getTableColumns(String tableName) {
         String query = "SELECT * FROM information_schema.columns WHERE table_schema = 'public' AND table_name = ?";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
-            ps.setObject(1 ,tableName);
+            ps.setObject(1, tableName);
             try (ResultSet rs = ps.executeQuery()) {
                 Set<String> result = new LinkedHashSet<>();
                 while (rs.next()) {
