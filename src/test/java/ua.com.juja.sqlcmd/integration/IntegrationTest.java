@@ -22,7 +22,7 @@ public class IntegrationTest {
     private final static String SQL_CREATE_TABLE = TABLE_NAME + " (id SERIAL PRIMARY KEY," +
             " name VARCHAR (50) UNIQUE NOT NULL," +
             " pass VARCHAR (50) NOT NULL)";
-    private final static String DB_NAME2 = "test";
+    private final static String DB_NAME2 = "database2";
     private final static String TABLE_NAME2 = "qwe";
     private final static String SQL_CREATE_TABLE2 = TABLE_NAME2 + " (id SERIAL PRIMARY KEY," +
             " name VARCHAR (50) UNIQUE NOT NULL," +
@@ -32,7 +32,7 @@ public class IntegrationTest {
     private static final PropertiesLoader pl = new PropertiesLoader();
     private final static String DB_USER = pl.getUserName();
     private final static String DB_PASSWORD = pl.getPassword();
-    private final static String DB_NAME = pl.getDatabaseName();
+    private final static String DB_NAME = "database1";
     private ConfigurableInputStream in;
     private ByteArrayOutputStream out;
 

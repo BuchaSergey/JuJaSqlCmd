@@ -46,7 +46,7 @@ public class Help implements Command {
         view.write(ANSI_BLUE + "\ttables");
         view.write(ANSI_RESET + "\t\tдля получения списка всех таблиц базы, к которой подключились");
 
-        view.write(ANSI_BLUE + "\tcreateTable|tableName(name text, pass text, id serial, PRIMARY KEY(id)");
+        view.write(ANSI_BLUE + "\tcreateTable|tableName(name text, pass text, id serial, PRIMARY KEY(id))");
         view.write(ANSI_RESET + "\t\tдля создания таблицы. ");
 
         view.write(ANSI_BLUE + "\tcreateEntry|tableName|column1|value1|column2|value2|...|columnN|valueN");

@@ -19,7 +19,7 @@ public class CreateEntry implements Command {
 
     @Override
     public boolean canProcess(String command) {
-        return command.startsWith("create|");
+        return command.startsWith("createEntry|");
     }
 
     @Override
