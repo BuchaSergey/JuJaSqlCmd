@@ -6,7 +6,7 @@ import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
 
-class MainController {
+public class MainController {
 
     private final Command[] commands;
     private final View view;
