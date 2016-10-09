@@ -35,14 +35,16 @@ public class PostgreSQLManager implements DatabaseManager {
     @Override
     public List<Map<String, Object>> getTableData(String tableName) {
         try (Statement statement = connection.createStatement();
-             ResultSet rs = statement.executeQuery("SELECT * FROM " + tableName)) {
-            ResultSetMetaData rsmd = rs.getMetaData();
+             ResultSet tableData = statement.executeQuery("SELECT * FROM " + tableName)) {
+            ResultSetMetaData metaData = tableData.getMetaData();
 
             List<Map<String, Object>> result = new LinkedList<>();
-            while (rs.next()) {
+            while (tableData.next()) {
                 Map<String, Object> data = new LinkedHashMap<>();
-                for (int index = 1; index <= rsmd.getColumnCount(); index++) {
-                    data.put(rsmd.getColumnName(index), rs.getObject(index));
+                for (int index = 1; index <= metaData.getColumnCount(); index++) {
+                    //if (tableData.getObject(index) == null) tableData.getObject(index) = "";
+
+                    data.put(metaData.getColumnName(index), tableData.getObject(index));
                 }
                 result.add(data);
             }
