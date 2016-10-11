@@ -103,7 +103,7 @@ public class IntegrationTest {
                         "\u001B[0m\t\tдля удаления база данных\n" +
                         "\u001B[34m\ttables\n" +
                         "\u001B[0m\t\tдля получения списка всех таблиц базы, к которой подключились\n" +
-                        "\u001B[34m\tcreateTable|tableName(name text, pass text, id serial, PRIMARY KEY(id)\n" +
+                        "\u001B[34m\tcreateTable|tableName(name text, pass text, id serial, PRIMARY KEY(id))\n" +
                         "\u001B[0m\t\tдля создания таблицы. \n" +
                         "\u001B[34m\tcreateEntry|tableName|column1|value1|column2|value2|...|columnN|valueN\n" +
                         "\u001B[0m\t\tдля создания записи в таблице\n" +
@@ -282,7 +282,7 @@ public class IntegrationTest {
     public void testShowTableAfterClear() {
         // given
         in.add("connect|" + DB_NAME + "|" + DB_USER + "|" + DB_PASSWORD);
-        in.add("create|" + TABLE_NAME + "|id|1111|name|serge|pass|****");
+        in.add("createEntry|" + TABLE_NAME + "|id|1111|name|serge|pass|****");
         in.add("show|" + TABLE_NAME);
         in.add("clear|" + TABLE_NAME);
         in.add("y");
@@ -385,8 +385,8 @@ public class IntegrationTest {
         in.add("clear|" + TABLE_NAME);
         in.add("y");
 
-        in.add("create|" + TABLE_NAME + "|id|13|name|Stiven|pass|*****");
-        in.add("create|" + TABLE_NAME + "|id|14|name|Pupkin|pass|+++++");
+        in.add("createEntry|" + TABLE_NAME + "|id|13|name|Stiven|pass|*****");
+        in.add("createEntry|" + TABLE_NAME + "|id|14|name|Pupkin|pass|+++++");
         in.add("show|" + TABLE_NAME);
         in.add("disconnect");
         in.add("exit");
@@ -453,7 +453,7 @@ public class IntegrationTest {
     public void testCreateWithErrors() {
         // given
         in.add("connect|" + DB_NAME + "|" + DB_USER + "|" + DB_PASSWORD);
-        in.add("create|" + TABLE_NAME + "|error");
+        in.add("createTable|" + TABLE_NAME + "|error");
         in.add("disconnect");
         in.add("exit");
 
@@ -467,7 +467,7 @@ public class IntegrationTest {
                 "Подключение к базе '" + DB_NAME + "' прошло успешно!\n" +
                 "Введи команду (или help для помощи):\n" +
                 // create|user|error
-                "Неудача! по причине: Должно быть четное количество параметров в формате 'create|tableName|column1|value1|column2|value2|...|columnN|valueN', а ты прислал: 'create|" + TABLE_NAME + "|error'\n" +
+                "Неудача! по причине: Формат команды 'createTable|tableName', а ты ввел: createTable|test|error\n" +
                 "Повтори попытку.\n" +
                 "Введи команду (или help для помощи):\n" +
                 "Disconnected\n" +

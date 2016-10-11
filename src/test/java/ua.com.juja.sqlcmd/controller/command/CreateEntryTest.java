@@ -27,7 +27,7 @@ public class CreateEntryTest {
     @Test
     public void testCanProcess() {
         // when
-        boolean create = command.canProcess("create|test");
+        boolean create = command.canProcess("createEntry|test");
         assertTrue(create);
     }
 
