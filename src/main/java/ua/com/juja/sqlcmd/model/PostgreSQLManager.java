@@ -13,6 +13,7 @@ public class PostgreSQLManager implements DatabaseManager {
     private static final String DATABASE_URL = DRIVER + HOST + ":" + PORT + "/";
     private static final String USER_NAME = propertiesLoader.getUserName();
     private static final String PASSWORD = propertiesLoader.getPassword();
+    private Connection connection;
 
     static {
         try {
@@ -30,7 +31,7 @@ public class PostgreSQLManager implements DatabaseManager {
         }
     }
 
-    private Connection connection;
+
 
     @Override
     public List<Map<String, Object>> getTableData(String tableName) {
@@ -42,8 +43,6 @@ public class PostgreSQLManager implements DatabaseManager {
             while (tableData.next()) {
                 Map<String, Object> data = new LinkedHashMap<>();
                 for (int index = 1; index <= metaData.getColumnCount(); index++) {
-                    //if (tableData.getObject(index) == null) tableData.getObject(index) = "";
-
                     data.put(metaData.getColumnName(index), tableData.getObject(index));
                 }
                 result.add(data);
