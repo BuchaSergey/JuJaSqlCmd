@@ -6,6 +6,7 @@ import java.util.*;
 
 import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
 
 public class PostgreSQLManagerTest {
 
@@ -19,6 +20,7 @@ public class PostgreSQLManagerTest {
     private final static String DB_PASSWORD = pl.getPassword();
     private final static String DATABASE_NAME = pl.getDatabaseName();
     private static DatabaseManager manager;
+    private static DatabaseManager manMock;
 
 
     @BeforeClass
@@ -41,6 +43,7 @@ public class PostgreSQLManagerTest {
     public void setup() {
         manager.connect(DATABASE_NAME, DB_USER, DB_PASSWORD);
         manager.createTable(SQL_CREATE_TABLE);
+       manMock = mock(DatabaseManager.class);
      }
 
     @After
@@ -254,4 +257,13 @@ public class PostgreSQLManagerTest {
         assertTrue(manager.isConnected());
     }
 
+//    @Test(expected = DatabaseManagerException.class)
+//    public void testExceptionGetTableNames2() {
+//
+//        doThrow(new DatabaseManagerException
+//                ("Невозможно выполнить:" + "не удалось получить имена таблиц", "")).when(manMock).connect(anyString(),anyString(),anyString());
+//
+//            manMock.getTableNames();
+//
+//    }
 }
