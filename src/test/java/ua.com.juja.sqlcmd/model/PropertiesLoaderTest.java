@@ -1,8 +1,7 @@
-package ua.com.juja.sqlcmd.controller.command;
+package ua.com.juja.sqlcmd.model;
 
 
 import org.junit.Test;
-import ua.com.juja.sqlcmd.model.PropertiesLoader;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -51,5 +50,11 @@ public class PropertiesLoaderTest {
     public void testGetPort() {
         String databasePort = pl.getDatabasePort();
         assertEquals(DB_PORT, databasePort);
+    }
+
+    @Test
+    public void testGetDatabase() {
+        String databaseName = pl.getDatabaseName();
+        assertEquals(DB_NAME, databaseName);
     }
 }
