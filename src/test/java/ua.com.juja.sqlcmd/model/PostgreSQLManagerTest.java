@@ -1,12 +1,21 @@
 package ua.com.juja.sqlcmd.model;
 
 import org.junit.*;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.*;
 
 import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
+
+
+@RunWith(MockitoJUnitRunner.class)
 
 public class PostgreSQLManagerTest {
 
@@ -20,8 +29,6 @@ public class PostgreSQLManagerTest {
     private final static String DB_PASSWORD = pl.getPassword();
     private final static String DATABASE_NAME = pl.getDatabaseName();
     private static DatabaseManager manager;
-    private static DatabaseManager manMock;
-
 
     @BeforeClass
     public static void init() {
@@ -34,17 +41,21 @@ public class PostgreSQLManagerTest {
     @AfterClass
     public static void clearAfterAllTests() {
         manager.connect("", DB_USER, DB_PASSWORD);
-
         manager.dropDB(DATABASE_NAME);
         manager.disconnectFromDB();
     }
 
+    @Mock
+    private Connection mockConn;
+
+    @InjectMocks
+    private PostgreSQLManager managerInjected;;
+
     @Before
-    public void setup() {
+    public void setup() throws Exception {
         manager.connect(DATABASE_NAME, DB_USER, DB_PASSWORD);
         manager.createTable(SQL_CREATE_TABLE);
-       manMock = mock(DatabaseManager.class);
-     }
+    }
 
     @After
     public void clear() {
@@ -252,18 +263,58 @@ public class PostgreSQLManagerTest {
         manager.update(NOT_EXIST_TABLE, 1, updateData);
     }
 
-    @Test
-    public void testIsConnected() {
-        assertTrue(manager.isConnected());
+    @Test (expected = DatabaseManagerException.class)
+    public void testExceptionGetTableNames2() throws SQLException {
+
+        doThrow(new SQLException()).when(mockConn).createStatement();
+        managerInjected.getTableNames();
     }
 
-//    @Test(expected = DatabaseManagerException.class)
-//    public void testExceptionGetTableNames2() {
-//
-//        doThrow(new DatabaseManagerException
-//                ("Невозможно выполнить:" + "не удалось получить имена таблиц", "")).when(manMock).connect(anyString(),anyString(),anyString());
-//
-//            manMock.getTableNames();
-//
-//    }
+    @Test (expected = DatabaseManagerException.class)
+    public void testExceptionCreateDatabase() throws SQLException {
+
+        doThrow(new SQLException()).when(mockConn).createStatement();
+        managerInjected.createDatabase(DATABASE_NAME);
+    }
+
+    @Test (expected = DatabaseManagerException.class)
+    public void testExceptionDropDB() throws SQLException {
+
+        doThrow(new SQLException()).when(mockConn).createStatement();
+        managerInjected.dropDB(DATABASE_NAME);
+    }
+
+    @Test (expected = DatabaseManagerException.class)
+    public void testExceptionDropTable() throws SQLException {
+
+        doThrow(new SQLException()).when(mockConn).createStatement();
+        managerInjected.dropTable(TABLE_NAME);
+    }
+
+    @Test (expected = DatabaseManagerException.class)
+    public void testDisconnectFromDB() {
+        //given
+        DatabaseManager managerWhithoutConnectionToDatabase = new PostgreSQLManager();
+        //when
+        managerWhithoutConnectionToDatabase.disconnectFromDB();
+    }
+
+    @Test (expected = DatabaseManagerException.class)
+    public void testExceptionDisconnectFromDB() throws SQLException{
+        doThrow(new SQLException()).when(mockConn).close();
+        managerInjected.disconnectFromDB();
+    }
+
+    @Test (expected = DatabaseManagerException.class)
+    public void testExceptionGetTableData() throws SQLException {
+        doThrow(new SQLException()).when(mockConn).createStatement();
+        managerInjected.getTableData(TABLE_NAME);
+    }
+
+    @Test (expected = DatabaseManagerException.class)
+    public void testExceptionGetTableColumns() throws SQLException {
+        doThrow(new SQLException()).when(mockConn).prepareStatement(anyString());
+        managerInjected.getTableColumns(TABLE_NAME);
+    }
+
 }
