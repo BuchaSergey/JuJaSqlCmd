@@ -51,10 +51,4 @@ public class PropertiesLoaderTest {
         String databasePort = pl.getDatabasePort();
         assertEquals(DB_PORT, databasePort);
     }
-
-    @Test
-    public void testGetDatabase() {
-        String databaseName = pl.getDatabaseName();
-        assertEquals(DB_NAME, databaseName);
-    }
 }
