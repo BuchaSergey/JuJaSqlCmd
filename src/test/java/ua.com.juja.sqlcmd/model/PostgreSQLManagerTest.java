@@ -49,7 +49,7 @@ public class PostgreSQLManagerTest {
     private Connection mockConn;
 
     @InjectMocks
-    private PostgreSQLManager managerInjected;;
+    private PostgreSQLManager managerInjected;
 
     @Before
     public void setup() throws Exception {
@@ -294,9 +294,9 @@ public class PostgreSQLManagerTest {
     @Test (expected = DatabaseManagerException.class)
     public void testDisconnectFromDB() {
         //given
-        DatabaseManager managerWhithoutConnectionToDatabase = new PostgreSQLManager();
+        DatabaseManager managerWithoutConnectionToDatabase = new PostgreSQLManager();
         //when
-        managerWhithoutConnectionToDatabase.disconnectFromDB();
+        managerWithoutConnectionToDatabase.disconnectFromDB();
     }
 
     @Test (expected = DatabaseManagerException.class)
