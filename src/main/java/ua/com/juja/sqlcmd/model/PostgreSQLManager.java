@@ -209,7 +209,10 @@ public class PostgreSQLManager implements DatabaseManager {
 
     @Override
     public Set<String> getDatabasesNames() {
-        connect("", USER_NAME, PASSWORD);
+        if (connection == null) {
+            throw new DatabaseManagerException(
+                    "Надо приконектится к БД", new Exception());
+        }
         String query = "SELECT datname FROM pg_database WHERE datistemplate = false;";
         try (Statement ps = connection.createStatement();
              ResultSet rs = ps.executeQuery(query)) {
