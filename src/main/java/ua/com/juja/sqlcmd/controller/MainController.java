@@ -42,8 +42,8 @@ public class MainController {
 
 
     private void doWork() {
-        view.write("Привет юзер!");
-        view.write("Введи, пожалуйста имя базы данных, имя пользователя и пароль в формате: connect|database|userName|password");
+        view.write("Hello user!");
+        view.write("Please, enter the name of database, user name and password in format: connect|database|userName|password");
 
         //noinspection InfiniteLoopStatement
         while (true) {
@@ -64,12 +64,12 @@ public class MainController {
                     if (cause != null) {
                         message += " " + cause.getMessage();
                     }
-                    view.write("Неудача! по причине: " + message);
-                    view.write("Повтори попытку.");
+                    view.write("Failure! because: " + message);
+                    view.write("Try again.");
                     break;
                 }
             }
-            view.write("Введи команду (или help для помощи):");
+            view.write("Enter the command (or \"help\" for tips):");
         }
     }
 

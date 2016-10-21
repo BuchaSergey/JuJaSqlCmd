@@ -21,7 +21,6 @@ public class DisconnectFromDB implements Command {
 
     @Override
     public void process(String command) {
-
         manager.disconnectFromDB();
         view.write("Disconnected");
     }

@@ -21,7 +21,7 @@ public class GetDatabasesNames implements Command {
 
     @Override
     public void process(String command) {
-        view.write("____БАЗЫ____");
+        view.write("____DATABASES____");
         for (String database : manager.getDatabasesNames()) {
             view.write(database);
         }

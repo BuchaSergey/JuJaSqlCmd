@@ -27,7 +27,7 @@ public class PostgreSQLManagerTest {
     private static final PropertiesLoader pl = new PropertiesLoader();
     private final static String DB_USER = pl.getUserName();
     private final static String DB_PASSWORD = pl.getPassword();
-    private final static String DATABASE_NAME = pl.getDatabaseName();
+    private final static String DATABASE_NAME = "databaseSQLtest";
     private static DatabaseManager manager;
 
     @BeforeClass

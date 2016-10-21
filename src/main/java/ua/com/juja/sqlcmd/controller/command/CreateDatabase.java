@@ -27,6 +27,6 @@ public class CreateDatabase implements Command {
         }
 
         manager.createDatabase(data[1]);
-        view.write("База '" + data[1] + "' создана.");
+        view.write(String.format("Database '%s' is create.",data[1]));
     }
 }

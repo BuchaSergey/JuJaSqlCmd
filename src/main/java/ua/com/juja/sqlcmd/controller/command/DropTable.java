@@ -25,6 +25,6 @@ public class DropTable implements Command {
             throw new IllegalArgumentException("Формат команды 'dropTable|tableName', а ты ввел: " + command);
         }
         manager.dropTable(data[1]);
-        view.write("Tаблица '" + data[1] + "' удалена.");
+        view.write(String.format("Table '%s' was deleted.",data[1]));
     }
 }

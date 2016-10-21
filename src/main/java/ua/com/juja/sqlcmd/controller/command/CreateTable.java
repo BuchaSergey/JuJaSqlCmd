@@ -25,6 +25,6 @@ public class CreateTable implements Command {
             throw new IllegalArgumentException("Формат команды 'createTable|tableName', а ты ввел: " + command);
         }
         manager.createTable(data[1]);
-        view.write("Tаблица '" + data[1] + "' создана.");
+        view.write(String.format("Table '%s' is created.",data[1]));
     }
 }

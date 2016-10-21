@@ -27,6 +27,6 @@ public class DropDB implements Command {
         }
 
         manager.dropDB(data[1]);
-        view.write("База '" + data[1] + "' удалена.");
+        view.write(String.format("Database '%s' was deleted.",data[1]));
     }
 }

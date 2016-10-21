@@ -31,8 +31,6 @@ public class PostgreSQLManager implements DatabaseManager {
         }
     }
 
-
-
     @Override
     public List<Map<String, Object>> getTableData(String tableName) {
         try (Statement statement = connection.createStatement();
@@ -49,7 +47,7 @@ public class PostgreSQLManager implements DatabaseManager {
             }
             return result;
         } catch (SQLException e) {
-            throw new DatabaseManagerException(String.format("Не возможно получить данные из таблицы %s", tableName), e);
+            throw new DatabaseManagerException(String.format("It's impossible to get data from the table %s", tableName), e);
         }
     }
 
@@ -60,7 +58,7 @@ public class PostgreSQLManager implements DatabaseManager {
         try {
             connection = DriverManager.getConnection(DATABASE_URL + database, userName, password);
         } catch (SQLException e) {
-            throw new DatabaseManagerException("Проверьте правильность введенных данных, ", e);
+            throw new DatabaseManagerException("Check the correctness of the data, ", e);
         }
     }
 
@@ -69,7 +67,7 @@ public class PostgreSQLManager implements DatabaseManager {
             try {
                 connection.close();
             } catch (SQLException e) {
-                throw new DatabaseManagerException("Не могу закрыть connection", e);
+                throw new DatabaseManagerException("Can't close the connection", e);
             }
         }
     }
@@ -79,7 +77,7 @@ public class PostgreSQLManager implements DatabaseManager {
         try (Statement stmt = connection.createStatement()) {
             stmt.executeUpdate("DELETE FROM " + tableName);
         } catch (SQLException e) {
-            throw new DatabaseManagerException("Неправильное имя таблицы.", e);
+            throw new DatabaseManagerException("Wrong table name.", e);
         }
     }
 
@@ -88,12 +86,12 @@ public class PostgreSQLManager implements DatabaseManager {
 
         String rowNames = getFormatedName(input, "\"%s\",");
         String values = getFormatedValues(input);
-        String query = "INSERT INTO " + tableName + " (" + rowNames + ") " + "VALUES (" + values + ")";
+        String query = String.format("INSERT INTO %s  (%s) VALUES (%s)",tableName,rowNames,values);
 
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(query);
         } catch (SQLException e) {
-            throw new DatabaseManagerException(String.format("Не возможно создать строку данных в таблице %s", tableName), e);
+            throw new DatabaseManagerException(String.format("It's impossible to create a row of data in table %s", tableName), e);
         }
     }
 
@@ -120,9 +118,8 @@ public class PostgreSQLManager implements DatabaseManager {
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate("CREATE DATABASE " + databaseName);
         } catch (SQLException e) {
-            throw new DatabaseManagerException("Не могу создать БД " + databaseName, e);
+            throw new DatabaseManagerException(String.format("Cannot create databases %s", databaseName), e);
         }
-
     }
 
     @Override
@@ -130,7 +127,7 @@ public class PostgreSQLManager implements DatabaseManager {
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate("CREATE TABLE IF NOT EXISTS " + query);
         } catch (SQLException e) {
-            throw new DatabaseManagerException("Не могу создать таблицу из запроса ", e);
+            throw new DatabaseManagerException(String.format("Cannot create table %s", query), e);
         }
     }
 
@@ -140,7 +137,7 @@ public class PostgreSQLManager implements DatabaseManager {
             statement.executeUpdate("DROP DATABASE IF EXISTS " + databaseName);
         } catch (SQLException e) {
             throw new DatabaseManagerException(
-                    String.format("Не могу удалить БД: %s", databaseName), e);
+                    String.format("Cannot delete database %s", databaseName), e);
         }
     }
 
@@ -150,7 +147,7 @@ public class PostgreSQLManager implements DatabaseManager {
             statement.executeUpdate("DROP TABLE IF EXISTS " + tableName);
         } catch (SQLException e) {
             throw new DatabaseManagerException(
-                    String.format("Не могу удалить таблицу: %s", tableName), e);
+                    String.format("Cannot delete table: %s", tableName), e);
         }
     }
 
@@ -164,7 +161,7 @@ public class PostgreSQLManager implements DatabaseManager {
             connection.close();
         } catch (SQLException e) {
             throw new DatabaseManagerException(
-                    "Не могу закрыть connection при disconnectFromDB:", e);
+                    "Can't close connection in disconnectFromDB(): ", e);
         }
         connection = null;
     }
@@ -177,8 +174,7 @@ public class PostgreSQLManager implements DatabaseManager {
     @Override
     public void update(String tableName, int id, Map<String, Object> newValue) {
         String tableNames = getFormatedName(newValue, "\"%s\" = ?,");
-        String query = "UPDATE " + tableName + " SET " + tableNames + " WHERE id = ?";
-
+        String query = String.format("UPDATE  %s SET  %s WHERE id = ?",tableName,tableNames);
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             int index = 1;
             for (Object value : newValue.values()) {
@@ -188,7 +184,7 @@ public class PostgreSQLManager implements DatabaseManager {
             ps.setObject(index, id);
             ps.executeUpdate();
         } catch (SQLException e) {
-            throw new DatabaseManagerException(String.format("Не возможно обновить строку данных в таблице %s", tableName), e);
+            throw new DatabaseManagerException(String.format("It's impossible update row in table %s", tableName), e);
         }
     }
 
@@ -203,7 +199,7 @@ public class PostgreSQLManager implements DatabaseManager {
             }
             return tables;
         } catch (SQLException e) {
-            throw new DatabaseManagerException("Не удалось получить имена таблиц", e);
+            throw new DatabaseManagerException("Failed to get table names", e);
         }
     }
 
@@ -211,7 +207,7 @@ public class PostgreSQLManager implements DatabaseManager {
     public Set<String> getDatabasesNames() {
         if (connection == null) {
             throw new DatabaseManagerException(
-                    "Надо приконектится к БД", new Exception());
+                    "Need connect to database", new Exception());
         }
         String query = "SELECT datname FROM pg_database WHERE datistemplate = false;";
         try (Statement ps = connection.createStatement();
@@ -222,7 +218,7 @@ public class PostgreSQLManager implements DatabaseManager {
             }
             return result;
         } catch (SQLException e) {
-            throw new DatabaseManagerException("Не удалось получить имена БД", e);
+            throw new DatabaseManagerException("Failed to get the names of the database", e);
         }
     }
 
@@ -239,7 +235,7 @@ public class PostgreSQLManager implements DatabaseManager {
                 return result;
             }
         } catch (SQLException e) {
-            throw new DatabaseManagerException(String.format("Не возможно получить название столбцов их таблицы %s", tableName), e);
+            throw new DatabaseManagerException(String.format("It's impossible to get column's name from table %s", tableName), e);
         }
     }
 }

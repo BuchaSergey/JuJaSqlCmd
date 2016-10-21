@@ -39,6 +39,6 @@ public class CreateEntry implements Command {
             tableData.put(column, value);
         }
         manager.createEntry(data[1], tableData);
-        view.write(String.format("Запись %s была успешно создана в таблице '%s'.", tableData, data[1]));
+        view.write(String.format("An entry %s is created successfully in the table '%s'.", tableData, data[1]));
     }
 }
