@@ -29,5 +29,15 @@ public class GetTablesNames implements Command {
 
         view.write(message);
     }
+
+    @Override
+    public String description() {
+        return "a list of tables in the database";
+    }
+
+    @Override
+    public String format() {
+        return "tables";
+    }
 }
 

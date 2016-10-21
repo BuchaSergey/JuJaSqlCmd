@@ -68,5 +68,15 @@ public class Help implements Command {
         view.write(ANSI_RESET + "\t\tдля выхода из программы");
         view.write("==============================");
     }
+
+    @Override
+    public String description() {
+        return "list of existing commands";
+    }
+
+    @Override
+    public String format() {
+        return "help";
+    }
 }
 

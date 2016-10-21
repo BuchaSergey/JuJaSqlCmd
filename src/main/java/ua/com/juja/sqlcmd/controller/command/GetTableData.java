@@ -32,4 +32,14 @@ public class GetTableData implements Command {
                 manager.getTableColumns(data[1]), manager.getTableData(data[1]));
         view.write(constructor.getTableString());
     }
+
+    @Override
+    public String description() {
+        return "display table data";
+    }
+
+    @Override
+    public String format() {
+        return "show|tableName";
+    }
 }

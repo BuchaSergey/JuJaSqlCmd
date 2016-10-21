@@ -29,4 +29,14 @@ public class CreateDatabase implements Command {
         manager.createDatabase(data[1]);
         view.write(String.format("Database '%s' is create.",data[1]));
     }
+
+    @Override
+    public String description() {
+        return "create databases";
+    }
+
+    @Override
+    public String format() {
+        return "createDB|databaseName";
+    }
 }

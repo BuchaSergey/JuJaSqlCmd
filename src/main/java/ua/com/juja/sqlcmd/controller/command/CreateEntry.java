@@ -28,7 +28,7 @@ public class CreateEntry implements Command {
         if (data.length % 2 != 0) {
             throw new IllegalArgumentException(String.format("Должно быть четное " +
                     "количество параметров в формате " +
-                    "'create|tableName|column1|value1|column2|value2|...|columnN|valueN', " +
+                    "'createEntry|tableName|column1|value1|column2|value2|...|columnN|valueN', " +
                     "а ты прислал: '%s'", command));
         }
         Map<String, Object> tableData = new LinkedHashMap<>();
@@ -40,5 +40,15 @@ public class CreateEntry implements Command {
         }
         manager.createEntry(data[1], tableData);
         view.write(String.format("An entry %s is created successfully in the table '%s'.", tableData, data[1]));
+    }
+
+    @Override
+    public String description() {
+        return "create entry in tables";
+    }
+
+    @Override
+    public String format() {
+        return "createEntry|tableName|column1|value1|column2|value2|...|columnN|valueN";
     }
 }

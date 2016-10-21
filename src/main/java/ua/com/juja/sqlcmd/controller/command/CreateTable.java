@@ -27,4 +27,14 @@ public class CreateTable implements Command {
         manager.createTable(data[1]);
         view.write(String.format("Table '%s' is created.",data[1]));
     }
+
+    @Override
+    public String description() {
+        return "create the table in current database";
+    }
+
+    @Override
+    public String format() {
+        return "createTable|tableName";
+    }
 }

@@ -31,6 +31,16 @@ public class ClearTable implements Command {
         confirmAndClearTable(clearTableName);
     }
 
+    @Override
+    public String description() {
+        return "clear table data";
+    }
+
+    @Override
+    public String format() {
+        return "clear|tableName";
+    }
+
     private void confirmAndClearTable(String clearTableName) {
         try {
             view.write(String.format(ANSI_RED + "Do you want delete data from table '%s'? Y/N" + ANSI_RESET, clearTableName));

@@ -26,4 +26,14 @@ public class GetDatabasesNames implements Command {
             view.write(database);
         }
     }
+
+    @Override
+    public String description() {
+        return "a list of database names";
+    }
+
+    @Override
+    public String format() {
+        return "databases";
+    }
 }

@@ -24,4 +24,14 @@ public class DisconnectFromDB implements Command {
         manager.disconnectFromDB();
         view.write("Disconnected");
     }
+
+    @Override
+    public String description() {
+        return "Disconnect from database";
+    }
+
+    @Override
+    public String format() {
+        return "disconnect";
+    }
 }

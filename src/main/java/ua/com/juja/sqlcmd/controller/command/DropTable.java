@@ -27,4 +27,14 @@ public class DropTable implements Command {
         manager.dropTable(data[1]);
         view.write(String.format("Table '%s' was deleted.",data[1]));
     }
+
+    @Override
+    public String description() {
+        return "Delete table";
+    }
+
+    @Override
+    public String format() {
+        return "dropTable|tableName";
+    }
 }

@@ -22,5 +22,15 @@ public class Exit implements Command {
         view.write("Good Bye!");
         throw new ExitException();
     }
+
+    @Override
+    public String description() {
+        return "Exit from app";
+    }
+
+    @Override
+    public String format() {
+        return "exit";
+    }
 }
 

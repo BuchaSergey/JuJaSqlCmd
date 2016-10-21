@@ -43,6 +43,16 @@ public class Connect implements Command {
 
 
     }
+
+    @Override
+    public String description() {
+        return "connect to databases";
+    }
+
+    @Override
+    public String format() {
+        return "connect|database|userName|password";
+    }
 }
 
 

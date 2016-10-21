@@ -25,4 +25,14 @@ public class IsConnected implements Command {
                 "You are not connected to database in this format: " +
                 "connect|databaseName|userName|password", command));
     }
+
+    @Override
+    public String description() {
+        return null;
+    }
+
+    @Override
+    public String format() {
+        return null;
+    }
 }
