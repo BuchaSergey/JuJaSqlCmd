@@ -1,13 +1,36 @@
 package ua.com.juja.sqlcmd.controller.command;
 
+import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
 
 public class Help implements Command {
 
-    private final View view;
     private static final String ANSI_BLUE = "\u001B[34m";
     private static final String ANSI_RESET = "\u001B[0m";
+    private final View view;
+    Command[] commands;
+
+    public Help(View view, DatabaseManager manager) {
+        this.view = view;
+        this.commands = new Command[]{
+                new Connect(manager, view),
+                new CreateDatabase(manager, view),
+                new CreateTable(manager, view),
+                new GetDatabasesNames(manager, view),
+                new DisconnectFromDB(manager, view),
+                new DropDB(manager, view),
+                new DropTable(manager, view),
+                this,
+                new Exit(view),
+                new IsConnected(manager, view),
+                new GetTablesNames(manager, view),
+                new ClearTable(manager, view),
+                new CreateEntry(manager, view),
+                new GetTableData(manager, view),
+                new Unsupported(view)
+        };
+    }
 
 
     public Help(View view) {
@@ -28,6 +51,11 @@ public class Help implements Command {
         view.write("");
         view.write("==============================");
 
+        for (Command command1 : commands) {
+            view.write(ANSI_BLUE + "\t" + command1.format()
+                    + ANSI_RESET + "\t\t" +command1.description());
+        }
+/*
         view.write(ANSI_BLUE + "\tconnect|databaseName|userName|password");
         view.write(ANSI_RESET + "\t\tдля подключения к базе данных, с которой будем работать");
 
@@ -65,7 +93,7 @@ public class Help implements Command {
         view.write(ANSI_RESET + "\t\tдля вывода этого списка на экран");
 
         view.write(ANSI_BLUE + "\texit");
-        view.write(ANSI_RESET + "\t\tдля выхода из программы");
+        view.write(ANSI_RESET + "\t\tдля выхода из программы");*/
         view.write("==============================");
     }
 

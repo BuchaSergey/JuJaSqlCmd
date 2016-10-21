@@ -155,7 +155,7 @@ public class PostgreSQLManager implements DatabaseManager {
     public void disconnectFromDB() {
         if (connection == null) {
             throw new DatabaseManagerException(
-                    "Чтобы что-то отдисконнектить надо что-то приконектить", new Exception());
+                    "First do connect to database", new Exception());
         }
         try {
             connection.close();
@@ -207,7 +207,7 @@ public class PostgreSQLManager implements DatabaseManager {
     public Set<String> getDatabasesNames() {
         if (connection == null) {
             throw new DatabaseManagerException(
-                    "Need connect to database", new Exception());
+                    "Need to connect to database", new Exception());
         }
         String query = "SELECT datname FROM pg_database WHERE datistemplate = false;";
         try (Statement ps = connection.createStatement();
