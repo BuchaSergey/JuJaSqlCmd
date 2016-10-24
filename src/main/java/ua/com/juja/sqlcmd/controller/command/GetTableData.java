@@ -7,8 +7,8 @@ import ua.com.juja.sqlcmd.view.View;
 
 public class GetTableData implements Command {
 
-    private final DatabaseManager manager;
-    private final View view;
+    private DatabaseManager manager;
+    private View view;
 
     public GetTableData(DatabaseManager manager, View view) {
         this.manager = manager;

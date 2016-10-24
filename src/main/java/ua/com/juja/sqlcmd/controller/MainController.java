@@ -17,17 +17,20 @@ public class MainController {
                 new Connect(manager, view),
                 new CreateDatabase(manager, view),
                 new CreateTable(manager, view),
+                new ClearTable(manager, view),
+                new CreateEntry(manager, view),
+
                 new GetDatabasesNames(manager, view),
+                new GetTablesNames(manager, view),
+                new GetTableData(manager, view),
+
                 new DisconnectFromDB(manager, view),
                 new DropDB(manager, view),
                 new DropTable(manager, view),
+
                 new Help(view),
                 new Exit(view),
                 new IsConnected(manager, view),
-                new GetTablesNames(manager, view),
-                new ClearTable(manager, view),
-                new CreateEntry(manager, view),
-                new GetTableData(manager, view),
                 new Unsupported(view)
         };
     }

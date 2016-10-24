@@ -8,12 +8,16 @@ public class ClearTable implements Command {
 
     private static final String ANSI_RED = "\u001B[31m";
     private static final String ANSI_RESET = "\u001B[0m";
-    private final DatabaseManager manager;
-    private final View view;
+    private DatabaseManager manager;
+    private View view;
 
     public ClearTable(DatabaseManager manager, View view) {
         this.manager = manager;
         this.view = view;
+    }
+
+    public ClearTable() {
+
     }
 
     @Override
