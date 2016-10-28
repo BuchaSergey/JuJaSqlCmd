@@ -17,10 +17,6 @@ public class ClearTable implements Command {
         this.view = view;
     }
 
-    public ClearTable() {
-
-    }
-
     @Override
     public boolean canProcess(String command) {
         return command.startsWith("clear|");
@@ -28,8 +24,8 @@ public class ClearTable implements Command {
 
     @Override
     public void process(CheckInput command) {
-        boolean connected = manager.isConnected();
-        if (connected) {
+
+        if ( manager.isConnected() ) {
             command.parametersValidation(format());
             String[] data = command.getParameters();
             String clearTableName = data[1];

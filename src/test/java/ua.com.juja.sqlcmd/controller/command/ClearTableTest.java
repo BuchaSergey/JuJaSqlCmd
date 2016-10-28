@@ -74,12 +74,26 @@ public class ClearTableTest {
 
     @Test
     public void testWithConfirmClear() {
-        CheckInput input = new CheckInput("clear|test");
+        //given
         when(view.read()).thenReturn("y");
         //when
+        CheckInput input = new CheckInput("clear|test");
         command.process(input);
         //then
-        verify(manager).clear("test");
+       // verify(manager).clear("test");
+        verify(view).write("Table 'test' successful cleared");
+    }
 
+    @Test
+    public void testProcessWithoutConfirmedClearing() {
+        //given
+        when(view.read()).thenReturn("n");
+
+        //when
+        CheckInput input = new CheckInput("clear|test");
+        command.process(input);
+
+        //then
+        verify(view).write("CANCEL");
     }
 }
