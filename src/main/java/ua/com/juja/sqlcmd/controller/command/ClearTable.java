@@ -1,5 +1,6 @@
 package ua.com.juja.sqlcmd.controller.command;
 
+import ua.com.juja.sqlcmd.controller.command.utilCheckInput.CheckInput;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
@@ -26,11 +27,9 @@ public class ClearTable implements Command {
     }
 
     @Override
-    public void process(String command) {
-        String[] data = command.split("\\|");
-        if (data.length != 2) {
-            throw new IllegalArgumentException("Формат команды 'clear|tableName', а ты ввел: " + command);
-        }
+    public void process(CheckInput command) {
+        command.parametersValidation(format());
+        String[] data = command.getParameters();
         String clearTableName = data[1];
         confirmAndClearTable(clearTableName);
     }
@@ -51,7 +50,7 @@ public class ClearTable implements Command {
             if (view.read().equalsIgnoreCase("y")) {
                 manager.clear(clearTableName);
                 view.write(String.format("Table %s was successful cleared.", clearTableName));
-            } else view.write(String.format("TableClear is canceled."));
+            } else view.write("TableClear is canceled.");
         } catch (Exception e) {
             view.write(String.format("Exception deleting table data from '%s', because: %s", clearTableName, e.getMessage()));
         }

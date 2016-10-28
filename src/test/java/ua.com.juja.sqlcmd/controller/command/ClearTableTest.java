@@ -2,6 +2,7 @@ package ua.com.juja.sqlcmd.controller.command;
 
 import org.junit.Before;
 import org.junit.Test;
+import ua.com.juja.sqlcmd.controller.command.utilCheckInput.CheckInput;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
@@ -48,32 +49,35 @@ public class ClearTableTest {
     @Test
     public void testValidationErrorWhenCountParametersIsLessThan2() {
         // when
+        CheckInput input = new CheckInput("clear");
         try {
-            command.process("clear");
+            command.process(input);
             fail();
         } catch (IllegalArgumentException e) {
             // then
-            assertEquals("Формат команды 'clear|tableName', а ты ввел: clear", e.getMessage());
+            assertEquals("Incorrect number of parameters separated by '|', expected 2 but was: 1", e.getMessage());
         }
     }
 
     @Test
     public void testValidationErrorWhenCountParametersIsMoreThan2() {
         // when
+        CheckInput input = new CheckInput("clear|table|qwe");
         try {
-            command.process("clear|table|qwe");
+            command.process(input);
             fail();
         } catch (IllegalArgumentException e) {
             // then
-            assertEquals("Формат команды 'clear|tableName', а ты ввел: clear|table|qwe", e.getMessage());
+            assertEquals("Incorrect number of parameters separated by '|', expected 2 but was: 3", e.getMessage());
         }
     }
 
     @Test
     public void testWithConfirmClear() {
+        CheckInput input = new CheckInput("clear|test");
         when(view.read()).thenReturn("y");
         //when
-        command.process("clear|test");
+        command.process(input);
         //then
         verify(manager).clear("test");
 

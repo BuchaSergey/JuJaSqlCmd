@@ -1,6 +1,7 @@
 package ua.com.juja.sqlcmd.controller.command;
 
 
+import ua.com.juja.sqlcmd.controller.command.utilCheckInput.CheckInput;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
@@ -20,11 +21,9 @@ public class DropDB implements Command {
     }
 
     @Override
-    public void process(String command) {
-        String[] data = command.split("\\|");
-        if (data.length != 2) {
-            throw new IllegalArgumentException("Формат команды 'dropDB|databaseName', а ты ввел: " + command);
-        }
+    public void process(CheckInput command) {
+        String[] data = command.getParameters();
+        command.parametersValidation(format());
 
         manager.dropDB(data[1]);
         view.write(String.format("Database '%s' was deleted.",data[1]));

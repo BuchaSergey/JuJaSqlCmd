@@ -1,5 +1,6 @@
 package ua.com.juja.sqlcmd.controller.command;
 
+import ua.com.juja.sqlcmd.controller.command.utilCheckInput.CheckInput;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
@@ -20,7 +21,7 @@ public class IsConnected implements Command {
     }
 
     @Override
-    public void process(String command) {
+    public void process(CheckInput command) {
         view.write(String.format("You could't not use the command '%s' while " +
                 "You are not connected to database in this format: " +
                 "connect|databaseName|userName|password", command));

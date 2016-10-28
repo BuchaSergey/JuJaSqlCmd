@@ -2,6 +2,7 @@ package ua.com.juja.sqlcmd.controller.command;
 
 import javafx.scene.control.Tab;
 import org.mockito.internal.matchers.Find;
+import ua.com.juja.sqlcmd.controller.command.utilCheckInput.CheckInput;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
@@ -58,7 +59,7 @@ public class Help implements Command {
     }
 
     @Override
-    public void process(String command) {
+    public void process(CheckInput command) {
 
         view.write("======== SQLCmd  Help ======== ");
         view.write("");

@@ -2,6 +2,7 @@ package ua.com.juja.sqlcmd.controller.command;
 
 import org.junit.Before;
 import org.junit.Test;
+import ua.com.juja.sqlcmd.controller.command.utilCheckInput.CheckInput;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
@@ -32,8 +33,10 @@ public class DisconnectFromDBTest {
 
     @Test
     public void testWithConfirmDropDB() {
+        CheckInput input = new CheckInput("disconnect");
+
         //when
-        command.process("disconnect");
+        command.process(input);
         //then
         verify(manager).disconnectFromDB();
         verify(view).write("Disconnected");

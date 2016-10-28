@@ -2,6 +2,7 @@ package ua.com.juja.sqlcmd.controller;
 
 
 import ua.com.juja.sqlcmd.controller.command.*;
+import ua.com.juja.sqlcmd.controller.command.utilCheckInput.CheckInput;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
@@ -50,11 +51,15 @@ public class MainController {
 
         //noinspection InfiniteLoopStatement
         while (true) {
-            String input = view.read();
+            CheckInput input = new CheckInput(view.read());
+
 
             for (Command command : commands) {
+                String[] splitFormat = command.format().split("\\|");
+                String[] parameters = input.getParameters();
+                boolean equals = parameters[0].equals(splitFormat[0]);
                 try {
-                    if (command.canProcess(input)) {
+                    if (equals) {
                         command.process(input);
                         break;
                     }
@@ -62,18 +67,22 @@ public class MainController {
                     if (e instanceof ExitException) {
                         throw e;
                     }
-                    String message = e.getMessage();
-                    Throwable cause = e.getCause();
-                    if (cause != null) {
-                        message += " " + cause.getMessage();
-                    }
-                    view.write("Failure! because: " + message);
-                    view.write("Try again.");
+                    printError(e);
                     break;
                 }
             }
             view.write("Enter the command (or \"help\" for tips):");
         }
+    }
+
+    private void printError(Exception e) {
+        String message = e.getMessage();
+        Throwable cause = e.getCause();
+        if (cause != null) {
+            message += " " + cause.getMessage();
+        }
+        view.write("Failure! because: " + message);
+        view.write("Try again.");
     }
 
 }

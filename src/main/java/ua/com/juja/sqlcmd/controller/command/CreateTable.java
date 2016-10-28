@@ -1,5 +1,6 @@
 package ua.com.juja.sqlcmd.controller.command;
 
+import ua.com.juja.sqlcmd.controller.command.utilCheckInput.CheckInput;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
@@ -19,11 +20,9 @@ public class CreateTable implements Command {
     }
 
     @Override
-    public void process(String command) {
-        String[] data = command.split("\\|");
-        if (data.length != 2) {
-            throw new IllegalArgumentException("Формат команды 'createTable|tableName', а ты ввел: " + command);
-        }
+    public void process(CheckInput command) {
+        command.parametersValidation(format());
+        String[] data = command.getParameters();
         manager.createTable(data[1]);
         view.write(String.format("Table '%s' is created.",data[1]));
     }

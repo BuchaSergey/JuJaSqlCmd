@@ -1,5 +1,6 @@
 package ua.com.juja.sqlcmd.controller.command;
 
+import ua.com.juja.sqlcmd.controller.command.utilCheckInput.CheckInput;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
@@ -28,9 +29,9 @@ public class Connect implements Command {
     }
 
     @Override
-    public void process(String command) {
+    public void process(CheckInput command) {
 
-        String[] data = command.split("\\|");
+        String[] data = command.getParameters();
         if (data.length != count()) {
             throw new IllegalArgumentException(
                     String.format("Неверно количество параметров разделенных " +

@@ -3,6 +3,7 @@ package ua.com.juja.sqlcmd.controller.command;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
+import ua.com.juja.sqlcmd.controller.command.utilCheckInput.CheckInput;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
@@ -50,7 +51,8 @@ public class GetTableDataTest {
         when(manager.getTableData(tableName)).thenReturn(records);
 
         //when
-        command.process(String.format("show|%s", tableName));
+        CheckInput inputCommand = new CheckInput(String.format("show|%s", tableName));
+        command.process(inputCommand);
 
         shouldPrint(
                 "[+--+----------+\n" +
@@ -93,7 +95,7 @@ public class GetTableDataTest {
     }
 
     @Test
-    public void testCantProcessFindQweString() {
+    public void testCantProcessWrongCommand() {
         // when
         boolean canProcess = command.canProcess("qwe");
 
@@ -113,7 +115,8 @@ public class GetTableDataTest {
         when(manager.getTableData(tableName)).thenReturn(records);
 
         //when
-        command.process(String.format("show|%s", tableName));
+        CheckInput inputCommand = new CheckInput(String.format("show|%s", tableName));
+        command.process(inputCommand);
 
         //then
         shouldPrint(
@@ -142,7 +145,7 @@ public class GetTableDataTest {
         when(manager.getTableData(tableName)).thenReturn(records);
 
         //when
-        command.process("show|test");
+        command.process(new CheckInput("show|test"));
 
         //then
         shouldPrint("[+--+\n" +
@@ -158,11 +161,12 @@ public class GetTableDataTest {
     public void testErrorWhenBadCommandFormat() {
         //when
         try {
-            command.process("show|user|zaza");
+            CheckInput inputCommand = new CheckInput("show|user|zaza");
+            command.process(inputCommand);
             fail("Expected Exp");
         } catch (IllegalArgumentException e) {
             //then
-            assertEquals("Формат команды 'show|tableName', а ты ввел: show|user|zaza", e.getMessage());
+            assertEquals("Incorrect number of parameters separated by '|', expected 2 but was: 3", e.getMessage());
         }
         //then
 

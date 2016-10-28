@@ -1,6 +1,7 @@
 package ua.com.juja.sqlcmd.controller.command;
 
 
+import ua.com.juja.sqlcmd.controller.command.utilCheckInput.CheckInput;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
@@ -20,7 +21,7 @@ public class DisconnectFromDB implements Command {
     }
 
     @Override
-    public void process(String command) {
+    public void process(CheckInput command) {
         manager.disconnectFromDB();
         view.write("Disconnected");
     }

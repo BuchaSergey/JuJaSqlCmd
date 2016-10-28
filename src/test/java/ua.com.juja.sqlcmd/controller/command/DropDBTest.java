@@ -2,6 +2,7 @@ package ua.com.juja.sqlcmd.controller.command;
 
 import org.junit.Before;
 import org.junit.Test;
+import ua.com.juja.sqlcmd.controller.command.utilCheckInput.CheckInput;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
@@ -35,21 +36,25 @@ public class DropDBTest {
     @Test
     public void testValidationErrorWhenCountParametersIsNotEven() {
         // when
+        CheckInput input = new CheckInput("dropDB");
+
         try {
-            command.process("dropDB");
+            command.process(input);
             fail();
         } catch (IllegalArgumentException e) {
             // then
-            assertEquals("Формат команды 'dropDB|databaseName', а ты ввел: dropDB", e.getMessage());
+            assertEquals("Incorrect number of parameters separated by '|', expected 2 but was: 1", e.getMessage());
         }
     }
 
     @Test
     public void testWithConfirmDropDB() {
         //when
-        command.process("dropDB|test");
+        CheckInput input = new CheckInput("dropDB|test");
+
+        command.process(input);
         //then
         verify(manager).dropDB("test");
-        verify(view).write("База 'test' удалена.");
+        verify(view).write("Database 'test' was deleted.");
     }
 }

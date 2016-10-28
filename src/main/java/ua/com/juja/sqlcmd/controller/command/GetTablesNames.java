@@ -1,5 +1,6 @@
 package ua.com.juja.sqlcmd.controller.command;
 
+import ua.com.juja.sqlcmd.controller.command.utilCheckInput.CheckInput;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
@@ -22,7 +23,7 @@ public class GetTablesNames implements Command {
     }
 
     @Override
-    public void process(String command) {
+    public void process(CheckInput command) {
         Set<String> tableNames = manager.getTableNames();
 
         String message = tableNames.toString();

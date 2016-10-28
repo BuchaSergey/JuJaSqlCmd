@@ -1,5 +1,6 @@
 package ua.com.juja.sqlcmd.controller.command;
 
+import ua.com.juja.sqlcmd.controller.command.utilCheckInput.CheckInput;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.model.TableConstructor;
 import ua.com.juja.sqlcmd.view.View;
@@ -21,15 +22,13 @@ public class GetTableData implements Command {
     }
 
     @Override
-    public void process(String command) {
-        String[] data = command.split("\\|");
+    public void process(CheckInput command) {
+        command.parametersValidation(format());
 
-        if (data.length != 2) {
-            throw new IllegalArgumentException("Формат команды 'show|tableName', а ты ввел: " + command);
-        }
+        String[] data = command.getParameters();
 
         TableConstructor constructor = new TableConstructor(
-                manager.getTableColumns(data[1]), manager.getTableData(data[1]));
+        manager.getTableColumns(data[1]), manager.getTableData(data[1]));
         view.write(constructor.getTableString());
     }
 

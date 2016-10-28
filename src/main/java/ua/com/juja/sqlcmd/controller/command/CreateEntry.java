@@ -1,5 +1,6 @@
 package ua.com.juja.sqlcmd.controller.command;
 
+import ua.com.juja.sqlcmd.controller.command.utilCheckInput.CheckInput;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
@@ -23,14 +24,11 @@ public class CreateEntry implements Command {
     }
 
     @Override
-    public void process(String command) {
-        String[] data = command.split("\\|");
-        if (data.length % 2 != 0) {
-            throw new IllegalArgumentException(String.format("Должно быть четное " +
-                    "количество параметров в формате " +
-                    "'createEntry|tableName|column1|value1|column2|value2|...|columnN|valueN', " +
-                    "а ты прислал: '%s'", command));
-        }
+    public void process(CheckInput command) {
+        command.parametersValidation(format());
+
+        String[] data = command.getParameters();
+
         Map<String, Object> tableData = new LinkedHashMap<>();
         for (int index = 1; index < (data.length / 2); index++) {
             String column = data[index * 2];
