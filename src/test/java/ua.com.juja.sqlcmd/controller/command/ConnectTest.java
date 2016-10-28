@@ -53,7 +53,7 @@ public class ConnectTest {
         command.process(input);
 
         //then
-        verify(view).write("Connection to database 'sqlcmd' is successful");
+        verify(view).write("Connection to database 'sqlcmd' is successful!");
     }
 }
 
