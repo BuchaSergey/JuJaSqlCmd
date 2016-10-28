@@ -2,6 +2,7 @@ package ua.com.juja.sqlcmd.controller.command;
 
 import javafx.scene.control.Tab;
 import org.mockito.internal.matchers.Find;
+import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public class Help extends Comma {
+public class Help implements Command {
 
     private static final String ANSI_BLUE = "\u001B[34m";
     private static final String ANSI_RESET = "\u001B[0m";
@@ -17,6 +18,8 @@ public class Help extends Comma {
 
     private View view;
     private List<Command> commands;
+    private  DatabaseManager manager;
+
 
     public Help(View view) {
         this.view = view;
@@ -26,19 +29,12 @@ public class Help extends Comma {
                 new CreateTable(manager, view),
                 new ClearTable(manager, view),
                 new CreateEntry(manager, view),
-
-                new GetTablesNames(manager, view),
-                new GetDatabasesNames(manager, view),
-                new GetTablesNames(manager, view),
-
                 new DropDB(manager, view),
                 new DropTable(manager, view),
                 new DisconnectFromDB(manager, view),
-
-                new DropTable(manager, view),
-                new IsConnected(manager, view),
-
-
+                new GetTablesNames(manager, view),
+                new GetDatabasesNames(manager, view),
+                new GetTablesNames(manager, view),
                 this,
                 new Exit(view)
         ));
@@ -71,8 +67,8 @@ public class Help extends Comma {
         view.write("==============================");
 
         for (Command commands : this.commands) {
-            view.write("\t" + commands.format());
-            view.write("\t\t" + commands.description());
+            view.write(ANSI_BLUE + "\t" + commands.format());
+            view.write(ANSI_RESET + "\t\t" + commands.description());
         }
         view.write("==============================");
     }
