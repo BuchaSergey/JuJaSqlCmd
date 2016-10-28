@@ -11,8 +11,6 @@ public class PostgreSQLManager implements DatabaseManager {
     private static final String PORT = propertiesLoader.getDatabasePort();
     private static final String DRIVER = propertiesLoader.getDriver();
     private static final String DATABASE_URL = DRIVER + HOST + ":" + PORT + "/";
-    private static final String USER_NAME = propertiesLoader.getUserName();
-    private static final String PASSWORD = propertiesLoader.getPassword();
     private Connection connection;
 
     static {
@@ -58,7 +56,7 @@ public class PostgreSQLManager implements DatabaseManager {
         try {
             connection = DriverManager.getConnection(DATABASE_URL + database, userName, password);
         } catch (SQLException e) {
-            throw new DatabaseManagerException("Check the correctness of the data, ", e);
+            throw new DatabaseManagerException("Check the correctness of the connect data, ", e);
         }
     }
 
