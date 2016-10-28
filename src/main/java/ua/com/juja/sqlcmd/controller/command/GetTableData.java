@@ -28,7 +28,7 @@ public class GetTableData implements Command {
         String[] data = command.getParameters();
 
         TableConstructor constructor = new TableConstructor(
-        manager.getTableColumns(data[1]), manager.getTableData(data[1]));
+                manager.getTableColumns(data[1]), manager.getTableData(data[1]));
         view.write(constructor.getTableString());
     }
 

@@ -6,8 +6,8 @@ import ua.com.juja.sqlcmd.view.View;
 
 public class Connect implements Command {
 
-    private  DatabaseManager manager;
-    private  View view ;
+    private DatabaseManager manager;
+    private View view;
 
     public Connect(DatabaseManager manager, View view) {
         this.manager = manager;
@@ -44,7 +44,7 @@ public class Connect implements Command {
         String password = data[3];
 
         manager.connect(database, userName, password);
-        view.write(String.format("Connection to database '%s' is successful", database));
+        view.write(String.format("Connection to database '%s' is successful!", database));
 
 
     }

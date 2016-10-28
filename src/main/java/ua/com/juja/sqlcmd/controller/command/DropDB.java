@@ -26,7 +26,7 @@ public class DropDB implements Command {
         command.parametersValidation(format());
 
         manager.dropDB(data[1]);
-        view.write(String.format("Database '%s' was deleted.",data[1]));
+        view.write(String.format("Database '%s' was deleted.", data[1]));
     }
 
     @Override

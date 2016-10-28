@@ -9,6 +9,7 @@ public interface Command {
     void process(CheckInput inputCommand);
 
     String description();
+
     String format();
 
 }

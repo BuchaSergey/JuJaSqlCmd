@@ -19,7 +19,7 @@ public class Help implements Command {
 
     private View view;
     private List<Command> commands;
-    private  DatabaseManager manager;
+    private DatabaseManager manager;
 
 
     public Help(View view) {
@@ -40,7 +40,6 @@ public class Help implements Command {
                 new Exit(view)
         ));
     }
-
 
 
     @Override

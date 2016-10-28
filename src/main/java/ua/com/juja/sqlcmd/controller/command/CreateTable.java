@@ -24,7 +24,7 @@ public class CreateTable implements Command {
         command.parametersValidation(format());
         String[] data = command.getParameters();
         manager.createTable(data[1]);
-        view.write(String.format("Table '%s' is created.",data[1]));
+        view.write(String.format("Table '%s' is created.", data[1]));
     }
 
     @Override

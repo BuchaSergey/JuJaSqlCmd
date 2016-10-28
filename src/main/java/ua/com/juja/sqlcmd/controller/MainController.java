@@ -52,11 +52,12 @@ public class MainController {
         //noinspection InfiniteLoopStatement
         while (true) {
             CheckInput input = new CheckInput(view.read());
-
+            String[] splitFormat;
+            String[] parameters;
 
             for (Command command : commands) {
-                String[] splitFormat = command.format().split("\\|");
-                String[] parameters = input.getParameters();
+                splitFormat = command.format().split("\\|");
+                parameters  = input.getParameters();
                 boolean equals = parameters[0].equals(splitFormat[0]);
                 try {
                     if (equals) {

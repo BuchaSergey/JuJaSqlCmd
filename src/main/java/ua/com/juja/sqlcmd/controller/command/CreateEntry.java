@@ -25,7 +25,7 @@ public class CreateEntry implements Command {
 
     @Override
     public void process(CheckInput command) {
-        command.parametersValidation(format());
+        // command.parametersValidation(format());
 
         String[] data = command.getParameters();
 

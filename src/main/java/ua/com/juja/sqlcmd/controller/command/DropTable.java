@@ -25,7 +25,7 @@ public class DropTable implements Command {
         String[] data = command.getParameters();
 
         manager.dropTable(data[1]);
-        view.write(String.format("Table '%s' was deleted.",data[1]));
+        view.write(String.format("Table '%s' was deleted.", data[1]));
     }
 
     @Override

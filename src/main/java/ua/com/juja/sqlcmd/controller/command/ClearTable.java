@@ -28,10 +28,15 @@ public class ClearTable implements Command {
 
     @Override
     public void process(CheckInput command) {
-        command.parametersValidation(format());
-        String[] data = command.getParameters();
-        String clearTableName = data[1];
-        confirmAndClearTable(clearTableName);
+        boolean connected = manager.isConnected();
+        if (connected) {
+            command.parametersValidation(format());
+            String[] data = command.getParameters();
+            String clearTableName = data[1];
+            confirmAndClearTable(clearTableName);
+        } else {
+            view.write("Please connect to DB");
+        }
     }
 
     @Override
