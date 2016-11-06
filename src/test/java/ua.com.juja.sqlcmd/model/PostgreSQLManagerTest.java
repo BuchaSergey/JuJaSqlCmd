@@ -27,22 +27,25 @@ public class PostgreSQLManagerTest {
     private static final PropertiesLoader pl = new PropertiesLoader();
     private final static String DB_USER = pl.getUserName();
     private final static String DB_PASSWORD = pl.getPassword();
-    private final static String DATABASE_NAME = "databaseSQLtest";
+    private final static String DATABASE_NAME = "database1";
     private static DatabaseManager manager;
 
     @BeforeClass
     public static void init() {
         manager = new PostgreSQLManager();
         manager.connect("", DB_USER, DB_PASSWORD);
-        manager.dropDB(DATABASE_NAME);
         manager.createDatabase(DATABASE_NAME);
+        manager.connect(DATABASE_NAME, DB_USER, DB_PASSWORD);
+        manager.createTable(SQL_CREATE_TABLE);
+        manager.createTable(SQL_CREATE_TABLE);
+        manager.disconnectFromDB();
     }
 
     @AfterClass
     public static void clearAfterAllTests() {
-        manager.connect("", DB_USER, DB_PASSWORD);
-        manager.dropDB(DATABASE_NAME);
-        manager.disconnectFromDB();
+//        manager.connect("", DB_USER, DB_PASSWORD);
+//        manager.dropDB(DATABASE_NAME);
+//        manager.disconnectFromDB();
     }
 
     @Mock
@@ -53,8 +56,7 @@ public class PostgreSQLManagerTest {
 
     @Before
     public void setup() throws Exception {
-        manager.connect(DATABASE_NAME, DB_USER, DB_PASSWORD);
-        manager.createTable(SQL_CREATE_TABLE);
+
     }
 
     @After
@@ -153,7 +155,7 @@ public class PostgreSQLManagerTest {
     @Test
     public void testDropTable() {
         //given
-        String tableName = "secondTest";
+        String tableName = "secondTable";
         Set<String> expected = new LinkedHashSet<>(Collections.singletonList(TABLE_NAME));
         manager.createTable(tableName + "(id serial PRIMARY KEY)");
 
