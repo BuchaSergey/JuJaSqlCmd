@@ -51,15 +51,16 @@ public class MainController {
 
         //noinspection InfiniteLoopStatement
         while (true) {
-            CheckInput input = new CheckInput(view.read());
             String[] splitFormat;
             String[] parameters;
+            CheckInput input = new CheckInput(view.read());
 
             for (Command command : commands) {
-                splitFormat = command.format().split("\\|");
-                parameters  = input.getParameters();
-                boolean equals = parameters[0].equals(splitFormat[0]);
                 try {
+                    splitFormat = command.format().split("\\|");
+                    parameters = input.getParameters();
+                    boolean equals = parameters[0].equals(splitFormat[0]);
+
                     if (equals) {
                         command.process(input);
                         break;

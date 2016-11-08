@@ -153,7 +153,7 @@ public class PostgreSQLManager implements DatabaseManager {
     public void disconnectFromDB() {
         if (connection == null) {
             throw new DatabaseManagerException(
-                    "Please connect to DB at first", new Exception());
+                    "First do connect to database", new Exception());
         }
         try {
             connection.close();

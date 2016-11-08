@@ -2,8 +2,10 @@ package ua.com.juja.sqlcmd.controller.command;
 
 import javafx.scene.control.Tab;
 import org.mockito.internal.matchers.Find;
+
 import ua.com.juja.sqlcmd.controller.command.utilCheckInput.CheckInput;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
+
 import ua.com.juja.sqlcmd.view.View;
 
 import java.util.ArrayList;
@@ -11,7 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public class Help implements Command {
+public class   Help implements  Command {
 
     private static final String ANSI_BLUE = "\u001B[34m";
     private static final String ANSI_RESET = "\u001B[0m";
@@ -22,6 +24,7 @@ public class Help implements Command {
     private DatabaseManager manager;
 
 
+
     public Help(View view) {
         this.view = view;
         commands = new ArrayList<>(Arrays.asList(
@@ -30,12 +33,19 @@ public class Help implements Command {
                 new CreateTable(manager, view),
                 new ClearTable(manager, view),
                 new CreateEntry(manager, view),
-                new DropDB(manager, view),
-                new DropTable(manager, view),
-                new DisconnectFromDB(manager, view),
+
                 new GetTablesNames(manager, view),
                 new GetDatabasesNames(manager, view),
                 new GetTablesNames(manager, view),
+
+                new DropDB(manager, view),
+                new DropTable(manager, view),
+                new DisconnectFromDB(manager, view),
+
+                new DropTable(manager, view),
+                new IsConnected(manager, view),
+
+
                 this,
                 new Exit(view)
         ));

@@ -22,8 +22,8 @@ public class PostgreSQLManagerTest {
     private final static String TABLE_NAME = "test";
     private final static String NOT_EXIST_TABLE = "notExistTable";
     private final static String SQL_CREATE_TABLE = TABLE_NAME + " (id SERIAL PRIMARY KEY," +
-            " username VARCHAR (50) UNIQUE NOT NULL," +
-            " password VARCHAR (50) NOT NULL)";
+            " username text," +
+            " password text)";
     private static final PropertiesLoader pl = new PropertiesLoader();
     private final static String DB_USER = pl.getUserName();
     private final static String DB_PASSWORD = pl.getPassword();
