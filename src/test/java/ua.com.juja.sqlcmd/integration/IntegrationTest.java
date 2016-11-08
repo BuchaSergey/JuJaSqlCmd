@@ -95,23 +95,23 @@ public class IntegrationTest {
                         "\u001B[34m\tcreateDB|databaseName\n" +
                         "\u001B[0m\t\tcreate databases\n" +
                         "\u001B[34m\tcreateTable|tableName\n" +
-                        "\u001B[0m\t\tcreate the table in current database\n" +
+                        "\u001B[0m\t\tcreate the table in current database (id SERIAL PRIMARY KEY, username text, password text)\n" +
                         "\u001B[34m\tclear|tableName\n" +
                         "\u001B[0m\t\tclear table data\n" +
                         "\u001B[34m\tcreateEntry|tableName|column1|value1|column2|value2|...|columnN|valueN\n" +
                         "\u001B[0m\t\tcreate entry in tables\n" +
-                        "\u001B[34m\tdropDB|databaseName\n" +
-                        "\u001B[0m\t\tDelete database\n" +
-                        "\u001B[34m\tdropTable|tableName\n" +
-                        "\u001B[0m\t\tDelete table\n" +
-                        "\u001B[34m\tdisconnect\n" +
-                        "\u001B[0m\t\tDisconnect from database\n" +
                         "\u001B[34m\ttables\n" +
                         "\u001B[0m\t\ta list of tables in the database\n" +
                         "\u001B[34m\tdatabases\n" +
                         "\u001B[0m\t\ta list of database names\n" +
                         "\u001B[34m\ttables\n" +
                         "\u001B[0m\t\ta list of tables in the database\n" +
+                        "\u001B[34m\tdropDB|databaseName\n" +
+                        "\u001B[0m\t\tDelete database\n" +
+                        "\u001B[34m\tdisconnect\n" +
+                        "\u001B[0m\t\tDisconnect from database\n" +
+                        "\u001B[34m\tdropTable|tableName\n" +
+                        "\u001B[0m\t\tDelete table\n" +
                         "\u001B[34m\thelp\n" +
                         "\u001B[0m\t\tlist of existing commands\n" +
                         "\u001B[34m\texit\n" +
@@ -195,7 +195,8 @@ public class IntegrationTest {
         assertEquals("Hello user!\n" +
                 "Please, enter the name of database, user name and password in format: connect|database|userName|password\n" +
                 // unsupported
-                "Вы не можете пользоваться командой 'unsupported' пока не подключитесь с помощью комманды connect|databaseName|userName|password\n" +
+                "Failure! because: null\n" +
+                "Try again.\n" +
                 "Enter the command (or \"help\" for tips):\n" +
                 // exit
                 "Good Bye!\n", getData());
@@ -219,7 +220,8 @@ public class IntegrationTest {
                 "Connection to database '" + DB_NAME + "' is successful!\n" +
                 "Enter the command (or \"help\" for tips):\n" +
                 // unsupported
-                "Несуществующая команда: unsupported\n" +
+                "Failure! because: null\n" +
+                "Try again.\n" +
                 "Enter the command (or \"help\" for tips):\n" +
                 "Disconnected\n" +
                 "Enter the command (or \"help\" for tips):\n" +
