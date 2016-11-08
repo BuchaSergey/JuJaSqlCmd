@@ -21,9 +21,7 @@ public class PostgreSQLManagerTest {
 
     private final static String TABLE_NAME = "test";
     private final static String NOT_EXIST_TABLE = "notExistTable";
-    private final static String SQL_CREATE_TABLE = TABLE_NAME + " (id SERIAL PRIMARY KEY," +
-            " username text," +
-            " password text)";
+    private final static String SQL_CREATE_TABLE = TABLE_NAME + " (id SERIAL PRIMARY KEY, username text, password text)";
     private static final PropertiesLoader pl = new PropertiesLoader();
     private final static String DB_USER = pl.getUserName();
     private final static String DB_PASSWORD = pl.getPassword();
@@ -36,15 +34,14 @@ public class PostgreSQLManagerTest {
         manager.connect("", DB_USER, DB_PASSWORD);
         manager.createDatabase(DATABASE_NAME);
         manager.connect(DATABASE_NAME, DB_USER, DB_PASSWORD);
-        manager.createTable(SQL_CREATE_TABLE);
-        manager.createTable(SQL_CREATE_TABLE);
-        manager.disconnectFromDB();
+
+
     }
 
     @AfterClass
     public static void clearAfterAllTests() {
-//        manager.connect("", DB_USER, DB_PASSWORD);
-//        manager.dropDB(DATABASE_NAME);
+        manager.connect("", DB_USER, DB_PASSWORD);
+        manager.dropDB(DATABASE_NAME);
 //        manager.disconnectFromDB();
     }
 
@@ -56,7 +53,7 @@ public class PostgreSQLManagerTest {
 
     @Before
     public void setup() throws Exception {
-
+        manager.createTable(SQL_CREATE_TABLE);
     }
 
     @After
