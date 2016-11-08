@@ -14,9 +14,7 @@ public class Connect implements Command {
         this.view = view;
     }
 
-    public Connect() {
 
-    }
 
     private int count() {
         String COMMAND_SAMPLE = "connect|sqlcmd|postgres|postgres";

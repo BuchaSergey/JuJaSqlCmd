@@ -10,8 +10,8 @@ import java.util.Map;
 
 public class CreateEntry implements Command {
 
-    private DatabaseManager manager;
-    private View view;
+    private final DatabaseManager manager;
+    private final View view;
 
     public CreateEntry(DatabaseManager manager, View view) {
         this.manager = manager;

@@ -82,7 +82,7 @@ public class PostgreSQLManager implements DatabaseManager {
     @Override
     public void createEntry(String tableName, Map<String, Object> input) {
 
-        String rowNames = getFormatedName(input, "\"%s\",");
+        String rowNames = getFormattedName(input, "\"%s\",");
         String values = getFormattedValues(input);
         String query = String.format("INSERT INTO %s  (%s) VALUES (%s)",tableName,rowNames,values);
 
@@ -93,7 +93,7 @@ public class PostgreSQLManager implements DatabaseManager {
         }
     }
 
-    private String getFormatedName(Map<String, Object> newValue, String format) {
+    private String getFormattedName(Map<String, Object> newValue, String format) {
         String string = "";
         for (String name : newValue.keySet()) {
             string += String.format(format, name);
@@ -171,7 +171,7 @@ public class PostgreSQLManager implements DatabaseManager {
 
     @Override
     public void update(String tableName, int id, Map<String, Object> newValue) {
-        String tableNames = getFormatedName(newValue, "\"%s\" = ?,");
+        String tableNames = getFormattedName(newValue, "\"%s\" = ?,");
         String query = String.format("UPDATE  %s SET  %s WHERE id = ?",tableName,tableNames);
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             int index = 1;

@@ -15,8 +15,8 @@ public class   Help implements  Command {
     private static final String ANSI_RESET = "\u001B[0m";
 
 
-    private View view;
-    private List<Command> commands;
+    private final View view;
+    private final List<Command> commands;
     private DatabaseManager manager;
 
 
