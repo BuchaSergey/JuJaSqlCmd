@@ -1,11 +1,7 @@
 package ua.com.juja.sqlcmd.controller.command;
 
-import javafx.scene.control.Tab;
-import org.mockito.internal.matchers.Find;
-
 import ua.com.juja.sqlcmd.controller.command.utilCheckInput.CheckInput;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
-
 import ua.com.juja.sqlcmd.view.View;
 
 import java.util.ArrayList;
@@ -33,16 +29,12 @@ public class   Help implements  Command {
                 new CreateTable(manager, view),
                 new ClearTable(manager, view),
                 new CreateEntry(manager, view),
-
                 new GetTablesNames(manager, view),
                 new GetDatabasesNames(manager, view),
                 new GetTablesNames(manager, view),
-
                 new DropDB(manager, view),
                 new DisconnectFromDB(manager, view),
-
                 new DropTable(manager, view),
-
                 this,
                 new Exit(view)
         ));
