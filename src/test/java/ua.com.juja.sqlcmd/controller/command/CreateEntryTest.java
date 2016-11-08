@@ -35,27 +35,27 @@ public class CreateEntryTest {
     @Test
     public void testValidationErrorWhenCountParametersIsNotEven() {
         // when
-        CheckInput input = new CheckInput("create");
+        CheckInput input = new CheckInput("createEntry|");
         try {
             command.process(input);
             fail();
         } catch (IllegalArgumentException e) {
             // then
-            assertEquals("Должно быть четное количество параметров в формате 'create|tableName|column1|value1|column2|value2|...|columnN|valueN', а ты прислал: 'create'", e.getMessage());
+            assertEquals("Incorrect number of parameters separated by '|', expected 4 but was: 1", e.getMessage());
         }
     }
 
     @Test
     public void testValidationErrorWhenOnlyNameOfTable() {
         // when
-        CheckInput input = new CheckInput("create|taaat|");
+        CheckInput input = new CheckInput("createEntry|taaat|");
 
         try {
             command.process(input);
             //fail();
         } catch (IllegalArgumentException e) {
             // then
-            assertEquals("Должно быть четное количество параметров в формате 'create|tableName|column1|value1|column2|value2|...|columnN|valueN', а ты прислал: 'create'", e.getMessage());
+            assertEquals("Incorrect number of parameters separated by '|', expected 4 but was: 2", e.getMessage());
         }
     }
 }
