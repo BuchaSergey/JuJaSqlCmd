@@ -41,7 +41,7 @@ public class CreateEntryTest {
             fail();
         } catch (IllegalArgumentException e) {
             // then
-            assertEquals("Incorrect number of parameters separated by '|', expected 4 but was: 1", e.getMessage());
+            assertEquals("Invalid input, you must enter an even number of parameters in the following format: createEntry|tableName|column1|value1|column2|value2|...|columnN|valueN", e.getMessage());
         }
     }
 
