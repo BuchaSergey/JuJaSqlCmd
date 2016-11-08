@@ -25,7 +25,7 @@ public class CreateEntry implements Command {
 
     @Override
     public void process(CheckInput command) {
-        command.parametersValidation(format());
+        command.pairValidation(format());
 
         String[] data = command.getParameters();
 
@@ -47,6 +47,6 @@ public class CreateEntry implements Command {
 
     @Override
     public String format() {
-        return "createEntry|tableName|columnN|valueN";
+        return "createEntry|tableName|column1|value1|column2|value2|...|columnN|valueN";
     }
 }
