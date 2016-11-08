@@ -39,12 +39,9 @@ public class   Help implements  Command {
                 new GetTablesNames(manager, view),
 
                 new DropDB(manager, view),
-                new DropTable(manager, view),
                 new DisconnectFromDB(manager, view),
 
                 new DropTable(manager, view),
-                new IsConnected(manager, view),
-
 
                 this,
                 new Exit(view)

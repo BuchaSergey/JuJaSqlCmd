@@ -29,7 +29,7 @@ public class CreateTable implements Command {
 
     @Override
     public String description() {
-        return "create the table in current database";
+        return "create the table in current database (id SERIAL PRIMARY KEY, username text, password text)";
     }
 
     @Override
