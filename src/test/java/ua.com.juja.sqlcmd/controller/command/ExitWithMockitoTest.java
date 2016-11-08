@@ -39,7 +39,7 @@ public class ExitWithMockitoTest {
     }
 
     @Test
-    public void testProcessExitCommand_thowsExitException() {
+    public void testProcessExitCommand_throwsExitException() {
         // given
         Command command = new Exit(view);
 

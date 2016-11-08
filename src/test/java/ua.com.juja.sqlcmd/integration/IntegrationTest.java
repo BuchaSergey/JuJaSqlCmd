@@ -418,7 +418,7 @@ public class IntegrationTest {
     public void testClearWithError() {
         // given
         in.add("connect|" + DB_NAME + "|" + DB_USER + "|" + DB_PASSWORD);
-        in.add("clear|sadfasd|fsf|fdsf");
+        in.add("clear|wrong|param|test");
         in.add("disconnect");
         in.add("exit");
 
@@ -431,7 +431,7 @@ public class IntegrationTest {
                 // connect
                 "Connection to database '" + DB_NAME + "' is successful!\n" +
                 "Enter the command (or \"help\" for tips):\n" +
-                // clear|sadfasd|fsf|fdsf
+                // clear|wrong|param|test
                 "Failure! because: Incorrect number of parameters separated by '|', expected 2 but was: 4\n" +
                 "Try again.\n" +
                 "Enter the command (or \"help\" for tips):\n" +

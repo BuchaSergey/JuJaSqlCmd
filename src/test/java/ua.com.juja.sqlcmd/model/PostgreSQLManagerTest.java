@@ -103,7 +103,7 @@ public class PostgreSQLManagerTest {
     public void testConnectToDatabaseWhenIncorrectUserAndPassword() {
         //when
         try {
-            manager.connect(DATABASE_NAME, "notExistUser", "qwertyuiop");
+            manager.connect(DATABASE_NAME, "notExistUser", "badPassword");
             fail();
         } catch (Exception e) {
             //then

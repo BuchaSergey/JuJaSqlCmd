@@ -83,7 +83,7 @@ public class PostgreSQLManager implements DatabaseManager {
     public void createEntry(String tableName, Map<String, Object> input) {
 
         String rowNames = getFormatedName(input, "\"%s\",");
-        String values = getFormatedValues(input);
+        String values = getFormattedValues(input);
         String query = String.format("INSERT INTO %s  (%s) VALUES (%s)",tableName,rowNames,values);
 
         try (Statement statement = connection.createStatement()) {
@@ -102,7 +102,7 @@ public class PostgreSQLManager implements DatabaseManager {
         return string;
     }
 
-    private String getFormatedValues(Map<String, Object> input) {
+    private String getFormattedValues(Map<String, Object> input) {
         String values = "";
         for (Object value : input.values()) {
             values += String.format("'%s',", value);

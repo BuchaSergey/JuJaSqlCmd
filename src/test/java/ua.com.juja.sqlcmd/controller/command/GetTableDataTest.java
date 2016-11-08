@@ -161,7 +161,7 @@ public class GetTableDataTest {
     public void testErrorWhenBadCommandFormat() {
         //when
         try {
-            CheckInput inputCommand = new CheckInput("show|user|zaza");
+            CheckInput inputCommand = new CheckInput("show|user|badFormat");
             command.process(inputCommand);
             fail("Expected Exp");
         } catch (IllegalArgumentException e) {

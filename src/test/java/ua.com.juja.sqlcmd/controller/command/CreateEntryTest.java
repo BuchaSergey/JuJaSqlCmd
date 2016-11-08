@@ -48,7 +48,7 @@ public class CreateEntryTest {
     @Test
     public void testValidationErrorWhenOnlyNameOfTable() {
         // when
-        CheckInput input = new CheckInput("createEntry|taaat|");
+        CheckInput input = new CheckInput("createEntry|OnlyTable|");
 
         try {
             command.process(input);
