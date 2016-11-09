@@ -62,7 +62,7 @@ public class ClearTableTest {
     @Test
     public void testValidationErrorWhenCountParametersIsMoreThan2() {
         // when
-        CheckInput input = new CheckInput("clear|table|qwe");
+        CheckInput input = new CheckInput("clear|table|thirdParam");
         try {
             command.process(input);
             fail();
@@ -76,12 +76,13 @@ public class ClearTableTest {
     public void testWithConfirmClear() {
         //given
         when(view.read()).thenReturn("y");
+
         //when
         CheckInput input = new CheckInput("clear|test");
         command.process(input);
         //then
-       // verify(manager).clear("test");
-        verify(view).write("Table 'test' successful cleared");
+        verify(manager).clear("test");
+        verify(view).read();
     }
 
     @Test
@@ -94,6 +95,6 @@ public class ClearTableTest {
         command.process(input);
 
         //then
-        verify(view).write("CANCEL");
+        verify(view).read();
     }
 }
