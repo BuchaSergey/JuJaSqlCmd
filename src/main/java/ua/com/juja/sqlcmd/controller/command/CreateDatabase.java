@@ -24,8 +24,6 @@ public class CreateDatabase implements Command {
     public void process(CheckInput command) {
         String[] data = command.getParameters();
         command.parametersValidation(format());
-
-
         manager.createDatabase(data[1]);
         view.write(String.format("Database '%s' is create.", data[1]));
     }

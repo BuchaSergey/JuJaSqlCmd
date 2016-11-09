@@ -26,14 +26,11 @@ public class CreateEntry implements Command {
     @Override
     public void process(CheckInput command) {
         command.pairValidation(format());
-
         String[] data = command.getParameters();
-
         Map<String, Object> tableData = new LinkedHashMap<>();
         for (int index = 1; index < (data.length / 2); index++) {
             String column = data[index * 2];
             String value = data[index * 2 + 1];
-
             tableData.put(column, value);
         }
         manager.createEntry(data[1], tableData);

@@ -24,7 +24,6 @@ public class GetTableData implements Command {
     @Override
     public void process(CheckInput command) {
         command.parametersValidation(format());
-
         String[] data = command.getParameters();
 
         TableConstructor constructor = new TableConstructor(

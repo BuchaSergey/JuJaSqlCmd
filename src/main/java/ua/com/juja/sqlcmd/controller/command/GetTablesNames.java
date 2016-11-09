@@ -25,9 +25,7 @@ public class GetTablesNames implements Command {
     @Override
     public void process(CheckInput command) {
         Set<String> tableNames = manager.getTableNames();
-
         String message = tableNames.toString();
-
         view.write(message);
     }
 
