@@ -31,7 +31,6 @@ public class   Help implements  Command {
                 new CreateEntry(manager, view),
                 new GetTablesNames(manager, view),
                 new GetDatabasesNames(manager, view),
-                new GetTablesNames(manager, view),
                 new DropDB(manager, view),
                 new DisconnectFromDB(manager, view),
                 new DropTable(manager, view),
