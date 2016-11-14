@@ -39,6 +39,6 @@ public class DisconnectFromDBTest {
         command.process(input);
         //then
         verify(manager).disconnectFromDB();
-        verify(view).write("Disconnected");
+        verify(view).write("disconnected");
     }
 }

@@ -42,7 +42,7 @@ public class ConnectTest {
 
         } catch (IllegalArgumentException e) {
             // then
-            assertEquals("Неверно количество параметров разделенных знаком '|', ожидается 4, но есть: 3", e.getMessage());
+            assertEquals("Incorrect number of parameters separated by '|', expected 4 but was: 3", e.getMessage());
         }
     }
 

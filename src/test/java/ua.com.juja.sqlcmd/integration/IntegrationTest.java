@@ -90,31 +90,31 @@ public class IntegrationTest {
                         "\n" +
                         "==============================\n" +
                         "\u001B[34m\tconnect|database|userName|password\n" +
-                        "\u001B[0m\t\tconnect to databases\n" +
+                        "\u001B[0m\t\tconnect to specific database\n" +
                         "\u001B[34m\tcreateDB|databaseName\n" +
-                        "\u001B[0m\t\tcreate databases\n" +
+                        "\u001B[0m\t\tcreate new database\n" +
                         "\u001B[34m\tcreateTable|tableName\n" +
                         "\u001B[0m\t\tcreate the table in current database (id SERIAL PRIMARY KEY, username text, password text)\n" +
                         "\u001B[34m\tclear|tableName\n" +
                         "\u001B[0m\t\tclear table data\n" +
                         "\u001B[34m\tcreateEntry|tableName|column1|value1|column2|value2|...|columnN|valueN\n" +
-                        "\u001B[0m\t\tcreate entry in tables\n" +
+                        "\u001B[0m\t\tcreate entry in specific table\n" +
                         "\u001B[34m\ttables\n" +
-                        "\u001B[0m\t\ta list of tables in the database\n" +
+                        "\u001B[0m\t\tdisplay list of tables in the database\n" +
                         "\u001B[34m\tshow|tableName\n" +
                         "\u001B[0m\t\tdisplay table data\n" +
                         "\u001B[34m\tdatabases\n" +
-                        "\u001B[0m\t\ta list of database names\n" +
+                        "\u001B[0m\t\tdisplay list of databases\n" +
                         "\u001B[34m\tdropDB|databaseName\n" +
-                        "\u001B[0m\t\tDelete database\n" +
+                        "\u001B[0m\t\tdelete database\n" +
                         "\u001B[34m\tdisconnect\n" +
-                        "\u001B[0m\t\tDisconnect from database\n" +
+                        "\u001B[0m\t\tdisconnect from database\n" +
                         "\u001B[34m\tdropTable|tableName\n" +
-                        "\u001B[0m\t\tDelete table\n" +
+                        "\u001B[0m\t\tdelete table\n" +
                         "\u001B[34m\thelp\n" +
-                        "\u001B[0m\t\tlist of existing commands\n" +
+                        "\u001B[0m\t\tdisplay list of existing commands\n" +
                         "\u001B[34m\texit\n" +
-                        "\u001B[0m\t\tExit from app\n" +
+                        "\u001B[0m\t\texit from app\n" +
                         "==============================\n" +
                         "Enter the command (or \"help\" for tips):\n" +
                         "Good Bye!\n", getData());
@@ -221,7 +221,7 @@ public class IntegrationTest {
                 "Failure! because: null\n" +
                 "Try again.\n" +
                 "Enter the command (or \"help\" for tips):\n" +
-                "Disconnected\n" +
+                "disconnected\n" +
                 "Enter the command (or \"help\" for tips):\n" +
                 // exit
                 "Good Bye!\n", getData());
@@ -245,7 +245,7 @@ public class IntegrationTest {
                 "Enter the command (or \"help\" for tips):\n" +
                 "[test]\n" +
                 "Enter the command (or \"help\" for tips):\n" +
-                "Disconnected\n" +
+                "disconnected\n" +
                 "Enter the command (or \"help\" for tips):\n" +
                 "Good Bye!\n", getData());
     }
@@ -309,7 +309,7 @@ public class IntegrationTest {
                         "|id|name|pass|\n" +
                         "+--+----+----+\n" +
                         "Enter the command (or \"help\" for tips):\n" +
-                        "Disconnected\n" +
+                        "disconnected\n" +
                         "Enter the command (or \"help\" for tips):\n" +
                         "Good Bye!\n", getData());
     }
@@ -339,7 +339,7 @@ public class IntegrationTest {
                 "[" + TABLE_NAME + "]\n" +
                 "Enter the command (or \"help\" for tips):\n" +
                 //disconnect
-                "Disconnected\n" +
+                "disconnected\n" +
                 "Enter the command (or \"help\" for tips):\n" +
                 // connect test
                 "Connection to database '" + DB_NAME2 + "' is successful!\n" +
@@ -347,7 +347,7 @@ public class IntegrationTest {
                 //tables
                 "[" + TABLE_NAME2 + "]\n" +
                 "Enter the command (or \"help\" for tips):\n" +
-                "Disconnected\n" +
+                "disconnected\n" +
                 "Enter the command (or \"help\" for tips):\n" +
                 // exit
                 "Good Bye!\n", getData());
@@ -366,7 +366,7 @@ public class IntegrationTest {
         assertEquals("Hello user!\n" +
                 "Please, enter the name of database, user name and password in format: connect|database|userName|password\n" +
                 // connect sqlcmd
-                "Failure! because: Неверно количество параметров разделенных знаком '|', ожидается 4, но есть: 2\n" +
+                "Failure! because: Incorrect number of parameters separated by '|', expected 4 but was: 2\n" +
                 "Try again.\n" +
                 "Enter the command (or \"help\" for tips):\n" +
                 // exit
@@ -410,7 +410,7 @@ public class IntegrationTest {
                 "|14|Pupkin|+++++|\n" +
                 "+--+------+-----+\n" +
                 "Enter the command (or \"help\" for tips):\n" +
-                "Disconnected\n" +
+                "disconnected\n" +
                 "Enter the command (or \"help\" for tips):\n" +
                 "Good Bye!\n", getData());
     }
@@ -436,7 +436,7 @@ public class IntegrationTest {
                 "Failure! because: Incorrect number of parameters separated by '|', expected 2 but was: 4\n" +
                 "Try again.\n" +
                 "Enter the command (or \"help\" for tips):\n" +
-                "Disconnected\n" +
+                "disconnected\n" +
                 "Enter the command (or \"help\" for tips):\n" +
                 // exit
                 "Good Bye!\n", getData());
@@ -463,7 +463,7 @@ public class IntegrationTest {
                 "Failure! because: Incorrect number of parameters separated by '|', expected 2 but was: 3\n" +
                 "Try again.\n" +
                 "Enter the command (or \"help\" for tips):\n" +
-                "Disconnected\n" +
+                "disconnected\n" +
                 "Enter the command (or \"help\" for tips):\n" +
                 // exit
                 "Good Bye!\n", getData());
