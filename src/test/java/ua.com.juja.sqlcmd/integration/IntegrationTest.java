@@ -101,6 +101,8 @@ public class IntegrationTest {
                         "\u001B[0m\t\tcreate entry in tables\n" +
                         "\u001B[34m\ttables\n" +
                         "\u001B[0m\t\ta list of tables in the database\n" +
+                        "\u001B[34m\tshow|tableName\n" +
+                        "\u001B[0m\t\tdisplay table data\n" +
                         "\u001B[34m\tdatabases\n" +
                         "\u001B[0m\t\ta list of database names\n" +
                         "\u001B[34m\tdropDB|databaseName\n" +
