@@ -104,8 +104,6 @@ public class IntegrationTest {
                         "\u001B[0m\t\ta list of tables in the database\n" +
                         "\u001B[34m\tdatabases\n" +
                         "\u001B[0m\t\ta list of database names\n" +
-                        "\u001B[34m\ttables\n" +
-                        "\u001B[0m\t\ta list of tables in the database\n" +
                         "\u001B[34m\tdropDB|databaseName\n" +
                         "\u001B[0m\t\tDelete database\n" +
                         "\u001B[34m\tdisconnect\n" +
