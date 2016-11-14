@@ -14,11 +14,6 @@ public class Connect implements Command {
         this.view = view;
     }
 
-    private int count() {
-        String COMMAND_SAMPLE = "connect|sqlcmd|postgres|postgres";
-        return COMMAND_SAMPLE.split("\\|").length;
-    }
-
     @Override
     public boolean canProcess(String command) {
         return command.startsWith("connect|");
@@ -28,26 +23,22 @@ public class Connect implements Command {
     public void process(CheckInput command) {
 
         String[] data = command.getParameters();
-        if (data.length != count()) {
-            throw new IllegalArgumentException(
-                    String.format("Неверно количество параметров разделенных " +
-                                    "знаком '|', ожидается %s, но есть: %s",
-                            count(), data.length));
-        }
+        command.parametersValidation(format());
 
-        String database = data[1];
-        String userName = data[2];
-        String password = data[3];
+        int DB_NUMBER = 1;
+        int USER_NUMBER = 2;
+        int PASSWORD_NUMBER = 3;
+        String database = data[DB_NUMBER];
+        String userName = data[USER_NUMBER];
+        String password = data[PASSWORD_NUMBER];
 
         manager.connect(database, userName, password);
         view.write(String.format("Connection to database '%s' is successful!", database));
-
-
     }
 
     @Override
     public String description() {
-        return "connect to databases";
+        return "connect to specific database";
     }
 
     @Override
