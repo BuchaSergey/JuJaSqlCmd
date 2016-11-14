@@ -22,9 +22,9 @@ public class PostgreSQLManagerTest {
     private final static String TABLE_NAME = "test";
     private final static String NOT_EXIST_TABLE = "notExistTable";
     private final static String SQL_CREATE_TABLE = TABLE_NAME + " (id SERIAL PRIMARY KEY, username text, password text)";
-    private static final PropertiesLoader pl = new PropertiesLoader();
-    private final static String DB_USER = pl.getUserName();
-    private final static String DB_PASSWORD = pl.getPassword();
+    private final static   PropertiesLoader PROPERTIES_LOADER = new PropertiesLoader();
+    private final static String DB_USER = PROPERTIES_LOADER.getUserName();
+    private final static String DB_PASSWORD = PROPERTIES_LOADER.getPassword();
     private final static String DATABASE_NAME = "database1";
     private static DatabaseManager manager;
 
@@ -34,15 +34,12 @@ public class PostgreSQLManagerTest {
         manager.connect("", DB_USER, DB_PASSWORD);
         manager.createDatabase(DATABASE_NAME);
         manager.connect(DATABASE_NAME, DB_USER, DB_PASSWORD);
-
-
     }
 
     @AfterClass
     public static void clearAfterAllTests() {
         manager.connect("", DB_USER, DB_PASSWORD);
         manager.dropDB(DATABASE_NAME);
-//        manager.disconnectFromDB();
     }
 
     @Mock
@@ -315,5 +312,4 @@ public class PostgreSQLManagerTest {
         doThrow(new SQLException()).when(mockConn).prepareStatement(anyString());
         managerInjected.getTableColumns(TABLE_NAME);
     }
-
 }
