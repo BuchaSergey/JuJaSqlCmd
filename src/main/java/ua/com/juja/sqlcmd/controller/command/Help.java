@@ -30,6 +30,7 @@ public class   Help implements  Command {
                 new ClearTable(manager, view),
                 new CreateEntry(manager, view),
                 new GetTablesNames(manager, view),
+                new GetTableData(manager, view),
                 new GetDatabasesNames(manager, view),
                 new DropDB(manager, view),
                 new DisconnectFromDB(manager, view),
