@@ -30,7 +30,7 @@ public class DropTable implements Command {
 
     @Override
     public String description() {
-        return "Delete table";
+        return "delete table";
     }
 
     @Override

@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public class   Help implements  Command {
+public class Help implements Command {
 
     private static final String ANSI_BLUE = "\u001B[34m";
     private static final String ANSI_RESET = "\u001B[0m";
@@ -18,7 +18,6 @@ public class   Help implements  Command {
     private final View view;
     private final List<Command> commands;
     private DatabaseManager manager;
-
 
 
     public Help(View view) {
@@ -38,17 +37,6 @@ public class   Help implements  Command {
                 this,
                 new Exit(view)
         ));
-    }
-
-
-    @Override
-    public String description() {
-        return "list of existing commands";
-    }
-
-    @Override
-    public String format() {
-        return "help";
     }
 
     @Override
@@ -72,6 +60,15 @@ public class   Help implements  Command {
         view.write("==============================");
     }
 
+    @Override
+    public String description() {
+        return "display list of existing commands";
+    }
+
+    @Override
+    public String format() {
+        return "help";
+    }
 
 }
 

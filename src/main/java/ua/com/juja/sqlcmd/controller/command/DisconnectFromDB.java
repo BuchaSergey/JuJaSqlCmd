@@ -23,12 +23,12 @@ public class DisconnectFromDB implements Command {
     @Override
     public void process(CheckInput command) {
         manager.disconnectFromDB();
-        view.write("Disconnected");
+        view.write("disconnected");
     }
 
     @Override
     public String description() {
-        return "Disconnect from database";
+        return "disconnect from database";
     }
 
     @Override

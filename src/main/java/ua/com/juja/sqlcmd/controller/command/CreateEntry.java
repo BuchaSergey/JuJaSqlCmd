@@ -39,7 +39,7 @@ public class CreateEntry implements Command {
 
     @Override
     public String description() {
-        return "create entry in tables";
+        return "create entry in specific table";
     }
 
     @Override

@@ -30,7 +30,7 @@ public class CreateDatabase implements Command {
 
     @Override
     public String description() {
-        return "create databases";
+        return "create new database";
     }
 
     @Override

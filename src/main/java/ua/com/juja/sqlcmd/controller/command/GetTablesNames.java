@@ -31,7 +31,7 @@ public class GetTablesNames implements Command {
 
     @Override
     public String description() {
-        return "a list of tables in the database";
+        return "display list of tables in the database";
     }
 
     @Override

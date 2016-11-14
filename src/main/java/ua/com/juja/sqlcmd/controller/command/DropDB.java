@@ -31,7 +31,7 @@ public class DropDB implements Command {
 
     @Override
     public String description() {
-        return "Delete database";
+        return "delete database";
     }
 
     @Override

@@ -31,7 +31,7 @@ public class GetDatabasesNames implements Command {
 
     @Override
     public String description() {
-        return "a list of database names";
+        return "display list of databases";
     }
 
     @Override

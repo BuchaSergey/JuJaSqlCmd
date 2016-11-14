@@ -26,7 +26,7 @@ public class Exit implements Command {
 
     @Override
     public String description() {
-        return "Exit from app";
+        return "exit from app";
     }
 
     @Override
