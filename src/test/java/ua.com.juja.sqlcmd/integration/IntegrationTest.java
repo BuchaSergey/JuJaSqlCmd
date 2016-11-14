@@ -272,6 +272,8 @@ public class IntegrationTest {
     public void testShowTableAfterClear() {
         // given
         in.add("connect|" + DB_NAME + "|" + DB_USER + "|" + DB_PASSWORD);
+        in.add("clear|" + TABLE_NAME);
+        in.add("y");
         in.add("createEntry|" + TABLE_NAME + "|id|1111|name|serge|pass|****");
         in.add("show|" + TABLE_NAME);
         in.add("clear|" + TABLE_NAME);
@@ -288,6 +290,9 @@ public class IntegrationTest {
                 "Hello user!\n" +
                         "Please, enter the name of database, user name and password in format: connect|database|userName|password\n" +
                         "Connection to database 'database1' is successful!\n" +
+                        "Enter the command (or \"help\" for tips):\n" +
+                        "\u001B[31mDo you want delete data from table 'test'? Y/N\u001B[0m\n" +
+                        "Table test was successful cleared.\n" +
                         "Enter the command (or \"help\" for tips):\n" +
                         "An entry {id=1111, name=serge, pass=****} is created successfully in the table 'test'.\n" +
                         "Enter the command (or \"help\" for tips):\n" +
