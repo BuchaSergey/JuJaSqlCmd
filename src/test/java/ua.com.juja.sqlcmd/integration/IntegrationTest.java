@@ -29,9 +29,9 @@ public class IntegrationTest {
             " pass VARCHAR (50) NOT NULL)";
 
     private static DatabaseManager manager;
-    private static final PropertiesLoader pl = new PropertiesLoader();
-    private final static String DB_USER = pl.getUserName();
-    private final static String DB_PASSWORD = pl.getPassword();
+    private final static PropertiesLoader PL = new PropertiesLoader();
+    private final static String DB_USER = PL.getUserName();
+    private final static String DB_PASSWORD = PL.getPassword();
     private final static String DB_NAME = "database1";
     private ConfigurableInputStream in;
     private ByteArrayOutputStream out;
@@ -51,7 +51,6 @@ public class IntegrationTest {
         manager.connect(DB_NAME2, DB_USER, DB_PASSWORD);
         manager.createTable(SQL_CREATE_TABLE2);
         manager.disconnectFromDB();
-
     }
 
     @AfterClass
@@ -132,7 +131,6 @@ public class IntegrationTest {
     @Test
     public void testExit() {
         // given
-
         in.add("exit");
 
         // when
@@ -379,7 +377,6 @@ public class IntegrationTest {
         in.add("connect|" + DB_NAME + "|" + DB_USER + "|" + DB_PASSWORD);
         in.add("clear|" + TABLE_NAME);
         in.add("y");
-
         in.add("createEntry|" + TABLE_NAME + "|id|13|name|Stiven|pass|*****");
         in.add("createEntry|" + TABLE_NAME + "|id|14|name|Pupkin|pass|+++++");
         in.add("show|" + TABLE_NAME);
@@ -399,7 +396,6 @@ public class IntegrationTest {
                 "\u001B[31mDo you want delete data from table '" + TABLE_NAME + "'? Y/N\u001B[0m\n" +
                 "Table " + TABLE_NAME + " was successful cleared.\n" +
                 "Enter the command (or \"help\" for tips):\n" +
-                // create|user|id|13|name|Stiven|password|*****
                 "An entry {id=13, name=Stiven, pass=*****} is created successfully in the table '" + TABLE_NAME + "'.\n" +
                 "Enter the command (or \"help\" for tips):\n" +
                 "An entry {id=14, name=Pupkin, pass=+++++} is created successfully in the table '" + TABLE_NAME + "'.\n" +
