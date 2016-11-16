@@ -262,7 +262,7 @@ public class IntegrationTest {
         // then
         assertEquals("Hello user!\n" +
                 "Please, enter the name of database, user name and password in format: connect|database|userName|password\n" +
-                "Failure! because: Check the correctness of the connect data,  �����: ������������ \"postgres\" �� ������ �������� ����������� (�� ������)\n" +
+                "Failure! because: Check the correctness of the connect data, \n" +
                 "Try again.\n" +
                 "Enter the command (or \"help\" for tips):\n" +
                 "Good Bye!\n", getData());
