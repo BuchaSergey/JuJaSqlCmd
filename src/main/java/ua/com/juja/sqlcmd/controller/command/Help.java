@@ -17,7 +17,7 @@ public class Help implements Command {
 
     private final View view;
     private final List<Command> commands;
-    private DatabaseManager manager;
+    private DatabaseManager manager = null;
 
 
     public Help(View view) {
@@ -48,15 +48,10 @@ public class Help implements Command {
     public void process(CheckInput command) {
 
         view.write("======== SQLCmd  Help ======== ");
-        view.write("");
-        view.write("Существующие команды:");
-        view.write("");
-        view.write("==============================");
 
         for (Command commands : this.commands) {
-            view.write(ANSI_BLUE + "\t" + commands.format());
-            view.write(ANSI_RESET + "\t\t" + commands.description());
-        }
+            view.write(ANSI_BLUE + "\t" + commands.format() + ANSI_RESET + "\t//" + commands.description());
+            }
         view.write("==============================");
     }
 

@@ -85,36 +85,19 @@ public class IntegrationTest {
                 "Hello user!\n" +
                         "Please, enter the name of database, user name and password in format: connect|database|userName|password\n" +
                         "======== SQLCmd  Help ======== \n" +
-                        "\n" +
-                        "Существующие команды:\n" +
-                        "\n" +
-                        "==============================\n" +
-                        "\u001B[34m\tconnect|database|userName|password\n" +
-                        "\u001B[0m\t\tconnect to specific database\n" +
-                        "\u001B[34m\tcreateDB|databaseName\n" +
-                        "\u001B[0m\t\tcreate new database\n" +
-                        "\u001B[34m\tcreateTable|tableName\n" +
-                        "\u001B[0m\t\tcreate the table in current database (id SERIAL PRIMARY KEY, username text, password text)\n" +
-                        "\u001B[34m\tclear|tableName\n" +
-                        "\u001B[0m\t\tclear table data\n" +
-                        "\u001B[34m\tcreateEntry|tableName|column1|value1|column2|value2|...|columnN|valueN\n" +
-                        "\u001B[0m\t\tcreate entry in specific table\n" +
-                        "\u001B[34m\ttables\n" +
-                        "\u001B[0m\t\tdisplay list of tables in the database\n" +
-                        "\u001B[34m\tshow|tableName\n" +
-                        "\u001B[0m\t\tdisplay table data\n" +
-                        "\u001B[34m\tdatabases\n" +
-                        "\u001B[0m\t\tdisplay list of databases\n" +
-                        "\u001B[34m\tdropDB|databaseName\n" +
-                        "\u001B[0m\t\tdelete database\n" +
-                        "\u001B[34m\tdisconnect\n" +
-                        "\u001B[0m\t\tdisconnect from database\n" +
-                        "\u001B[34m\tdropTable|tableName\n" +
-                        "\u001B[0m\t\tdelete table\n" +
-                        "\u001B[34m\thelp\n" +
-                        "\u001B[0m\t\tdisplay list of existing commands\n" +
-                        "\u001B[34m\texit\n" +
-                        "\u001B[0m\t\texit from app\n" +
+                        "\u001B[34m\tconnect|database|userName|password\u001B[0m\t//connect to specific database\n" +
+                        "\u001B[34m\tcreateDB|databaseName\u001B[0m\t//create new database\n" +
+                        "\u001B[34m\tcreateTable|tableName\u001B[0m\t//create the table in current database (id SERIAL PRIMARY KEY, username text, password text)\n" +
+                        "\u001B[34m\tclear|tableName\u001B[0m\t//clear table data\n" +
+                        "\u001B[34m\tcreateEntry|tableName|column1|value1|column2|value2|...|columnN|valueN\u001B[0m\t//create entry in specific table\n" +
+                        "\u001B[34m\ttables\u001B[0m\t//display list of tables in the database\n" +
+                        "\u001B[34m\tshow|tableName\u001B[0m\t//display table data\n" +
+                        "\u001B[34m\tdatabases\u001B[0m\t//display list of databases\n" +
+                        "\u001B[34m\tdropDB|databaseName\u001B[0m\t//delete database\n" +
+                        "\u001B[34m\tdisconnect\u001B[0m\t//disconnect from database\n" +
+                        "\u001B[34m\tdropTable|tableName\u001B[0m\t//delete table\n" +
+                        "\u001B[34m\thelp\u001B[0m\t//display list of existing commands\n" +
+                        "\u001B[34m\texit\u001B[0m\t//exit from app\n" +
                         "==============================\n" +
                         "Enter the command (or \"help\" for tips):\n" +
                         "Good Bye!\n", getData());

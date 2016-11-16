@@ -32,6 +32,6 @@ public class HelpTest {
     public void testProcess() throws Exception {
         CheckInput checkInput = new CheckInput("help");
         command.process(checkInput);
-        verify(view).write("Существующие команды:");
+        verify(view).write("======== SQLCmd  Help ======== ");
     }
 }
