@@ -2,7 +2,6 @@ package ua.com.juja.sqlcmd.controller.command;
 
 import org.junit.Before;
 import org.junit.Test;
-import ua.com.juja.sqlcmd.controller.command.utilCheckInput.CheckInput;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
@@ -45,8 +44,7 @@ public class GetTablesNamesTest {
         when(manager.getTableNames()).thenReturn(tableNames);
 
         //when
-        CheckInput input = new CheckInput("tables");
-        command.process(input);
+        command.process("tables");
         //then
         verify(manager).getTableNames();
 

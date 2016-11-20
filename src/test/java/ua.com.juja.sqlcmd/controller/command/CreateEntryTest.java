@@ -3,7 +3,6 @@ package ua.com.juja.sqlcmd.controller.command;
 
 import org.junit.Before;
 import org.junit.Test;
-import ua.com.juja.sqlcmd.controller.command.utilCheckInput.CheckInput;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
@@ -35,23 +34,21 @@ public class CreateEntryTest {
     @Test
     public void testValidationErrorWhenCountParametersIsNotEven() {
         // when
-        CheckInput input = new CheckInput("createEntry|");
         try {
-            command.process(input);
+            command.process("createEntry|tableName|NotEvenParam");
             fail();
         } catch (IllegalArgumentException e) {
             // then
-            assertEquals("Invalid input, you must enter an even number of parameters in the following format: createEntry|tableName|column1|value1|column2|value2|...|columnN|valueN", e.getMessage());
+            assertEquals("Invalid input, you must enter an even number of parameters in the following format: " +
+                    "createEntry|tableName|column1|value1|column2|value2|...|columnN|valueN", e.getMessage());
         }
     }
 
     @Test
     public void testValidationErrorWhenOnlyNameOfTable() {
         // when
-        CheckInput input = new CheckInput("createEntry|OnlyTable|");
-
         try {
-            command.process(input);
+            command.process("createEntry|OnlyTable|");
             //fail();
         } catch (IllegalArgumentException e) {
             // then

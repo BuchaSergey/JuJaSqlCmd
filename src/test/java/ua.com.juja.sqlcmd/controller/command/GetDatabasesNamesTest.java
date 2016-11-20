@@ -2,7 +2,6 @@ package ua.com.juja.sqlcmd.controller.command;
 
 import org.junit.Before;
 import org.junit.Test;
-import ua.com.juja.sqlcmd.controller.command.utilCheckInput.CheckInput;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
@@ -40,7 +39,7 @@ public class GetDatabasesNamesTest {
         when(manager.getDatabasesNames()).thenReturn(databases);
 
         //when
-        command.process(new CheckInput("databases"));
+        command.process("databases");
 
         //then
         verify(manager).getDatabasesNames();

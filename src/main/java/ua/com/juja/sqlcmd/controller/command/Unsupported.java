@@ -1,15 +1,12 @@
 package ua.com.juja.sqlcmd.controller.command;
 
-import ua.com.juja.sqlcmd.controller.command.utilCheckInput.CheckInput;
 import ua.com.juja.sqlcmd.view.View;
 
 
-public class Unsupported implements Command {
-
-    private final View view;
+public class Unsupported extends Command {
 
     public Unsupported(View view) {
-        this.view = view;
+        super(view);
     }
 
     @Override
@@ -18,8 +15,8 @@ public class Unsupported implements Command {
     }
 
     @Override
-    public void process(CheckInput command) {
-        view.write("Command is not exist: " + command);
+    public void process(String input) {
+        view.write("Command is not exist: " + input);
     }
 
     @Override
@@ -28,7 +25,7 @@ public class Unsupported implements Command {
     }
 
     @Override
-    public String format() {
+    public String commandFormat() {
         return null;
     }
 }

@@ -1,7 +1,5 @@
 package ua.com.juja.sqlcmd.controller.command;
 
-import ua.com.juja.sqlcmd.controller.command.utilCheckInput.CheckInput;
-import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
 import java.util.ArrayList;
@@ -9,16 +7,13 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public class Help implements Command {
+public class Help extends Command {
 
     private static final String ANSI_BLUE = "\u001B[34m";
     private static final String ANSI_RESET = "\u001B[0m";
 
-
     private final View view;
     private final List<Command> commands;
-    private DatabaseManager manager = null;
-
 
     public Help(View view) {
         this.view = view;
@@ -40,18 +35,12 @@ public class Help implements Command {
     }
 
     @Override
-    public boolean canProcess(String command) {
-        return command.equals("help");
-    }
-
-    @Override
-    public void process(CheckInput command) {
+    public void process(String input) {
 
         view.write("======== SQLCmd  Help ======== ");
-
         for (Command commands : this.commands) {
-            view.write(ANSI_BLUE + "\t" + commands.format() + ANSI_RESET + "\t//" + commands.description());
-            }
+            view.write(ANSI_BLUE + "\t" + commands.commandFormat() + ANSI_RESET + "\t//" + commands.description());
+        }
         view.write("==============================");
     }
 
@@ -61,7 +50,7 @@ public class Help implements Command {
     }
 
     @Override
-    public String format() {
+    public String commandFormat() {
         return "help";
     }
 

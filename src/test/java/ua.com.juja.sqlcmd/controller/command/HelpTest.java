@@ -2,7 +2,6 @@ package ua.com.juja.sqlcmd.controller.command;
 
 import org.junit.Before;
 import org.junit.Test;
-import ua.com.juja.sqlcmd.controller.command.utilCheckInput.CheckInput;
 import ua.com.juja.sqlcmd.view.View;
 
 import static junit.framework.Assert.assertTrue;
@@ -30,8 +29,7 @@ public class HelpTest {
 
     @Test
     public void testProcess() throws Exception {
-        CheckInput checkInput = new CheckInput("help");
-        command.process(checkInput);
+        command.process("help");
         verify(view).write("======== SQLCmd  Help ======== ");
     }
 }

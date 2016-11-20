@@ -1,30 +1,21 @@
 package ua.com.juja.sqlcmd.controller.command;
 
-import ua.com.juja.sqlcmd.controller.command.utilCheckInput.CheckInput;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
 
-public class CreateTable implements Command {
-    private final DatabaseManager manager;
-    private final View view;
+public class CreateTable extends Command {
 
     public CreateTable(DatabaseManager manager, View view) {
-        this.manager = manager;
-        this.view = view;
+        super(manager, view);
     }
 
     @Override
-    public boolean canProcess(String command) {
-        return command.startsWith("createTable|");
-    }
-
-    @Override
-    public void process(CheckInput command) {
-        command.parametersValidation(format());
-        String[] data = command.getParameters();
-        manager.createTable(data[1]);
-        view.write(String.format("Table '%s' is created.", data[1]));
+    public void process(String input) {
+        validationParameters(input);
+        String tableName = getParameters(input)[1];
+        manager.createTable(tableName);
+        view.write(String.format("Table '%s' is created.", tableName));
     }
 
     @Override
@@ -33,7 +24,7 @@ public class CreateTable implements Command {
     }
 
     @Override
-    public String format() {
+    public String commandFormat() {
         return "createTable|tableName";
     }
 }

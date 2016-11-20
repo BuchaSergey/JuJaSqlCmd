@@ -2,7 +2,6 @@ package ua.com.juja.sqlcmd.controller.command;
 
 import org.junit.Test;
 import org.mockito.Mockito;
-import ua.com.juja.sqlcmd.controller.command.utilCheckInput.CheckInput;
 import ua.com.juja.sqlcmd.view.View;
 
 import static junit.framework.TestCase.assertTrue;
@@ -45,7 +44,7 @@ public class ExitWithMockitoTest {
 
         // when
         try {
-            command.process(new CheckInput("exit"));
+            command.process("exit");
             fail("Expected ExitException");
         } catch (ExitException e) {
             // do nothing

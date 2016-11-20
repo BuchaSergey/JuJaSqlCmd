@@ -3,7 +3,6 @@ package ua.com.juja.sqlcmd.controller.command;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import ua.com.juja.sqlcmd.controller.command.utilCheckInput.CheckInput;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
@@ -25,8 +24,7 @@ public class IsConnectedTest {
 
     @Test
     public void testProcess() {
-        CheckInput inputCommand = new CheckInput("if does not connected");
-        command.process(inputCommand);
+        command.process("if does not connected");
         verify(view).write("You could't not use the command \'if does not connected\' while You are not connected to database in this format: connect|databaseName|userName|password"
         );
     }

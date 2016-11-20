@@ -2,7 +2,6 @@ package ua.com.juja.sqlcmd.controller.command;
 
 import org.junit.Before;
 import org.junit.Test;
-import ua.com.juja.sqlcmd.controller.command.utilCheckInput.CheckInput;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
@@ -39,19 +38,10 @@ public class ClearTableTest {
     }
 
     @Test
-    public void testCantProcessClearWithoutParametersString() {
-        // when
-        boolean canProcess = command.canProcess("clear");
-        // then
-        assertFalse(canProcess);
-    }
-
-    @Test
     public void testValidationErrorWhenCountParametersIsLessThan2() {
         // when
-        CheckInput input = new CheckInput("clear");
         try {
-            command.process(input);
+            command.process("clear");
             fail();
         } catch (IllegalArgumentException e) {
             // then
@@ -62,9 +52,8 @@ public class ClearTableTest {
     @Test
     public void testValidationErrorWhenCountParametersIsMoreThan2() {
         // when
-        CheckInput input = new CheckInput("clear|table|thirdParam");
         try {
-            command.process(input);
+            command.process("clear|table|thirdParam");
             fail();
         } catch (IllegalArgumentException e) {
             // then
@@ -78,8 +67,7 @@ public class ClearTableTest {
         when(view.read()).thenReturn("y");
 
         //when
-        CheckInput input = new CheckInput("clear|test");
-        command.process(input);
+        command.process("clear|test");
         //then
         verify(manager).clear("test");
         verify(view).read();
@@ -91,8 +79,7 @@ public class ClearTableTest {
         when(view.read()).thenReturn("n");
 
         //when
-        CheckInput input = new CheckInput("clear|test");
-        command.process(input);
+        command.process("clear|test");
 
         //then
         verify(view).read();

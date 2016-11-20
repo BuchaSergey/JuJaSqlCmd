@@ -2,7 +2,6 @@ package ua.com.juja.sqlcmd.controller.command;
 
 import org.junit.Before;
 import org.junit.Test;
-import ua.com.juja.sqlcmd.controller.command.utilCheckInput.CheckInput;
 import ua.com.juja.sqlcmd.view.View;
 
 import static junit.framework.TestCase.assertTrue;
@@ -44,10 +43,9 @@ public class ExitTest {
     @Test
     public void testProcessExitCommand_throwsExitException() {
         // when
-        CheckInput input = new CheckInput("exit");
 
         try {
-            command.process(input);
+            command.process("exit");
             fail("Expected ExitException");
         } catch (ExitException e) {
             // do nothing

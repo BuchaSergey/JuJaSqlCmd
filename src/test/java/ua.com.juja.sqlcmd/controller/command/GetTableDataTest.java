@@ -3,7 +3,6 @@ package ua.com.juja.sqlcmd.controller.command;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
-import ua.com.juja.sqlcmd.controller.command.utilCheckInput.CheckInput;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
@@ -51,8 +50,7 @@ public class GetTableDataTest {
         when(manager.getTableData(tableName)).thenReturn(records);
 
         //when
-        CheckInput inputCommand = new CheckInput(String.format("show|%s", tableName));
-        command.process(inputCommand);
+        command.process(String.format("show|%s", tableName));
 
         shouldPrint(
                 "[+--+----------+\n" +
@@ -82,19 +80,7 @@ public class GetTableDataTest {
         assertTrue(canProcess);
     }
 
-    @Test
-    public void testCantProcessFindWithOutParametersString() {
-        // given
-        Command command = new GetTableData(manager, view);
-
-        // when
-        boolean canProcess = command.canProcess("show");
-
-        // then
-        assertFalse(canProcess);
-    }
-
-    @Test
+     @Test
     public void testCantProcessWrongCommand() {
         // when
         boolean canProcess = command.canProcess("qwe");
@@ -115,8 +101,7 @@ public class GetTableDataTest {
         when(manager.getTableData(tableName)).thenReturn(records);
 
         //when
-        CheckInput inputCommand = new CheckInput(String.format("show|%s", tableName));
-        command.process(inputCommand);
+        command.process(String.format("show|%s", tableName));
 
         //then
         shouldPrint(
@@ -145,7 +130,7 @@ public class GetTableDataTest {
         when(manager.getTableData(tableName)).thenReturn(records);
 
         //when
-        command.process(new CheckInput("show|test"));
+        command.process("show|test");
 
         //then
         shouldPrint("[+--+\n" +
@@ -161,8 +146,7 @@ public class GetTableDataTest {
     public void testErrorWhenBadCommandFormat() {
         //when
         try {
-            CheckInput inputCommand = new CheckInput("show|user|badFormat");
-            command.process(inputCommand);
+            command.process("show|user|badFormat");
             fail("Expected Exp");
         } catch (IllegalArgumentException e) {
             //then

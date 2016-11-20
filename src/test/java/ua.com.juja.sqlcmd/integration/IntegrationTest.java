@@ -176,8 +176,7 @@ public class IntegrationTest {
         assertEquals("Hello user!\n" +
                 "Please, enter the name of database, user name and password in format: connect|database|userName|password\n" +
                 // unsupported
-                "Failure! because: null\n" +
-                "Try again.\n" +
+                "You could't not use the command 'unsupported' while You are not connected to database in this format: connect|databaseName|userName|password\n" +
                 "Enter the command (or \"help\" for tips):\n" +
                 // exit
                 "Good Bye!\n", getData());
@@ -201,8 +200,7 @@ public class IntegrationTest {
                 "Connection to database '" + DB_NAME + "' is successful!\n" +
                 "Enter the command (or \"help\" for tips):\n" +
                 // unsupported
-                "Failure! because: null\n" +
-                "Try again.\n" +
+                "Command is not exist: unsupported\n" +
                 "Enter the command (or \"help\" for tips):\n" +
                 "disconnected\n" +
                 "Enter the command (or \"help\" for tips):\n" +

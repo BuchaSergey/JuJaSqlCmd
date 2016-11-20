@@ -2,7 +2,6 @@ package ua.com.juja.sqlcmd.controller;
 
 
 import ua.com.juja.sqlcmd.controller.command.*;
-import ua.com.juja.sqlcmd.controller.command.utilCheckInput.CheckInput;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
@@ -49,19 +48,11 @@ public class MainController {
         view.write("Hello user!");
         view.write("Please, enter the name of database, user name and password in format: connect|database|userName|password");
 
-        //noinspection InfiniteLoopStatement
         while (true) {
-            String[] splitFormat;
-            String[] parameters;
-            CheckInput input = new CheckInput(view.read());
-
+            String input = view.read();
             for (Command command : commands) {
                 try {
-                    splitFormat = command.format().split("\\|");
-                    parameters = input.getParameters();
-                    boolean equals = parameters[0].equals(splitFormat[0]);
-
-                    if (equals) {
+                    if (command.canProcess(input)) {
                         command.process(input);
                         break;
                     }

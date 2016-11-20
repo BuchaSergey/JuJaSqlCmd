@@ -2,7 +2,6 @@ package ua.com.juja.sqlcmd.controller.command;
 
 import org.junit.Before;
 import org.junit.Test;
-import ua.com.juja.sqlcmd.controller.command.utilCheckInput.CheckInput;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
@@ -36,9 +35,8 @@ public class ConnectTest {
     @Test
     public void testValidationErrorWhenCountParametersIsLessThan4() {
         // when
-        CheckInput input = new CheckInput("connect|sqlcmd|postgres");
         try {
-            command.process(input);
+            command.process("connect|sqlcmd|postgres");
 
         } catch (IllegalArgumentException e) {
             // then
@@ -48,9 +46,8 @@ public class ConnectTest {
 
     @Test
     public void testCorrectConnectCommand() {
-        CheckInput input = new CheckInput("connect|sqlcmd|postgres|postgres");
         //when
-        command.process(input);
+        command.process("connect|sqlcmd|postgres|postgres");
 
         //then
         verify(view).write("Connection to database 'sqlcmd' is successful!");

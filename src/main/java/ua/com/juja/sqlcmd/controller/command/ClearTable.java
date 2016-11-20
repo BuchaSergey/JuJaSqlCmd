@@ -1,11 +1,10 @@
 package ua.com.juja.sqlcmd.controller.command;
 
-import ua.com.juja.sqlcmd.controller.command.utilCheckInput.CheckInput;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
 
-public class ClearTable implements Command {
+public class ClearTable extends Command {
 
     private static final String ANSI_RED = "\u001B[31m";
     private static final String ANSI_RESET = "\u001B[0m";
@@ -18,18 +17,12 @@ public class ClearTable implements Command {
     }
 
     @Override
-    public boolean canProcess(String command) {
-        return command.startsWith("clear|");
-    }
-
-    @Override
-    public void process(CheckInput command) {
-        command.parametersValidation(format());
-        String[] data = command.getParameters();
+    public void process(String input) {
+        validationParameters(input);
+        String[] data = getParameters(input);
         String clearTableName = data[1];
         confirmAndClearTable(clearTableName);
     }
-
 
     private void confirmAndClearTable(String clearTableName) {
         try {
@@ -49,7 +42,7 @@ public class ClearTable implements Command {
     }
 
     @Override
-    public String format() {
+    public String commandFormat() {
         return "clear|tableName";
     }
 }

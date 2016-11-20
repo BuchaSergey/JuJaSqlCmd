@@ -2,7 +2,6 @@ package ua.com.juja.sqlcmd.controller.command;
 
 import org.junit.Before;
 import org.junit.Test;
-import ua.com.juja.sqlcmd.controller.command.utilCheckInput.CheckInput;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
@@ -36,10 +35,8 @@ public class DropDBTest {
     @Test
     public void testValidationErrorWhenCountParametersIsNotEven() {
         // when
-        CheckInput input = new CheckInput("dropDB");
-
         try {
-            command.process(input);
+            command.process("dropDB");
             fail();
         } catch (IllegalArgumentException e) {
             // then
@@ -50,9 +47,8 @@ public class DropDBTest {
     @Test
     public void testWithConfirmDropDB() {
         //when
-        CheckInput input = new CheckInput("dropDB|test");
 
-        command.process(input);
+        command.process("dropDB|test");
         //then
         verify(manager).dropDB("test");
         verify(view).write("Database 'test' was deleted.");

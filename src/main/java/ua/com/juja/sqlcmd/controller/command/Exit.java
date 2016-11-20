@@ -1,11 +1,10 @@
 package ua.com.juja.sqlcmd.controller.command;
 
 
-import ua.com.juja.sqlcmd.controller.command.utilCheckInput.CheckInput;
 import ua.com.juja.sqlcmd.view.View;
 
 
-public class Exit implements Command {
+public class Exit extends Command {
 
     private final View view;
 
@@ -13,13 +12,9 @@ public class Exit implements Command {
         this.view = view;
     }
 
-    @Override
-    public boolean canProcess(String command) {
-        return command.equals("exit");
-    }
 
     @Override
-    public void process(CheckInput command) {
+    public void process(String input) {
         view.write("Good Bye!");
         throw new ExitException();
     }
@@ -30,7 +25,7 @@ public class Exit implements Command {
     }
 
     @Override
-    public String format() {
+    public String commandFormat() {
         return "exit";
     }
 }

@@ -1,29 +1,18 @@
 package ua.com.juja.sqlcmd.controller.command;
 
-import ua.com.juja.sqlcmd.controller.command.utilCheckInput.CheckInput;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
-public class Connect implements Command {
-
-    private final DatabaseManager manager;
-    private final View view;
+public class Connect extends Command {
 
     public Connect(DatabaseManager manager, View view) {
-        this.manager = manager;
-        this.view = view;
+        super(manager, view);
     }
 
     @Override
-    public boolean canProcess(String command) {
-        return command.startsWith("connect|");
-    }
-
-    @Override
-    public void process(CheckInput command) {
-
-        String[] data = command.getParameters();
-        command.parametersValidation(format());
+    public void process(String input) {
+        validationParameters(input);
+        String[] data = getParameters(input);
 
         int DB_NUMBER = 1;
         int USER_NUMBER = 2;
@@ -42,7 +31,7 @@ public class Connect implements Command {
     }
 
     @Override
-    public String format() {
+    public String commandFormat() {
         return "connect|database|userName|password";
     }
 }

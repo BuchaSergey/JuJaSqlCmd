@@ -1,33 +1,23 @@
 package ua.com.juja.sqlcmd.controller.command;
 
-import ua.com.juja.sqlcmd.controller.command.utilCheckInput.CheckInput;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.model.TableConstructor;
 import ua.com.juja.sqlcmd.view.View;
 
 
-public class GetTableData implements Command {
-
-    private final DatabaseManager manager;
-    private final View view;
+public class GetTableData extends Command {
 
     public GetTableData(DatabaseManager manager, View view) {
-        this.manager = manager;
-        this.view = view;
+        super(manager, view);
     }
 
     @Override
-    public boolean canProcess(String command) {
-        return command.startsWith("show|");
-    }
-
-    @Override
-    public void process(CheckInput command) {
-        command.parametersValidation(format());
-        String[] data = command.getParameters();
+    public void process(String input) {
+        validationParameters(input);
+        String tableName = getParameters(input)[1];
 
         TableConstructor constructor = new TableConstructor(
-                manager.getTableColumns(data[1]), manager.getTableData(data[1]));
+                manager.getTableColumns(tableName), manager.getTableData(tableName));
         view.write(constructor.getTableString());
     }
 
@@ -37,7 +27,7 @@ public class GetTableData implements Command {
     }
 
     @Override
-    public String format() {
+    public String commandFormat() {
         return "show|tableName";
     }
 }

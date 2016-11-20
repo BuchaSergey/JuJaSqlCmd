@@ -1,6 +1,5 @@
 package ua.com.juja.sqlcmd.controller.command;
 
-import ua.com.juja.sqlcmd.controller.command.utilCheckInput.CheckInput;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
@@ -8,25 +7,18 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 
-public class CreateEntry implements Command {
-
-    private final DatabaseManager manager;
-    private final View view;
+public class CreateEntry extends Command {
 
     public CreateEntry(DatabaseManager manager, View view) {
-        this.manager = manager;
-        this.view = view;
+        super(manager, view);
+
     }
 
     @Override
-    public boolean canProcess(String command) {
-        return command.startsWith("createEntry|");
-    }
+    public void process(String input) {
+        validationPairParameters(input);
 
-    @Override
-    public void process(CheckInput command) {
-        command.pairValidation(format());
-        String[] data = command.getParameters();
+        String[] data = getParameters(input);
         Map<String, Object> tableData = new LinkedHashMap<>();
         for (int index = 1; index < (data.length / 2); index++) {
             String column = data[index * 2];
@@ -43,7 +35,7 @@ public class CreateEntry implements Command {
     }
 
     @Override
-    public String format() {
+    public String commandFormat() {
         return "createEntry|tableName|column1|value1|column2|value2|...|columnN|valueN";
     }
 }

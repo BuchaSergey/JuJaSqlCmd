@@ -1,18 +1,13 @@
 package ua.com.juja.sqlcmd.controller.command;
 
-import ua.com.juja.sqlcmd.controller.command.utilCheckInput.CheckInput;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
 
-public class IsConnected implements Command {
-
-    private final DatabaseManager manager;
-    private final View view;
+public class IsConnected extends Command {
 
     public IsConnected(DatabaseManager manager, View view) {
-        this.manager = manager;
-        this.view = view;
+        super(manager, view);
     }
 
     @Override
@@ -21,10 +16,10 @@ public class IsConnected implements Command {
     }
 
     @Override
-    public void process(CheckInput command) {
+    public void process(String input) {
         view.write(String.format("You could't not use the command '%s' while " +
                 "You are not connected to database in this format: " +
-                "connect|databaseName|userName|password", command));
+                "connect|databaseName|userName|password", input));
     }
 
     @Override
@@ -33,7 +28,7 @@ public class IsConnected implements Command {
     }
 
     @Override
-    public String format() {
+    public String commandFormat() {
         return null;
     }
 }

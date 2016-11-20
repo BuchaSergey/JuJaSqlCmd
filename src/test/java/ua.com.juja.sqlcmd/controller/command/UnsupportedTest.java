@@ -3,7 +3,6 @@ package ua.com.juja.sqlcmd.controller.command;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import ua.com.juja.sqlcmd.controller.command.utilCheckInput.CheckInput;
 import ua.com.juja.sqlcmd.view.View;
 
 import static junit.framework.Assert.assertTrue;
@@ -34,7 +33,7 @@ public class UnsupportedTest {
     @Test
     public void testProcess() {
         // when
-        command.process(new CheckInput("wrongCom"));
+        command.process("wrongCom");
         verify(view).write("Command is not exist: wrongCom");
 
     }

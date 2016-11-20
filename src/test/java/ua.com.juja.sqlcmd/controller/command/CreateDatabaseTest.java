@@ -2,7 +2,6 @@ package ua.com.juja.sqlcmd.controller.command;
 
 import org.junit.Before;
 import org.junit.Test;
-import ua.com.juja.sqlcmd.controller.command.utilCheckInput.CheckInput;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
@@ -35,10 +34,8 @@ public class CreateDatabaseTest {
 
     @Test
     public void testValidationErrorWhenCountParametersIsNotEven() {
-        // when
-        CheckInput input = new CheckInput("createDB");
         try {
-            command.process(input);
+            command.process("createDB");
             fail();
         } catch (IllegalArgumentException e) {
             // then
@@ -49,8 +46,7 @@ public class CreateDatabaseTest {
     @Test
     public void testWithConfirmDropDB() {
         //when
-        CheckInput input = new CheckInput("createDB|test");
-        command.process(input);
+        command.process("createDB|test");
         //then
         verify(manager).createDatabase("test");
         verify(view).write("Database 'test' is create.");

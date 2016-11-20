@@ -1,32 +1,23 @@
 package ua.com.juja.sqlcmd.controller.command;
 
 
-import ua.com.juja.sqlcmd.controller.command.utilCheckInput.CheckInput;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
-public class DropDB implements Command {
-
-    private final DatabaseManager manager;
-    private final View view;
+public class DropDB extends Command {
 
     public DropDB(DatabaseManager manager, View view) {
-        this.manager = manager;
-        this.view = view;
+        super(manager, view);
+
     }
 
     @Override
-    public boolean canProcess(String command) {
-        return command.startsWith("dropDB|");
-    }
+    public void process(String input) {
+        validationParameters(input);
+        String databaseName = getParameters(input)[1];
 
-    @Override
-    public void process(CheckInput command) {
-        String[] data = command.getParameters();
-        command.parametersValidation(format());
-
-        manager.dropDB(data[1]);
-        view.write(String.format("Database '%s' was deleted.", data[1]));
+        manager.dropDB(databaseName);
+        view.write(String.format("Database '%s' was deleted.", databaseName));
     }
 
     @Override
@@ -35,7 +26,7 @@ public class DropDB implements Command {
     }
 
     @Override
-    public String format() {
+    public String commandFormat() {
         return "dropDB|databaseName";
     }
 }
