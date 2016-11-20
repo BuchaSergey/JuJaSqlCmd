@@ -38,4 +38,15 @@ public class UnsupportedTest {
 
     }
 
+    @Test
+    public void testDescription() {
+        assertTrue(command.description(), true);
+    }
+
+    @Test
+    public void testCommandFormat() {
+        assertTrue(command.commandFormat(), true);
+    }
+
+
 }

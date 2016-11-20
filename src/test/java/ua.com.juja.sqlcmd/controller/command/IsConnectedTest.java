@@ -36,4 +36,14 @@ public class IsConnectedTest {
         //then
         assertTrue(canP);
     }
+
+    @Test
+    public void testDescription() {
+        assertTrue(command.description(), true);
+    }
+
+    @Test
+    public void testCommandFormat() {
+        assertTrue(command.commandFormat(), true);
+    }
 }
