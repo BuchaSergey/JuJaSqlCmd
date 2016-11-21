@@ -29,17 +29,18 @@ public class IntegrationTest {
             " pass VARCHAR (50) NOT NULL)";
 
     private static DatabaseManager manager;
-    private final static PropertiesLoader PL = new PropertiesLoader();
-    private final static String DB_USER = PL.getUserName();
-    private final static String DB_PASSWORD = PL.getPassword();
+    private final static PropertiesLoader PROPERTIES_LOADER = new PropertiesLoader();
+    private final static String DB_USER = PROPERTIES_LOADER.getUserName();
+    private final static String DB_PASSWORD = PROPERTIES_LOADER.getPassword();
     private final static String DB_NAME = "database1";
+    private final static String DB_NAME_FROM_PROPERTIES =  PROPERTIES_LOADER.getDatabaseName();
     private ConfigurableInputStream in;
     private ByteArrayOutputStream out;
 
     @BeforeClass
     public static void init() {
         manager = new PostgreSQLManager();
-        manager.connect("", DB_USER, DB_PASSWORD);
+        manager.connect(DB_NAME_FROM_PROPERTIES, DB_USER, DB_PASSWORD);
 
         manager.createDatabase(DB_NAME);
         manager.createDatabase(DB_NAME2);
@@ -56,7 +57,7 @@ public class IntegrationTest {
     @AfterClass
     public static void clearAfterAllTests() {
         manager = new PostgreSQLManager();
-        manager.connect("", DB_USER, DB_PASSWORD);
+        manager.connect(DB_NAME_FROM_PROPERTIES, DB_USER, DB_PASSWORD);
         manager.dropDB(DB_NAME);
         manager.dropDB(DB_NAME2);
     }

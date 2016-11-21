@@ -41,7 +41,7 @@ public class PostgreSQLManagerTest {
 
     @AfterClass
     public static void clearAfterAllTests() {
-        manager.connect("", DB_USER, DB_PASSWORD);
+        manager.connect(DB_NAME_FROM_PROPERTIES, DB_USER, DB_PASSWORD);
         manager.dropDB(DATABASE_NAME);
     }
 
