@@ -19,9 +19,8 @@ public class ClearTable extends Command {
     @Override
     public void process(String input) {
         validationParameters(input);
-        String[] data = getParameters(input);
-        String clearTableName = data[1];
-        confirmAndClearTable(clearTableName);
+        String tableName = getParameters(input)[1];
+        confirmAndClearTable(tableName);
     }
 
     private void confirmAndClearTable(String clearTableName) {
