@@ -84,7 +84,7 @@ public class PostgreSQLManager implements DatabaseManager {
 
         String rowNames = getFormattedName(input, "\"%s\",");
         String values = getFormattedValues(input);
-        String query = String.format("INSERT INTO %s  (%s) VALUES (%s)",tableName,rowNames,values);
+        String query = String.format("INSERT INTO %s  (%s) VALUES (%s)", tableName, rowNames, values);
 
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(query);
@@ -132,17 +132,17 @@ public class PostgreSQLManager implements DatabaseManager {
     @Override
     public void dropDB(String databaseName) {
         try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate("DROP DATABASE IF EXISTS " + databaseName);
+            statement.executeUpdate("DROP DATABASE " + databaseName);
         } catch (SQLException e) {
             throw new DatabaseManagerException(
-                    String.format("Cannot delete database %s", databaseName));
+                    e.getLocalizedMessage());
         }
     }
 
     @Override
     public void dropTable(String tableName) {
         try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate("DROP TABLE IF EXISTS " + tableName);
+            statement.executeUpdate("DROP TABLE " + tableName);
         } catch (SQLException e) {
             throw new DatabaseManagerException(
                     String.format("Cannot delete table: %s", tableName));
@@ -172,7 +172,7 @@ public class PostgreSQLManager implements DatabaseManager {
     @Override
     public void update(String tableName, int id, Map<String, Object> newValue) {
         String tableNames = getFormattedName(newValue, "\"%s\" = ?,");
-        String query = String.format("UPDATE  %s SET  %s WHERE id = ?",tableName,tableNames);
+        String query = String.format("UPDATE  %s SET  %s WHERE id = ?", tableName, tableNames);
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             int index = 1;
             for (Object value : newValue.values()) {
