@@ -80,10 +80,10 @@ public class GetTableDataTest {
         assertTrue(canProcess);
     }
 
-     @Test
+    @Test
     public void testCantProcessWrongCommand() {
         // when
-        boolean canProcess = command.canProcess("qwe");
+        boolean canProcess = command.canProcess("WrongCommand");
 
         // then
         assertFalse(canProcess);
