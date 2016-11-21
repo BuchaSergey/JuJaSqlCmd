@@ -11,7 +11,6 @@ public interface DatabaseManager {
 
     boolean isConnected();
 
-
     List<Map<String, Object>> getTableData(String tableName);
 
     Set<String> getTableNames();
