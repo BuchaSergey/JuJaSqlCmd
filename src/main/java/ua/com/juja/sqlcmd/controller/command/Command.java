@@ -28,21 +28,22 @@ public abstract class Command {
     protected abstract String description();
 
     public boolean canProcess(String input) {
-        String[] parametersCommandFormat = getParameters(commandFormat());
-        String[] parametersInput = getParameters(input);
-        return parametersInput[0].equalsIgnoreCase(parametersCommandFormat[0]);
+        int NUM_COMMAND = 0;
+        String parameterCommandFormat = getParameters(commandFormat())[NUM_COMMAND];
+        String parameterInput = getParameters(input)[NUM_COMMAND];
+        return parameterInput.equalsIgnoreCase(parameterCommandFormat);
     }
 
     void validationPairParameters(String input) {
-        if (parametersLength(input) % 2 != 0) {
+        if (getLength(input) % 2 != 0) {
             throw new IllegalArgumentException("Invalid input, you must enter an even " +
                     "number of parameters in the following format: " + commandFormat());
         }
     }
 
     void validationParameters(String input) {
-        int formatLength = parametersLength(commandFormat());
-        int inputLength = parametersLength(input);
+        int formatLength = getLength(commandFormat());
+        int inputLength = getLength(input);
 
         if (formatLength != inputLength) {
             throw new IllegalArgumentException(String.format("Incorrect number of parameters " +
@@ -54,9 +55,10 @@ public abstract class Command {
         return input.split("\\|");
     }
 
-    private int parametersLength(String input) {
+    private int getLength(String input) {
         return input.split("\\|").length;
     }
 
 
 }
+
