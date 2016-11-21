@@ -11,8 +11,10 @@ import java.sql.SQLException;
 import java.util.*;
 
 import static junit.framework.Assert.assertEquals;
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.doThrow;
 
 
 @RunWith(MockitoJUnitRunner.class)
@@ -21,17 +23,18 @@ public class PostgreSQLManagerTest {
 
     private final static String TABLE_NAME = "test";
     private final static String NOT_EXIST_TABLE = "notExistTable";
+    private final static String DATABASE_NAME = "database1";
     private final static String SQL_CREATE_TABLE = TABLE_NAME + " (id SERIAL PRIMARY KEY, username text, password text)";
-    private final static   PropertiesLoader PROPERTIES_LOADER = new PropertiesLoader();
+    private final static PropertiesLoader PROPERTIES_LOADER = new PropertiesLoader();
     private final static String DB_USER = PROPERTIES_LOADER.getUserName();
     private final static String DB_PASSWORD = PROPERTIES_LOADER.getPassword();
-    private final static String DATABASE_NAME = "database1";
+    private final static String DB_NAME_FROM_PROPERTIES = PROPERTIES_LOADER.getDatabaseName();
     private static DatabaseManager manager;
 
     @BeforeClass
     public static void init() {
         manager = new PostgreSQLManager();
-        manager.connect("", DB_USER, DB_PASSWORD);
+        manager.connect(DB_NAME_FROM_PROPERTIES, DB_USER, DB_PASSWORD);
         manager.createDatabase(DATABASE_NAME);
         manager.connect(DATABASE_NAME, DB_USER, DB_PASSWORD);
     }
@@ -259,35 +262,35 @@ public class PostgreSQLManagerTest {
         manager.update(NOT_EXIST_TABLE, 1, updateData);
     }
 
-    @Test (expected = DatabaseManagerException.class)
+    @Test(expected = DatabaseManagerException.class)
     public void testExceptionGetTableNames2() throws SQLException {
 
         doThrow(new SQLException()).when(mockConn).createStatement();
         managerInjected.getTableNames();
     }
 
-    @Test (expected = DatabaseManagerException.class)
+    @Test(expected = DatabaseManagerException.class)
     public void testExceptionCreateDatabase() throws SQLException {
 
         doThrow(new SQLException()).when(mockConn).createStatement();
         managerInjected.createDatabase(DATABASE_NAME);
     }
 
-    @Test (expected = DatabaseManagerException.class)
+    @Test(expected = DatabaseManagerException.class)
     public void testExceptionDropDB() throws SQLException {
 
         doThrow(new SQLException()).when(mockConn).createStatement();
         managerInjected.dropDB(DATABASE_NAME);
     }
 
-    @Test (expected = DatabaseManagerException.class)
+    @Test(expected = DatabaseManagerException.class)
     public void testExceptionDropTable() throws SQLException {
 
         doThrow(new SQLException()).when(mockConn).createStatement();
         managerInjected.dropTable(TABLE_NAME);
     }
 
-    @Test (expected = DatabaseManagerException.class)
+    @Test(expected = DatabaseManagerException.class)
     public void testDisconnectFromDB() {
         //given
         DatabaseManager managerWithoutConnectionToDatabase = new PostgreSQLManager();
@@ -295,19 +298,19 @@ public class PostgreSQLManagerTest {
         managerWithoutConnectionToDatabase.disconnectFromDB();
     }
 
-    @Test (expected = DatabaseManagerException.class)
-    public void testExceptionDisconnectFromDB() throws SQLException{
+    @Test(expected = DatabaseManagerException.class)
+    public void testExceptionDisconnectFromDB() throws SQLException {
         doThrow(new SQLException()).when(mockConn).close();
         managerInjected.disconnectFromDB();
     }
 
-    @Test (expected = DatabaseManagerException.class)
+    @Test(expected = DatabaseManagerException.class)
     public void testExceptionGetTableData() throws SQLException {
         doThrow(new SQLException()).when(mockConn).createStatement();
         managerInjected.getTableData(TABLE_NAME);
     }
 
-    @Test (expected = DatabaseManagerException.class)
+    @Test(expected = DatabaseManagerException.class)
     public void testExceptionGetTableColumns() throws SQLException {
         doThrow(new SQLException()).when(mockConn).prepareStatement(anyString());
         managerInjected.getTableColumns(TABLE_NAME);
