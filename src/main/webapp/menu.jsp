@@ -11,9 +11,5 @@
 <a href="/create">Create</a><br>
 <a href="/exit">Exit</a><br>
 
-
-    <!--c:forEach items="${menuItem}" var="item">
-        <a href="/sqlcmd/projects?category=${item.id}"><c:out value="${item.name}"/></a>
-    <!--/c:forEach -->
 </body>
 </html>

@@ -4,13 +4,34 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>ua.com.juja.sqlcmd</groupId>
-    <artifactId>sqlcmd</artifactId>
-    <version>0.0.1</version>
-
+    <groupId>SQLCmd</groupId>
+    <artifactId>SQLCmd</artifactId>
+    <version>1.0</version>
     <packaging>war</packaging>
-    <name>juja-sqlcmd</name>
-    <description>juja-sqlcmd</description>
+
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.3</version>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <port>8080</port>
+                    <path>/sqlcmd</path>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
     <properties>
        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -18,12 +39,12 @@
 
 
     <dependencies>
+        <!-- Servlet -->
         <dependency>
-            <groupId>javax.servlet</groupId>
+            <groupId>jstl</groupId>
             <artifactId>jstl</artifactId>
             <version>1.2</version>
-            <scope>runtime</scope>
-        </dependency>
+         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
@@ -43,7 +64,7 @@
             <artifactId>sirocco-text-table-formatter</artifactId>
             <version>1.0</version>
         </dependency>
-        
+
         <!-- TESTING -->
 		<dependency>
             <groupId>junit</groupId>
@@ -63,7 +84,7 @@
             <artifactId>log4j-api</artifactId>
             <version>2.6.2</version>
         </dependency>
- 
+
         <!-- https://mvnrepository.com/artifact/eu.codearte.catch-exception/catch-exception -->
         <dependency>
             <groupId>eu.codearte.catch-exception</groupId>
@@ -72,63 +93,4 @@
         </dependency>
     </dependencies>
 
-    <build>
-        <finalName>${artifactId}</finalName>
-        <resources>
-            <resource>
-                <directory>src/main/java</directory>
-                <filtering>true</filtering>
-                <excludes>
-                    <exclude>**/*.java</exclude>
-                </excludes>
-            </resource>
-            <resource>
-                <directory>src/main/resources</directory>
-                <excludes>
-                    <exclude>**/*.properties</exclude>
-                </excludes>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.3</version>
-                <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>2.4.1</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <transformers>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>ua.com.juja.sqlcmd.controller.Main</mainClass>
-                                </transformer>
-                            </transformers>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.3.1</version>
-                <configuration>
-                    <outputDirectory>prod</outputDirectory>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-
-</project>
+ </project>

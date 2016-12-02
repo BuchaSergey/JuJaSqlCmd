@@ -11,9 +11,9 @@ public class MainServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = getAction(req);
 
-        if (action.equals("/menu")) {
+        if (action.startsWith("/menu")) {
             req.getRequestDispatcher("menu.jsp").forward(req, resp);
-        } else if (action.equals("/help")) {
+        } else if (action.startsWith("/help")) {
             req.getRequestDispatcher("help.jsp").forward(req, resp);
         }
     }

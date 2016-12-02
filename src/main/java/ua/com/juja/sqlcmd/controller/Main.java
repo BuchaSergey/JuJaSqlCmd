@@ -3,7 +3,6 @@ package ua.com.juja.sqlcmd.controller;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import ua.com.juja.sqlcmd.controller.MainController;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.model.PostgreSQLManager;
 import ua.com.juja.sqlcmd.view.Console;
